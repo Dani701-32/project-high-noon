@@ -1,9 +1,7 @@
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 
 public class TPSCamera : MonoBehaviour
 {
@@ -17,6 +15,7 @@ public class TPSCamera : MonoBehaviour
     [SerializeField] GameObject camParent;
     [SerializeField] Transform orientation;
     [SerializeField] Transform body;
+    [SerializeField] float test;
     
     [Header("Angles")]
     [Tooltip("Ângulo máximo antes do jogador começar a virar para acompanhar a câmera")]
@@ -55,17 +54,20 @@ public class TPSCamera : MonoBehaviour
             pitch += Input.GetAxis("Mouse X") * sensibility * Time.deltaTime;
             yaw = Mathf.Clamp(yaw, maxLookUpAngle, maxLookDownAngle);
             pitch = Mathf.Clamp(pitch, -maxTurnAngle - 0.5f, maxTurnAngle + 0.5f);
-            
-            camParent.transform.localRotation = Quaternion.Euler(yaw, pitch, 0);
-            angleDiff = Mathf.DeltaAngle(transform.rotation.eulerAngles.y, camParent.transform.rotation.eulerAngles.y);
-            orientation.rotation = Quaternion.Euler(0, myCamera.transform.rotation.eulerAngles.y, 0);
-            
-            if ((angleDiff > maxTurnAngle || angleDiff < -maxTurnAngle) && Input.GetAxis("Mouse X") != 0)
-            {
-                transform.Rotate(0, Input.GetAxis("Mouse X"), 0);
-            }
+        }
+    }
 
-            body.rotation = orientation.rotation;
+    void FixedUpdate()
+    {
+        camParent.transform.localRotation = Quaternion.Euler(yaw, pitch, 0);
+        orientation.rotation = Quaternion.Euler(0, myCamera.transform.rotation.eulerAngles.y, 0);
+
+        body.rotation = orientation.rotation;
+        
+        angleDiff = Mathf.DeltaAngle(transform.rotation.eulerAngles.y, camParent.transform.rotation.eulerAngles.y);
+        if ((angleDiff > maxTurnAngle || angleDiff < -maxTurnAngle) && Input.GetAxis("Mouse X") != 0)
+        {
+            transform.Rotate(0, Input.GetAxis("Mouse X") * test, 0);
         }
     }
 

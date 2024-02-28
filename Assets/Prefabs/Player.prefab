@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8827570850871795578}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CamParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8827570851380837625}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Orientation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,8 @@ GameObject:
   - component: {fileID: 8827570851545275305}
   - component: {fileID: 8827570851545275310}
   - component: {fileID: 8827570851545275311}
-  m_Layer: 0
+  - component: {fileID: 3487297078228987753}
+  m_Layer: 6
   m_Name: OrbitCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -155,6 +156,50 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8827570851545275308}
   m_Enabled: 1
+--- !u!114 &3487297078228987753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8827570851545275308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &8827570851599031980
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +212,7 @@ GameObject:
   - component: {fileID: 8827570851599031978}
   - component: {fileID: 8827570851599031983}
   - component: {fileID: 8827570851599031973}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,6 +279,7 @@ MonoBehaviour:
   camParent: {fileID: 8827570850871795579}
   orientation: {fileID: 8827570851380837625}
   body: {fileID: 8827570852535215341}
+  test: 0
   maxTurnAngle: 30
   maxLookUpAngle: -55
   maxLookDownAngle: 50
@@ -275,8 +321,8 @@ GameObject:
   - component: {fileID: 8827570852535215341}
   - component: {fileID: 8827570852535215342}
   - component: {fileID: 8827570852535215343}
-  - component: {fileID: 5478298938298772140}
-  m_Layer: 0
+  - component: {fileID: 8999406778600025842}
+  m_Layer: 6
   m_Name: PlayerModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -348,8 +394,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5478298938298772140
-BoxCollider:
+--- !u!136 &8999406778600025842
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -366,6 +412,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 2, z: 1}
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}

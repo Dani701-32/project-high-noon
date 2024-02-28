@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1647,6 +1647,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8827570851545275310, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8827570851545275310, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8827570851545275310, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8827570851545275310, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8827570851599031979, guid: 48690ed96b58c8b48a534c62c3006217,
         type: 3}
       propertyPath: m_RootOrder
@@ -1706,6 +1726,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8827570851599031983, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: test
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8827570852535215343, guid: 48690ed96b58c8b48a534c62c3006217,
         type: 3}
