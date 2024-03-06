@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
+// ReSharper disable Unity.InefficientPropertyAccess
 
 public class TPSCamera : MonoBehaviour
 {
@@ -15,8 +16,7 @@ public class TPSCamera : MonoBehaviour
     [SerializeField] GameObject camParent;
     [SerializeField] Transform orientation;
     [SerializeField] Transform body;
-    [SerializeField] float test;
-    
+
     [Header("Angles")]
     [Tooltip("Ângulo máximo antes do jogador começar a virar para acompanhar a câmera")]
     [SerializeField] float maxTurnAngle;
@@ -28,9 +28,6 @@ public class TPSCamera : MonoBehaviour
     public float sensibility = 1;
     
     [Header("Debug and temporary values")]
-    [Tooltip("Mostrar informações de desenvolvimento")]
-    [SerializeField] bool debugGizmos;
-    [SerializeField] float gizmoHeight = 1;
     [Tooltip("O jogador está em jogo ou está ocupado com algo?")] // LEVAR ESSA VARIÁVEL PRO GAME MANAGER MAIS TARDE
     public bool canMove;
 
@@ -59,6 +56,7 @@ public class TPSCamera : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!canMove) return;
         camParent.transform.localRotation = Quaternion.Euler(yaw, pitch, 0);
         orientation.rotation = Quaternion.Euler(0, myCamera.transform.rotation.eulerAngles.y, 0);
 
@@ -67,14 +65,13 @@ public class TPSCamera : MonoBehaviour
         angleDiff = Mathf.DeltaAngle(transform.rotation.eulerAngles.y, camParent.transform.rotation.eulerAngles.y);
         if ((angleDiff > maxTurnAngle || angleDiff < -maxTurnAngle) && Input.GetAxis("Mouse X") != 0)
         {
-            transform.Rotate(0, Input.GetAxis("Mouse X") * test, 0);
+            transform.Rotate(0, Input.GetAxis("Mouse X") * (sensibility * 0.011f), 0);
         }
     }
-
+    
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        if (!debugGizmos) return;
-        
         float gizmoDist = 1;
         float gizmoThickness = 8;
         
@@ -82,14 +79,14 @@ public class TPSCamera : MonoBehaviour
         int i = 1;
         foreach (Transform trans in transforms)
         {
-            Vector3 pos = trans.position + Vector3.up * gizmoHeight;
+            Vector3 pos = trans.position + Vector3.up;
             Handles.DrawBezier(pos, pos + trans.forward * gizmoDist, pos, pos + trans.forward * gizmoDist, Color.blue * i, null, gizmoThickness);
             Handles.DrawBezier(pos, pos + trans.up * gizmoDist, pos, pos + trans.up * gizmoDist, Color.green * i, null, gizmoThickness);
             Handles.DrawBezier(pos, pos + trans.right * gizmoDist, pos, pos + trans.right * gizmoDist, Color.red * i, null, gizmoThickness);
             i++;
         }
-        
     }
+#endif
 
     private IEnumerator WaitForStart()
     {

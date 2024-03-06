@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class TPSMovement : MonoBehaviour
 {
@@ -26,6 +23,9 @@ public class TPSMovement : MonoBehaviour
     public float playerHeight;
     public LayerMask groundLayer;
     bool grounded;
+
+    [Header("Debug")] 
+    public bool canMove = true;
     
     void Start()
     {
@@ -36,16 +36,20 @@ public class TPSMovement : MonoBehaviour
     void Update()
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundLayer);
-        InputUpdate();
         SpeedClamp();
         rb.drag = grounded ? groundDrag : 0;
+        
+        if (!canMove) return;
+        InputUpdate();
     }
 
     void FixedUpdate()
     {
-        MovePlayer();
         if(!grounded)
             rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
+        
+        if (!canMove) return;
+        MovePlayer();
     }
 
     void InputUpdate()
@@ -65,9 +69,9 @@ public class TPSMovement : MonoBehaviour
     {
         moveDir = orientation.forward * vertInput + orientation.right * horiInput;
         if(grounded)
-            rb.AddForce(moveDir.normalized * speed * 10, ForceMode.Force);
+            rb.AddForce(moveDir.normalized * speed, ForceMode.VelocityChange);
         else
-            rb.AddForce(moveDir.normalized * speed * 10 * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDir.normalized * speed * airMultiplier, ForceMode.VelocityChange);
     }
 
     void SpeedClamp()
