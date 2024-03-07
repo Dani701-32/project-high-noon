@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class TEMP_PlayerStats : MonoBehaviour
 {
+    [Header("Team data")] 
+    [SerializeField] TeamData team;
+    [Header("Toggleable objects")]
     [SerializeField] GameObject flagCarryObject;
     [SerializeField] GameObject flagCarryEffects;
     //public int HP = 100;
