@@ -14,6 +14,8 @@ public class Gun : MonoBehaviour
     [SerializeField]
     private GameObject aimSprite;
     [SerializeField]
+    private GameObject accuracySprite;
+    [SerializeField]
     private Camera cam;
 
     [Header("Gun stats")] 
@@ -50,6 +52,7 @@ public class Gun : MonoBehaviour
     {
         bulletsLoaded = stats.clip;
         currentAmmo = stats.maxAmmo;
+        accuracySprite.transform.localScale = Vector3.one * (stats.spread + 0.25f);
     }
 
     private IEnumerator Cooldown()
