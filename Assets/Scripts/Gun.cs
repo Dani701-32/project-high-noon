@@ -1,14 +1,11 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Gun : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField]
-    private GameObject bulletPrefab;
     [SerializeField]
     private GameObject bulletPoint;
     [SerializeField]
@@ -17,6 +14,8 @@ public class Gun : MonoBehaviour
     private GameObject accuracySprite;
     [SerializeField]
     private Camera cam;
+    [SerializeField]
+    private AudioSource shotSound;
 
     [Header("Gun stats")] 
     [SerializeField] 
@@ -29,16 +28,18 @@ public class Gun : MonoBehaviour
     // Aim stuff
     Vector3 aimPoint;
     Vector3 center;
+    Vector3 deviation;
     Ray ray;
     RaycastHit hit;
     float aimDistance;
-    Vector3 deviation;
+    float spread;
 
     // Updating gun stats
     [SerializeField, ReadOnly] int bulletsLoaded;
     [SerializeField, ReadOnly] int currentAmmo;
     bool inCooldown;
     bool isReloading;
+    bool oneSound;
 
     void Start()
     {
@@ -52,7 +53,10 @@ public class Gun : MonoBehaviour
     {
         bulletsLoaded = stats.clip;
         currentAmmo = stats.maxAmmo;
-        accuracySprite.transform.localScale = Vector3.one * (stats.spread + 0.25f);
+        spread = stats.minSpread;
+        oneSound = stats.firingSounds.Length == 1;
+        if (oneSound)
+            shotSound.clip = stats.firingSounds[0];
     }
 
     private IEnumerator Cooldown()
@@ -74,14 +78,23 @@ public class Gun : MonoBehaviour
                 StartCoroutine("Cooldown");
             }
             GameObject bullet = Instantiate(
-                bulletPrefab,
+                stats.bulletPrefab,
                 bulletPoint.transform.position,
                 bulletPoint.transform.rotation
             );
-            deviation.x = Random.Range(-stats.spread, stats.spread);
-            deviation.y = Random.Range(-stats.spread, stats.spread);
-            bullet.GetComponent<Rigidbody>().AddForce((transform.forward + deviation/10) * stats.bulletSpeed);
+            deviation.x = Random.Range(-spread, spread)/10;
+            deviation.y = Random.Range(-spread, spread)/10;
+            bullet.GetComponent<Rigidbody>().AddForce((transform.forward + transform.right*deviation.x + transform.up*deviation.y) * stats.bulletSpeed);
             Destroy(bullet, 2);
+            spread = Mathf.Min(spread + stats.spreadIncrease, stats.maxSpread);
+            shotSound.pitch = Random.Range(0.9f, 1.1f);
+            if (oneSound)
+                shotSound.Play();
+            else if (stats.firingSounds.Length > 0)
+            {
+                shotSound.clip = stats.firingSounds[Random.Range(0, stats.firingSounds.Length)];
+                shotSound.Play();
+            }
         }
     }
 
@@ -109,6 +122,14 @@ public class Gun : MonoBehaviour
         Physics.Raycast(ray, out hit, 8, 1 << 3);
         aimDistance = hit.distance != 0 ? Mathf.Max(hit.distance, 3) : 8;
         aimSprite.transform.position = ray.GetPoint(aimDistance);
+        
+        accuracySprite.transform.localScale = Vector3.one * (spread + 0.25f);
+    }
+
+    void FixedUpdate()
+    {
+        if (spread > stats.minSpread)
+            spread = Mathf.Max(spread - stats.spreadRecovery, stats.minSpread);
     }
 
     public bool isAuto()
