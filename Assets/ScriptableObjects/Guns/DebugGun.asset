@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0990dbcb2353d94d88dd7001d48adc0, type: 3}
+  m_Name: DebugGun
+  m_EditorClassIdentifier: 
+  gunName: Debugger
+  maxSpread: 0.75
+  minSpread: 0
+  spreadIncrease: 0.004
+  spreadRecovery: 0.01
+  bulletPrefab: {fileID: 3548750535829731554, guid: d7af4ae0587ebc547a181d360647a0d1,
+    type: 3}
+  bulletSpeed: 10000
+  shotCooldown: 0
+  reloadTime: 0
+  maxAmmo: 90000
+  clip: 9000
+  firingSounds:
+  - {fileID: 8300000, guid: be8a6947ba88ce54bb28bbde12b0ce5e, type: 3}
+  autoFire: 1

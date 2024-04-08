@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Bullet : MonoBehaviour
+{
+    [SerializeField] Rigidbody rb;
+    [SerializeField] Collider col;
+    [SerializeField] TrailRenderer trail;
+    public LayerMask groundLayer;
+
+    private IEnumerator TrailGone()
+    {
+        while (enabled)
+        {
+            trail.startWidth /= 2;
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (((1 << other.gameObject.layer) & groundLayer) != 0)
+        {
+            col.enabled = false;
+            rb.velocity = rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = true;
+            StartCoroutine("TrailGone");
+            Destroy(gameObject, 1);
+        }
+    }
+}
