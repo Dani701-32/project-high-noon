@@ -28,14 +28,15 @@ public class GunController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            currentWeapon.swapGun();
+            print("got input");
+            currentWeapon.SwapGun();
             UpdateStats();
         }
     }
 
     void UpdateStats()
     {
-        auto = currentWeapon.isAuto();
+        auto = currentWeapon.IsAuto();
     }
 
    

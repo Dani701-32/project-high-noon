@@ -160,10 +160,10 @@ public class Gun : MonoBehaviour
     void FixedUpdate()
     {
         if (spread > guns[gunID].minSpread)
-            spread = Mathf.Max(spread - guns[gunID].spreadRecovery/10, guns[gunID].minSpread);
+            spread = Mathf.Max(spread - guns[gunID].spreadRecovery/20, guns[gunID].minSpread);
     }
 
-    public bool isAuto()
+    public bool IsAuto()
     {
         if (guns[gunID])
             return guns[gunID].autoFire;
@@ -174,7 +174,7 @@ public class Gun : MonoBehaviour
         }
     }
 
-    public void swapGun()
+    public void SwapGun()
     {
         gunID++;
         if (gunID == guns.Length)
