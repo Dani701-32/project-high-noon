@@ -318,10 +318,14 @@ MonoBehaviour:
   accuracySprite: {fileID: 6779635479957126914}
   cam: {fileID: 8827570851545275310}
   shotSound: {fileID: 654252618576327401}
-  stats: {fileID: 0}
-  aimLeftRightTweak: 3
-  bulletsLoaded: 0
-  currentAmmo: 0
+  text_ammo: {fileID: 0}
+  text_reserve: {fileID: 0}
+  guns:
+  - {fileID: 11400000, guid: a5481451cd2147f499a94dbe3a1a7dbd, type: 2}
+  gunID: 0
+  aimLeftRightTweak: 2
+  bulletsLoaded: 
+  currentAmmo: 
 --- !u!82 &654252618576327401
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5821,7 +5825,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camParent: {fileID: 8827570850871795579}
   orientation: {fileID: 8827570851380837625}
-  body: {fileID: 8827570852535215341}
   maxTurnAngle: 0
   maxLookUpAngle: -55
   maxLookDownAngle: 50

@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] Rigidbody rb;
     [SerializeField] Collider col;
     [SerializeField] TrailRenderer trail;
+    public Rigidbody rb;
     public LayerMask groundLayer;
 
     private IEnumerator TrailGone()

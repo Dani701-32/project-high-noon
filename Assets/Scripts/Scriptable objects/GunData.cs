@@ -12,16 +12,20 @@ public class GunData : ScriptableObject
     public float spreadRecovery;
 
     [Header("Bullet stats")] 
-    public GameObject bulletPrefab;
+    public Bullet bulletPrefab;
     public float bulletSpeed = 10000;
+    public int bulletDamage = 1;
+    
+    [Header("Sounds")]
+    public AudioClip[] firingSounds;
+    public AudioClip reloadSound;
     
     [Header("Generic data")]
     public float shotCooldown;
     public float reloadTime;
     public int maxAmmo;
     public int clip;
-    public AudioClip[] firingSounds;
-    
+
     [Header("Special")]
     public bool autoFire;
 }

@@ -25,6 +25,12 @@ public class GunController : MonoBehaviour
         {
             currentWeapon.Reload();
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            currentWeapon.swapGun();
+            UpdateStats();
+        }
     }
 
     void UpdateStats()

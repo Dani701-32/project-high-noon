@@ -14,16 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: Big Iron
   maxSpread: 0.75
-  minSpread: 0.05
+  minSpread: 0
   spreadIncrease: 0.3
-  spreadRecovery: 0.01
-  bulletPrefab: {fileID: 3548750535829731554, guid: d7af4ae0587ebc547a181d360647a0d1,
+  spreadRecovery: 0.15
+  bulletPrefab: {fileID: 2112666863910200106, guid: d7af4ae0587ebc547a181d360647a0d1,
     type: 3}
   bulletSpeed: 10000
-  shotCooldown: 0.15
-  reloadTime: 0
-  maxAmmo: 32
-  clip: 8
+  bulletDamage: 1
   firingSounds:
   - {fileID: 8300000, guid: be8a6947ba88ce54bb28bbde12b0ce5e, type: 3}
+  reloadSound: {fileID: 0}
+  shotCooldown: 0.15
+  reloadTime: 0
+  maxAmmo: 30
+  clip: 6
   autoFire: 0

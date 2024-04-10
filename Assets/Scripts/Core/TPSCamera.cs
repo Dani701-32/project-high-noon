@@ -15,7 +15,7 @@ public class TPSCamera : MonoBehaviour
     
     [SerializeField] GameObject camParent;
     [SerializeField] Transform orientation;
-    [SerializeField] Transform body;
+    //[SerializeField] Transform body;
 
     [Header("Angles")]
     [Tooltip("Ângulo máximo antes do jogador começar a virar para acompanhar a câmera")]
@@ -60,13 +60,13 @@ public class TPSCamera : MonoBehaviour
         camParent.transform.localRotation = Quaternion.Euler(yaw, pitch, 0);
         orientation.rotation = Quaternion.Euler(0, myCamera.transform.rotation.eulerAngles.y, 0);
 
-        body.rotation = orientation.rotation;
+        //body.rotation = orientation.rotation;
         
-        angleDiff = Mathf.DeltaAngle(transform.rotation.eulerAngles.y, camParent.transform.rotation.eulerAngles.y);
-        if ((angleDiff > maxTurnAngle || angleDiff < -maxTurnAngle) && Input.GetAxis("Mouse X") != 0)
-        {
+        //angleDiff = Mathf.DeltaAngle(transform.rotation.eulerAngles.y, camParent.transform.rotation.eulerAngles.y);
+        //if ((angleDiff > maxTurnAngle || angleDiff < -maxTurnAngle) && Input.GetAxis("Mouse X") != 0)
+        //{
             transform.Rotate(0, Input.GetAxis("Mouse X") * (sensibility * 0.011f), 0);
-        }
+        //}
     }
     
 #if UNITY_EDITOR
