@@ -16,12 +16,10 @@ public class DebugSliders : MonoBehaviour
         //move = player.GetComponent<TPSMovement>();
         cam = player.GetComponent<TPSCamera>();
         slider = GetComponent<Slider>();
-        slider.value = cam.sensibility;
     }
 
     public void SetCamSpeed()
     {
-        cam.sensibility = slider.value;
         sliderText.text = slider.value.ToSafeString();
     }
 }

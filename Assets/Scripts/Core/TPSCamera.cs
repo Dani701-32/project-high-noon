@@ -25,7 +25,7 @@ public class TPSCamera : MonoBehaviour
     [Tooltip("Ângulo máximo que o jogador pode olhar abaixo de si")]
     [SerializeField] float maxLookDownAngle = 50;
     [Tooltip("Velocidade de rotação da câmera")]
-    public float sensibility = 1;
+    public float sensitivity = 1;
     
     [Header("Debug and temporary values")]
     [Tooltip("O jogador está em jogo ou está ocupado com algo?")] // LEVAR ESSA VARIÁVEL PRO GAME MANAGER MAIS TARDE
@@ -35,6 +35,7 @@ public class TPSCamera : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        sensitivity = OptionsManager.Instance.sensitivity;
         
         canMove = false;
         waiting = WaitForStart();
@@ -47,8 +48,8 @@ public class TPSCamera : MonoBehaviour
     {
         if (canMove)
         {
-            yaw += -Input.GetAxis("Mouse Y") * sensibility * Time.deltaTime;
-            pitch += Input.GetAxis("Mouse X") * sensibility * Time.deltaTime;
+            yaw += -Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+            pitch += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
             yaw = Mathf.Clamp(yaw, maxLookUpAngle, maxLookDownAngle);
             pitch = Mathf.Clamp(pitch, -maxTurnAngle - 0.5f, maxTurnAngle + 0.5f);
         }
@@ -65,7 +66,7 @@ public class TPSCamera : MonoBehaviour
         //angleDiff = Mathf.DeltaAngle(transform.rotation.eulerAngles.y, camParent.transform.rotation.eulerAngles.y);
         //if ((angleDiff > maxTurnAngle || angleDiff < -maxTurnAngle) && Input.GetAxis("Mouse X") != 0)
         //{
-            transform.Rotate(0, Input.GetAxis("Mouse X") * (sensibility * 0.011f), 0);
+            transform.Rotate(0, Input.GetAxis("Mouse X") * (sensitivity * 0.011f), 0);
         //}
     }
     
