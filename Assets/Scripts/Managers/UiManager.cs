@@ -15,6 +15,15 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     Roller[] teamScores = new Roller[2];
 
+    [Header("Screens")]
+    public GameObject EndMatchScreen;
+
+    [SerializeField]
+    TMP_Text textStatus;
+
+    [SerializeField]
+    TMP_Text textTeam;
+
     GameManager gameManager;
 
     private void Awake()
@@ -30,12 +39,16 @@ public class UiManager : MonoBehaviour
     {
         currentTime = matchDuration;
         gameManager = GameManager.Instance;
+        EndMatchScreen.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateTimerUi();
+        if (!gameManager.MatchOver)
+        {
+            UpdateTimerUi();
+        }
     }
 
     void UpdateTimerUi()
@@ -44,7 +57,19 @@ public class UiManager : MonoBehaviour
         {
             currentTime = 0f;
             textTimer.text = "00:00";
-            GamewOver(); 
+            string result = gameManager.GetStatus();
+            if (result != "Tie")
+            {
+                textStatus.text = "Victory";
+                textTeam.text = result;
+            }
+            else
+            {
+                textStatus.text = "result";
+                textTeam.text = "";
+            }
+            EndMatchScreen.SetActive(true);
+            gameManager.GameOver();
             return;
         }
 
@@ -72,8 +97,5 @@ public class UiManager : MonoBehaviour
     public void EndMatch()
     {
         currentTime = 15f;
-    }
-    private void GamewOver(){
-
     }
 }

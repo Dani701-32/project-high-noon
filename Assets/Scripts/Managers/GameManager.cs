@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private FlagSpot flagSpot;
     private bool matchOver = false;
+
     public bool MatchOver
     {
         get => matchOver;
@@ -70,7 +71,29 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        MatchOver = true;
         UiManager.Instance.EndMatch();
+    }
+
+    public void GameOver()
+    {
+        MatchOver = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public string GetStatus()
+    {
+        if (currentPointRed == maxPoints || currentPointRed > currentPointBlue)
+        {
+            return "Red Team";
+        }
+        else if (currentPointBlue == maxPoints || currentPointRed < currentPointBlue)
+        {
+            return "Blue Team";
+        }
+        else
+        {
+            return "Tie";
+        }
     }
 }

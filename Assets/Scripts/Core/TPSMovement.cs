@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class TPSMovement : MonoBehaviour
@@ -8,9 +7,10 @@ public class TPSMovement : MonoBehaviour
     Vector3 moveDir;
     Rigidbody rb;
 
-    [SerializeField] Transform orientation;
-    
-    [Header("Movement")] 
+    [SerializeField]
+    Transform orientation;
+
+    [Header("Movement")]
     public float speed;
     public float groundDrag;
     public float jumpForce;
@@ -19,36 +19,43 @@ public class TPSMovement : MonoBehaviour
     public float extraGravityForce;
     bool canJump;
 
-    [Header("Ground check")] 
+    [Header("Ground check")]
     public float playerHeight;
     public LayerMask groundLayer;
     bool grounded;
 
-    [Header("Debug")] 
+    [Header("Debug")]
     public bool canMove = true;
-    
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         canJump = true;
     }
-    
+
     void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundLayer);
+        grounded = Physics.Raycast(
+            transform.position,
+            Vector3.down,
+            playerHeight * 0.5f + 0.2f,
+            groundLayer
+        );
         SpeedClamp();
         rb.drag = grounded ? groundDrag : 0;
-        
-        if (!canMove) return;
+
+        if (!canMove || GameManager.Instance.MatchOver)
+            return;
         InputUpdate();
     }
 
     void FixedUpdate()
     {
-        if(!grounded)
+        if (!grounded)
             rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
-        
-        if (!canMove) return;
+
+        if (!canMove || GameManager.Instance.MatchOver)
+            return;
         MovePlayer();
     }
 
@@ -64,11 +71,11 @@ public class TPSMovement : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
-    
+
     void MovePlayer()
     {
         moveDir = orientation.forward * vertInput + orientation.right * horiInput;
-        if(grounded)
+        if (grounded)
             rb.AddForce(moveDir.normalized * speed, ForceMode.VelocityChange);
         else
             rb.AddForce(moveDir.normalized * speed * airMultiplier, ForceMode.VelocityChange);

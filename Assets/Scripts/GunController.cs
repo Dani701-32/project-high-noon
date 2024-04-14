@@ -5,19 +5,24 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour
 {
-    [SerializeField] private GameObject gunSpot; 
-    [SerializeField] private Gun currentWeapon;
-    bool auto;
+    [SerializeField]
+    private GameObject gunSpot;
 
+    [SerializeField]
+    private Gun currentWeapon;
+    bool auto;
 
     void Start()
     {
         UpdateStats();
     }
- 
+
     void Update()
     {
-        if(auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0)){
+        if (GameManager.Instance.MatchOver)
+            return;
+        if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
+        {
             currentWeapon.Shoot();
         }
 
@@ -38,6 +43,4 @@ public class GunController : MonoBehaviour
     {
         auto = currentWeapon.IsAuto();
     }
-
-   
 }
