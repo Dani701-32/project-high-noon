@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -79,6 +81,7 @@ public class GameManager : MonoBehaviour
         MatchOver = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        StartCoroutine("ReturnMenu");
     }
 
     public string GetStatus()
@@ -95,5 +98,11 @@ public class GameManager : MonoBehaviour
         {
             return "Tie";
         }
+    }
+
+    IEnumerator ReturnMenu()
+    {
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene("Menu");
     }
 }
