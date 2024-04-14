@@ -42,6 +42,11 @@ public class TEMP_PlayerStats : MonoBehaviour
         }
     }
 
+    public TeamData GetTeam()
+    {
+        return team;
+    }
+
     private void FlagUpdate()
     {
         if (flagCarryObject != null)

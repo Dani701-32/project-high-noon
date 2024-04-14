@@ -12,6 +12,11 @@ public class UiManager : MonoBehaviour
     public float currentTime = 0f;
     public TMP_Text textTimer;
 
+    [SerializeField]
+    Roller[] teamScores = new Roller[2];
+
+    GameManager gameManager;
+
     private void Awake()
     {
         if (Instance == null)
@@ -24,6 +29,7 @@ public class UiManager : MonoBehaviour
     void Start()
     {
         currentTime = matchDuration;
+        gameManager = GameManager.Instance;
     }
 
     // Update is called once per frame
@@ -38,6 +44,7 @@ public class UiManager : MonoBehaviour
         {
             currentTime = 0f;
             textTimer.text = "00:00";
+            GamewOver(); 
             return;
         }
 
@@ -46,5 +53,27 @@ public class UiManager : MonoBehaviour
         int seconds = Mathf.FloorToInt(currentTime % 60f);
         string timerString = string.Format("{0:00}:{1:00}", minutes, seconds);
         textTimer.text = timerString;
+    }
+
+    public void UpdatePointsUI(string team, int points)
+    {
+        switch (team)
+        {
+            default:
+            case "Red":
+                teamScores[0].SetPoints(points);
+                break;
+            case "blue":
+                teamScores[1].SetPoints(points);
+                break;
+        }
+    }
+
+    public void EndMatch()
+    {
+        currentTime = 15f;
+    }
+    private void GamewOver(){
+
     }
 }

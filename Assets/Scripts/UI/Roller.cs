@@ -28,6 +28,12 @@ public class Roller : MonoBehaviour
         int roll = Mathf.Clamp(points + currNumber, 0, 99);
         StartRoll(roll);
     }
+    public void SetPoints(int points)
+    {
+        if (working) return;
+        int roll = Mathf.Clamp(points, 0, 99);
+        StartRoll(roll);
+    }
 
     private void StartRoll(int target)
     {
