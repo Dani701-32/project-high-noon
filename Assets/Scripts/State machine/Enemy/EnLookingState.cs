@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnLookingState : State
 {
-    [SerializeField] StateMachine stateMachine;
+    [SerializeField] EnemyStateMachine stateMachine;
     
     [SerializeField, ReadOnly] bool playerSeen;
     [SerializeField] EnChasingState chaseState;
@@ -25,6 +25,8 @@ public class EnLookingState : State
         mainBody = stateMachine.transform;
         startAngle = mainBody.eulerAngles.y;
     }
+
+    public override void SwitchIntoState() { }
 
     public override State RunCurrentState()
     {

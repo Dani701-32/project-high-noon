@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] TrailRenderer trail;
     public Rigidbody rb;
     public LayerMask groundLayer;
+    public GameObject owner;
 
     private IEnumerator TrailGone()
     {

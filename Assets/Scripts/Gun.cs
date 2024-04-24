@@ -17,6 +17,8 @@ public class Gun : MonoBehaviour
     private Camera cam;
     [SerializeField]
     private AudioSource shotSound;
+    [SerializeField] 
+    GameObject playerObject;
 
     [Header("References - TEMPORARY")] 
     [SerializeField]
@@ -112,6 +114,7 @@ public class Gun : MonoBehaviour
             deviation.x = Random.Range(-spread, spread)/10;
             deviation.y = Random.Range(-spread, spread)/10;
             bullet.rb.AddForce((transform.forward + transform.right*deviation.x + transform.up*deviation.y) * guns[gunID].bulletSpeed);
+            bullet.owner = playerObject;
             Destroy(bullet, 1);
             spread = Mathf.Min(spread + guns[gunID].spreadIncrease, guns[gunID].maxSpread);
             // Atualize nosso número de balas na UI e, se aplicável, toque o barulho de tiro com pitch aleatório

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnChasingState : State
 {
-    [SerializeField] StateMachine stateMachine;
+    [SerializeField] EnemyStateMachine stateMachine;
     [SerializeField, ReadOnly] float playerDistance;
 
     [SerializeField] float targetDistance;
@@ -19,6 +19,8 @@ public class EnChasingState : State
     {
         mainBody = stateMachine.transform;
     }
+    
+    public override void SwitchIntoState() {}
 
     public override State RunCurrentState()
     {

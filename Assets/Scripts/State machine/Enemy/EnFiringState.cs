@@ -8,6 +8,8 @@ public class EnFiringState : State
     
     [SerializeField] EnLookingState lookingState;
     
+    public override void SwitchIntoState() {}
+    
     public override State RunCurrentState()
     {
         if (lostSight) return lookingState;
