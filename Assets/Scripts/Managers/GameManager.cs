@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
 public class GameManager : MonoBehaviour
 {
@@ -37,6 +38,20 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+
+        switch (ConectionType.type)
+        {
+            case "client":
+                NetworkManager.Singleton.StartClient();
+                break;
+            case "server":
+                NetworkManager.Singleton.StartServer();
+                break;
+            case "host":
+            default:
+                NetworkManager.Singleton.StartHost();
+                break;
+        }
     }
 
     private void Start()
