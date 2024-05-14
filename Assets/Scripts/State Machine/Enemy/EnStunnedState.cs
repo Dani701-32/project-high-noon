@@ -18,7 +18,8 @@ public class EnStunnedState : State
 
     public override State RunCurrentState()
     {
-        if (!stunned) return ChaseState;
+        if (!stunned)
+            return stateMachine.trackingObject && stateMachine.trackingObject.activeInHierarchy ? ChaseState : LookingState;
         
         return this;
     }

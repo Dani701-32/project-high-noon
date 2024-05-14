@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -31,16 +32,17 @@ public class Gun : MonoBehaviour
     GunData[] guns;
     [SerializeField, ReadOnly]
     int gunID;
+    [SerializeField]
+    float aimLeftRightTweak;
 
     // Aim stuff
     Vector3 aimPoint;
-    Vector3 center;
     Vector3 deviation;
     Ray ray;
+    Ray center;
     RaycastHit hit;
     float aimDistance;
     float spread;
-    float aimLeftRightTweak;
 
     // Updating gun stats
     [SerializeField, ReadOnly] int[] bulletsLoaded;
@@ -55,8 +57,6 @@ public class Gun : MonoBehaviour
         currentAmmo = new int[guns.Length];
         inCooldown = new bool[guns.Length];
         isReloading = new bool[guns.Length];
-        center = Vector3.one / 2;
-        center.x += aimLeftRightTweak/100;
 
         for (int i = 0; i < guns.Length; i++)
         {
@@ -148,14 +148,10 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        center.z = cam.farClipPlane;
-        aimPoint = cam.ViewportToWorldPoint(center);
-        transform.parent.LookAt(aimPoint, Vector3.up);
-        
-        ray = new Ray(transform.position, aimPoint);
-        Physics.Raycast(ray, out hit, 8, 1 << 3);
-        aimDistance = hit.distance != 0 ? Mathf.Max(hit.distance, 3) : 8;
-        aimSprite.transform.position = ray.GetPoint(aimDistance);
+        center = new Ray(cam.transform.position, cam.transform.forward);
+        aimPoint = center.GetPoint(100);
+        transform.parent.LookAt(aimPoint + Vector3.up*3, Vector3.up);
+        aimSprite.transform.position = center.GetPoint(8);
         
         accuracySprite.transform.localScale = Vector3.one * (spread + 0.25f);
     }

@@ -19,21 +19,29 @@ public class EnLookingState : State
     
     Transform mainBody;
     float startAngle;
+    float sine;
 
     void Start()
     {
         mainBody = stateMachine.transform;
         startAngle = mainBody.eulerAngles.y;
+        sine = 0;
     }
 
-    public override void SwitchIntoState() { }
+    public override void SwitchIntoState()
+    {
+        playerSeen = false;
+        startAngle = mainBody.eulerAngles.y;
+        sine = 0;
+    }
 
     public override State RunCurrentState()
     {
-        if (playerSeen) { return chaseState; }
+        if (playerSeen || (stateMachine.trackingObject && stateMachine.trackingObject.activeInHierarchy) ) { return chaseState; }
 
-        mainBody.eulerAngles = new Vector3(0, startAngle + Mathf.Sin(Time.time/lookSinePeriod) * lookSineAmplitude, 0);
+        mainBody.eulerAngles = new Vector3(0, startAngle + Mathf.Sin(sine/lookSinePeriod) * lookSineAmplitude, 0);
         FindVisiblePlayers();
+        sine += Time.deltaTime;
         
         return this;
     }

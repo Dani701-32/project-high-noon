@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
     public Rigidbody rb;
     public LayerMask groundLayer;
     public GameObject owner;
+    public int damage = 1;
 
     private IEnumerator TrailGone()
     {
