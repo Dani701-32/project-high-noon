@@ -31,15 +31,21 @@ public class NetworkManagerUI : MonoBehaviour
         btnHost.onClick.AddListener(() =>
         {
             ConectionType.type = "host"; 
-            camTeste.SetActive(false);
-            canvas.SetActive(false);
+            if(camTeste && canvas){
+
+                camTeste.SetActive(false);
+                canvas.SetActive(false);
+            }
             NetworkManager.Singleton.StartHost();
         });
         btnServer.onClick.AddListener(() =>
         {
             ConectionType.type = "server"; 
-            camTeste.SetActive(false);
-            canvas.SetActive(false);
+            if(camTeste && canvas){
+
+                camTeste.SetActive(false);
+                canvas.SetActive(false);
+            }
             NetworkManager.Singleton.StartServer();
         });
         btnClient.onClick.AddListener(() =>
@@ -50,8 +56,11 @@ public class NetworkManagerUI : MonoBehaviour
             //Se conecta com o servidor desejado
             unityTransport.ConnectionData.Address = inputIp.text;
             ConectionType.type = "client"; 
-            camTeste.SetActive(false);
-            canvas.SetActive(false);
+            if(camTeste && canvas){
+
+                camTeste.SetActive(false);
+                canvas.SetActive(false);
+            }
             NetworkManager.Singleton.StartClient();
         });
     }

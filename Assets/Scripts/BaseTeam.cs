@@ -31,12 +31,25 @@ public class BaseTeam : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerOnline playerStats = other.GetComponentInParent<PlayerOnline>();
-            if (playerStats.GetTeam().teamName == teamData.teamName && playerStats.hasFlag)
+
+            if (other.TryGetComponent<PlayerOnline>(out PlayerOnline playerOnline))
             {
-                playerStats.hasFlag = false;
-                GameManager.Instance.AddPoint(teamData);
+                if (playerOnline.GetTeam().teamName == teamData.teamName && playerOnline.hasFlag)
+                {
+                    playerOnline.hasFlag = false;
+                }
             }
+            else
+            {
+
+                TEMP_PlayerStats playerStats = other.GetComponentInParent<TEMP_PlayerStats>();
+                if (playerStats.GetTeam().teamName == teamData.teamName && playerStats.hasFlag)
+                {
+                    playerStats.hasFlag = false;
+                    GameManager.Instance.AddPoint(teamData);
+                }
+            }
+
         }
     }
 }
