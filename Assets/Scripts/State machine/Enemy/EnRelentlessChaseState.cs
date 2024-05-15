@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnChasingState : State
+public class EnRelentlessChaseState : State
 {
     [Header("References")]
     [SerializeField] EnemyStateMachine stateMachine;
@@ -14,12 +14,10 @@ public class EnChasingState : State
     
     [Header("State data")]
     [SerializeField] bool switchStateWhenClose;
-    [SerializeField] bool relentless;
     [SerializeField] float targetDistanceForStateSwitch;
     [SerializeField] float turnSpeed;
     [SerializeField] float maxChaseSpeed = 1;
     [SerializeField] float speedGainMultiplier = 1;
-    [SerializeField] LayerMask obstacleMask;
     
     [Header("Changing stats")]
     [SerializeField, ReadOnly] float playerDistance;
@@ -58,13 +56,6 @@ public class EnChasingState : State
         rb.AddForce(mainBody.forward * currSpeed, ForceMode.Acceleration);
 
         currSpeed = Mathf.Lerp(currSpeed, maxChaseSpeed, Time.deltaTime * speedGainMultiplier);
-
-        if (!relentless)
-        {
-            Vector3 dirToTarget = (tpos - pos).normalized;
-            if (Physics.Raycast(mainBody.position, dirToTarget, playerDistance, obstacleMask))
-                stateMachine.trackingObject = null;
-        }
         
         return this;
     }

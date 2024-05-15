@@ -8,7 +8,7 @@ public class EnLookingState : State
     [SerializeField] EnemyStateMachine stateMachine;
     
     [SerializeField, ReadOnly] bool playerSeen;
-    [SerializeField] EnChasingState chaseState;
+    [SerializeField] State chaseState;
 
     public float viewRadius;
     [Range(0, 360)] public float viewCone;
