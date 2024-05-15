@@ -9,6 +9,7 @@ public class TPSMovement : MonoBehaviour
 
     [SerializeField]
     Transform orientation;
+    Transform spawnPoint;
 
     [Header("Movement")]
     public float speed;
@@ -43,6 +44,11 @@ public class TPSMovement : MonoBehaviour
         );
         SpeedClamp();
         rb.drag = grounded ? groundDrag : 0;
+        if (transform.position.y < 0)
+        {
+            transform.position = spawnPoint.position;
+            return;
+        }
 
         if (!canMove || GameManager.Instance.MatchOver)
             return;
@@ -100,5 +106,8 @@ public class TPSMovement : MonoBehaviour
     void ResetJump()
     {
         canJump = true;
+    }
+    public void SetOrientation(Transform transformSpawn){
+        spawnPoint = transformSpawn;
     }
 }

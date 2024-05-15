@@ -7,6 +7,12 @@ public class MenuController : MonoBehaviour
 {
     public static MenuController Instance;
 
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
+
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);

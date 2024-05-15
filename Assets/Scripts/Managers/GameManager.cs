@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     static GameManager _instance;
 
@@ -17,6 +18,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private FlagSpot flagSpot;
     private bool matchOver = false;
+    [Header("Map Section")]
+    public Transform spawnPoint; 
+    
 
     public bool MatchOver
     {
