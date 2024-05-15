@@ -27,7 +27,7 @@ public class EnemyStateMachine : MonoBehaviour
         enemyCollider = GetComponent<Collider>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (dying) return;
         if (HP <= 0)

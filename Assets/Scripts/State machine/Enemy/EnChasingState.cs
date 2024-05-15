@@ -11,6 +11,7 @@ public class EnChasingState : State
     [SerializeField] State followupState;
     [SerializeField] State lookingState;
     [SerializeField] State[] statesWithAHeadStart;
+    [SerializeField] Transform raycastOrigin;
     
     [Header("State data")]
     [SerializeField] bool switchStateWhenClose;
@@ -62,7 +63,7 @@ public class EnChasingState : State
         if (!relentless)
         {
             Vector3 dirToTarget = (tpos - pos).normalized;
-            if (Physics.Raycast(mainBody.position, dirToTarget, playerDistance, obstacleMask))
+            if (Physics.Raycast(raycastOrigin.position, dirToTarget, playerDistance, obstacleMask))
                 stateMachine.trackingObject = null;
         }
         

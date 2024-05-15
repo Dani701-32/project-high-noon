@@ -115,7 +115,7 @@ public class Gun : MonoBehaviour
             deviation.y = Random.Range(-spread, spread)/10;
             bullet.rb.AddForce((transform.forward + transform.right*deviation.x + transform.up*deviation.y) * guns[gunID].bulletSpeed);
             bullet.owner = playerObject;
-            Destroy(bullet, 1);
+            Destroy(bullet.gameObject, 1);
             spread = Mathf.Min(spread + guns[gunID].spreadIncrease, guns[gunID].maxSpread);
             // Atualize nosso número de balas na UI e, se aplicável, toque o barulho de tiro com pitch aleatório
             UpdateAmmo(false);
