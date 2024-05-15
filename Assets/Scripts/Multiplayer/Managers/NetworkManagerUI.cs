@@ -23,18 +23,24 @@ public class NetworkManagerUI : MonoBehaviour
     private UnityTransport unityTransport;
     List<string> defaultInputs = new List<string> { "ip", "port", "localhost", "" };
 
+    public GameObject camTeste, canvas; 
+
     private void Start()
     {
         unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
         btnHost.onClick.AddListener(() =>
         {
             ConectionType.type = "host"; 
-            MenuController.Instance.LoadScene("TesteMultiplayer");
+            camTeste.SetActive(false);
+            canvas.SetActive(false);
+            NetworkManager.Singleton.StartHost();
         });
         btnServer.onClick.AddListener(() =>
         {
             ConectionType.type = "server"; 
-            MenuController.Instance.LoadScene("TesteMultiplayer");
+            camTeste.SetActive(false);
+            canvas.SetActive(false);
+            NetworkManager.Singleton.StartServer();
         });
         btnClient.onClick.AddListener(() =>
         {
@@ -44,7 +50,9 @@ public class NetworkManagerUI : MonoBehaviour
             //Se conecta com o servidor desejado
             unityTransport.ConnectionData.Address = inputIp.text;
             ConectionType.type = "client"; 
-            MenuController.Instance.LoadScene("TesteMultiplayer");
+            camTeste.SetActive(false);
+            canvas.SetActive(false);
+            NetworkManager.Singleton.StartClient();
         });
     }
 }

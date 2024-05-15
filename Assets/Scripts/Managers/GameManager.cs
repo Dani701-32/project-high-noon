@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     static GameManager _instance;
 
@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private FlagSpot flagSpot;
     private bool matchOver = false;
+    [Header("Map Section")]
+    public Transform spawnPoint; 
+    
 
     public bool MatchOver
     {
@@ -38,20 +41,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-
-        switch (ConectionType.type)
-        {
-            case "client":
-                NetworkManager.Singleton.StartClient();
-                break;
-            case "server":
-                NetworkManager.Singleton.StartServer();
-                break;
-            case "host":
-            default:
-                NetworkManager.Singleton.StartHost();
-                break;
-        }
     }
 
     private void Start()
