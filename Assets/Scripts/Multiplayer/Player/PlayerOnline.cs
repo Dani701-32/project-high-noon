@@ -15,14 +15,16 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField] GameObject model;
 
     [SerializeField] private TPSMovement tPSMovement;
+    Transform spawnPoint; 
 
     [SerializeField, ReadOnly]
     bool _hasFlag;
 
     public override void OnNetworkSpawn()
     {
+        
         teamData = MultiplayerManager.Instance.GetTeamData(this);
-
+        transform.position = spawnPoint.position;
         base.OnNetworkSpawn();
     }
 
@@ -52,10 +54,11 @@ public class PlayerOnline : NetworkBehaviour
     {
         return teamData;
     }
-    public void SpawnPoint(Transform spawnPoint)
+    public void SpawnPoint(Transform sp)
     {
-        transform.position = spawnPoint.position;
-        tPSMovement.SetSpawn(spawnPoint);
+        this.spawnPoint = sp; 
+        transform.position = sp.position;
+        tPSMovement.SetSpawn(sp);
     }
 
     private void FlagUpdate()
