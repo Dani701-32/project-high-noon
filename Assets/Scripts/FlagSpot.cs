@@ -24,7 +24,7 @@ public class FlagSpot : MonoBehaviour
         {
             Debug.Log("Player collided with this object!");
             isActive = false;
-            other.GetComponentInParent<TEMP_PlayerStats>().hasFlag = true;
+            other.GetComponentInParent<PlayerOnline>().hasFlag = true;
             flagModel.SetActive(false);
         }
     }

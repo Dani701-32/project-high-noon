@@ -2932,6 +2932,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a5481451cd2147f499a94dbe3a1a7dbd, type: 2}
   - {fileID: 11400000, guid: a44793d11320c5348aa4bc36769e2d6b, type: 2}
   gunID: 0
+  aimLeftRightTweak: 0
   bulletsLoaded: 
   currentAmmo: 
 --- !u!82 &2146997306755413904
@@ -4782,7 +4783,6 @@ GameObject:
   - component: {fileID: 3430307712863329497}
   - component: {fileID: 7488264576846099443}
   - component: {fileID: 4565157727353526114}
-  - component: {fileID: 3467765966889387485}
   - component: {fileID: 8505004049881736186}
   - component: {fileID: 8751521264283966374}
   - component: {fileID: 8872359270686525574}
@@ -4884,23 +4884,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   canMove: 1
---- !u!114 &3467765966889387485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6859902248314406311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45872f5d015a8834d934b438d2b21078, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team: {fileID: 11400000, guid: e1789426bb6c31e42be947c29d2ae569, type: 2}
-  flagCarryObject: {fileID: 6631173785179650592}
-  flagCarryEffects: {fileID: 601854355059027968}
-  model: {fileID: 2405944352675376129}
-  _hasFlag: 0
 --- !u!114 &8505004049881736186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4948,8 +4931,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693bf3e2f8e7795499a5d828a4212a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamData: {fileID: 0}
+  flagCarryObject: {fileID: 6631173785179650592}
+  flagCarryEffects: {fileID: 601854355059027968}
+  model: {fileID: 2405944352675376129}
   tPSMovement: {fileID: 4565157727353526114}
-  spawnPoint: {fileID: 0}
+  _hasFlag: 0
 --- !u!114 &2041443311578922717
 MonoBehaviour:
   m_ObjectHideFlags: 0
