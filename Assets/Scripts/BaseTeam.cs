@@ -31,7 +31,7 @@ public class BaseTeam : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            TEMP_PlayerStats playerStats = other.GetComponentInParent<TEMP_PlayerStats>();
+            PlayerOnline playerStats = other.GetComponentInParent<PlayerOnline>();
             if (playerStats.GetTeam().teamName == teamData.teamName && playerStats.hasFlag)
             {
                 playerStats.hasFlag = false;

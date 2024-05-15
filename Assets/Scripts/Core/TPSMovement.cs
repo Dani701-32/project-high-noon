@@ -27,6 +27,7 @@ public class TPSMovement : MonoBehaviour
 
     [Header("Debug")]
     public bool canMove = true;
+    private bool fixer = false; 
 
     void Start()
     {
@@ -44,8 +45,10 @@ public class TPSMovement : MonoBehaviour
         );
         SpeedClamp();
         rb.drag = grounded ? groundDrag : 0;
-        if (transform.position.y < 0)
+        if (transform.position.y < -1 && !fixer)
         {
+            Debug.Log("Teste");
+            fixer = true;
             transform.position = spawnPoint.position;
             return;
         }
@@ -107,7 +110,7 @@ public class TPSMovement : MonoBehaviour
     {
         canJump = true;
     }
-    public void SetOrientation(Transform transformSpawn){
+    public void SetSpawn(Transform transformSpawn){
         spawnPoint = transformSpawn;
     }
 }
