@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class GunController : MonoBehaviour
+public class GunController : NetworkBehaviour
 {
     [SerializeField]
     private GameObject gunSpot;
@@ -11,6 +12,7 @@ public class GunController : MonoBehaviour
     [SerializeField]
     private Gun currentWeapon;
     bool auto;
+    bool matchIsOver = false;
 
     void Start()
     {
@@ -19,7 +21,8 @@ public class GunController : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.MatchOver)
+        matchIsOver = IsServer ? MultiplayerManager.Instance.MatchOver : GameManager.Instance.MatchOver;
+        if (matchIsOver)
             return;
         if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
         {

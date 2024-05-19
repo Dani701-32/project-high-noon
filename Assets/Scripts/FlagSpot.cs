@@ -24,7 +24,8 @@ public class FlagSpot : MonoBehaviour
         {
             Debug.Log("Player collided with this object!");
             isActive = false;
-            if(other.TryGetComponent<PlayerOnline>(out PlayerOnline playerOnline)){
+            PlayerOnline playerOnline = other.GetComponentInParent<PlayerOnline>();
+            if(playerOnline){
                 playerOnline.hasFlag = true; 
             }else{
 

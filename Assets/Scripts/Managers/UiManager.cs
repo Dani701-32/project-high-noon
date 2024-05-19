@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Unity.Netcode;
+using Unity.VisualScripting;
 
-public class UiManager : MonoBehaviour
+public class UiManager : NetworkBehaviour
 {
     public static UiManager Instance;
 
@@ -20,11 +22,10 @@ public class UiManager : MonoBehaviour
 
     [SerializeField]
     TMP_Text textStatus;
-
-    [SerializeField]
-    TMP_Text textTeam;
-
+    [SerializeField] TMP_Text textTeam;
     GameManager gameManager;
+    MultiplayerManager multiplayerManager;
+    bool matchIsOver = false;
 
     private void Awake()
     {
@@ -38,14 +39,23 @@ public class UiManager : MonoBehaviour
     void Start()
     {
         currentTime = matchDuration;
-        gameManager = GameManager.Instance;
+        if (IsServer)
+        {
+            multiplayerManager = MultiplayerManager.Instance;
+        }
+        else
+        {
+
+            gameManager = GameManager.Instance;
+        }
         EndMatchScreen.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!gameManager.MatchOver)
+        matchIsOver = IsServer ? multiplayerManager.MatchOver : gameManager.MatchOver;
+        if (!matchIsOver)
         {
             UpdateTimerUi();
         }
@@ -57,7 +67,8 @@ public class UiManager : MonoBehaviour
         {
             currentTime = 0f;
             textTimer.text = "00:00";
-            string result = gameManager.GetStatus();
+
+            string result = IsServer ? multiplayerManager.GetStatus() : gameManager.GetStatus();
             if (result != "Tie")
             {
                 textStatus.text = "Victory";
@@ -69,7 +80,12 @@ public class UiManager : MonoBehaviour
                 textTeam.text = "";
             }
             EndMatchScreen.SetActive(true);
-            gameManager.GameOver();
+            if(IsServer){
+                multiplayerManager.GameOver(); 
+            }else{  
+                gameManager.GameOver();
+            }
+            
             return;
         }
 
@@ -88,7 +104,7 @@ public class UiManager : MonoBehaviour
             case "Red":
                 teamScores[0].SetPoints(points);
                 break;
-            case "blue":
+            case "Blue":
                 teamScores[1].SetPoints(points);
                 break;
         }

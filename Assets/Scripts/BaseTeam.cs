@@ -31,12 +31,13 @@ public class BaseTeam : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-
-            if (other.TryGetComponent<PlayerOnline>(out PlayerOnline playerOnline))
+            PlayerOnline playerOnline = other.GetComponentInParent<PlayerOnline>();
+            if (playerOnline)
             {
                 if (playerOnline.GetTeam().teamName == teamData.teamName && playerOnline.hasFlag)
                 {
                     playerOnline.hasFlag = false;
+                    MultiplayerManager.Instance.AddPoint(teamData); 
                 }
             }
             else

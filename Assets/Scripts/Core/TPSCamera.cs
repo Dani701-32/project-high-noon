@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
+using Unity.Netcode;
+
 
 // ReSharper disable Unity.InefficientPropertyAccess
 
-public class TPSCamera : MonoBehaviour
+public class TPSCamera : NetworkBehaviour
 {
     float pitch;
     float yaw;
@@ -40,6 +42,7 @@ public class TPSCamera : MonoBehaviour
     [Header("Debug and temporary values")]
     [Tooltip("O jogador está em jogo ou está ocupado com algo?")] // LEVAR ESSA VARIÁVEL PRO GAME MANAGER MAIS TARDE
     public bool canMove;
+    private bool matchIsOver = false;
 
     void Start()
     {
@@ -56,7 +59,8 @@ public class TPSCamera : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.MatchOver)
+        matchIsOver = IsServer ? MultiplayerManager.Instance.MatchOver : GameManager.Instance.MatchOver;
+        if (matchIsOver)
             return;
         if (canMove)
         {
@@ -69,7 +73,7 @@ public class TPSCamera : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!canMove || GameManager.Instance.MatchOver)
+        if (!canMove || matchIsOver)
             return;
         camParent.transform.localRotation = Quaternion.Euler(yaw, pitch, 0);
         orientation.rotation = Quaternion.Euler(0, myCamera.transform.rotation.eulerAngles.y, 0);

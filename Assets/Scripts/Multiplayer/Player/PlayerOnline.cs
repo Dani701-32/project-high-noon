@@ -31,10 +31,14 @@ public class PlayerOnline : NetworkBehaviour
 
     private void Start()
     {
+        
+        transform.position = MultiplayerManager.Instance.defaultPos.position;
         if (teamData != null)
         {
             model.GetComponent<MeshRenderer>().material = teamData.teamEquipMaterial;
         }
+    }
+    private void Update() {
     }
 
     public bool hasFlag

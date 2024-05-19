@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.Netcode;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,7 +32,7 @@ public class GameManager : MonoBehaviour
         get
         {
             if (_instance == null)
-                Debug.LogError("Game manager é nulo");
+                Debug.Log("Game manager é nulo");
             return _instance;
         }
     }

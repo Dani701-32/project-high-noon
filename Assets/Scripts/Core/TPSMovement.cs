@@ -1,6 +1,6 @@
 using UnityEngine;
-
-public class TPSMovement : MonoBehaviour
+using Unity.Netcode;
+public class TPSMovement : NetworkBehaviour
 {
     float horiInput;
     float vertInput;
@@ -27,7 +27,8 @@ public class TPSMovement : MonoBehaviour
 
     [Header("Debug")]
     public bool canMove = true;
-    private bool fixer = false; 
+    private bool fixer = false;
+    private bool matchOver = false;
 
     void Start()
     {
@@ -53,17 +54,18 @@ public class TPSMovement : MonoBehaviour
             return;
         }
 
-        if (!canMove || GameManager.Instance.MatchOver)
+        if (!canMove || matchOver)
             return;
         InputUpdate();
     }
 
     void FixedUpdate()
     {
+        matchOver = IsServer ? MultiplayerManager.Instance.MatchOver : GameManager.Instance.MatchOver;
         if (!grounded)
             rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
 
-        if (!canMove || GameManager.Instance.MatchOver)
+        if (!canMove || matchOver)
             return;
         MovePlayer();
     }
@@ -110,7 +112,8 @@ public class TPSMovement : MonoBehaviour
     {
         canJump = true;
     }
-    public void SetSpawn(Transform transformSpawn){
+    public void SetSpawn(Transform transformSpawn)
+    {
         spawnPoint = transformSpawn;
     }
 }
