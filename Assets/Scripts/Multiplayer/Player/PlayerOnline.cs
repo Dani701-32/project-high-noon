@@ -12,33 +12,41 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField] GameObject flagCarryObject;
 
     [SerializeField] GameObject flagCarryEffects;
-    [SerializeField] GameObject model;
+    [SerializeField] GameObject model, playerCanvas;
 
     [SerializeField] private TPSMovement tPSMovement;
-    Transform spawnPoint; 
+    [SerializeField] private Camera _camera;
+    Transform spawnPoint;
 
     [SerializeField, ReadOnly]
     bool _hasFlag;
 
     public override void OnNetworkSpawn()
     {
-        
+
         teamData = MultiplayerManager.Instance.GetTeamData(this);
         transform.position = spawnPoint.position;
+        if (!IsOwner) return;
+        
+        _camera.enabled = true;
+        _camera.gameObject.GetComponent<AudioListener>().enabled = true;
         base.OnNetworkSpawn();
     }
 
 
     private void Start()
     {
-        
+        if(IsOwner){
+            playerCanvas.SetActive(true);
+        }
         transform.position = MultiplayerManager.Instance.defaultPos.position;
         if (teamData != null)
         {
             model.GetComponent<MeshRenderer>().material = teamData.teamEquipMaterial;
         }
     }
-    private void Update() {
+    private void Update()
+    {
     }
 
     public bool hasFlag
@@ -60,7 +68,7 @@ public class PlayerOnline : NetworkBehaviour
     }
     public void SpawnPoint(Transform sp)
     {
-        this.spawnPoint = sp; 
+        spawnPoint = sp;
         transform.position = sp.position;
         tPSMovement.SetSpawn(sp);
     }

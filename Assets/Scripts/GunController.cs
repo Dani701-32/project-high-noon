@@ -16,29 +16,36 @@ public class GunController : NetworkBehaviour
 
     void Start()
     {
-        UpdateStats();
+        if (IsOwner)
+        {
+            UpdateStats();
+        }
     }
 
     void Update()
     {
-        matchIsOver = IsServer ? MultiplayerManager.Instance.MatchOver : GameManager.Instance.MatchOver;
-        if (matchIsOver)
-            return;
-        if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
+        if (IsOwner)
         {
-            currentWeapon.Shoot();
-        }
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            currentWeapon.Reload();
-        }
+            matchIsOver = IsServer ? MultiplayerManager.Instance.MatchOver : GameManager.Instance.MatchOver;
+            if (matchIsOver)
+                return;
+            if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
+            {
+                currentWeapon.Shoot();
+            }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            print("got input");
-            currentWeapon.SwapGun();
-            UpdateStats();
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                currentWeapon.Reload();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                print("got input");
+                currentWeapon.SwapGun();
+                UpdateStats();
+            }
         }
     }
 

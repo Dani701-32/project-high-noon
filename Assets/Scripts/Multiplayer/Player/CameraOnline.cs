@@ -1,11 +1,8 @@
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
-
-
-// ReSharper disable Unity.InefficientPropertyAccess
-
-public class TPSCamera : MonoBehaviour
+using Unity.Netcode;
+public class CameraOnline : NetworkBehaviour
 {
     float pitch;
     float yaw;
@@ -58,7 +55,8 @@ public class TPSCamera : MonoBehaviour
 
     void Update()
     {
-        matchIsOver = GameManager.Instance.MatchOver;
+        if (!IsOwner) return;
+        matchIsOver = MultiplayerManager.Instance.MatchOver;
         if (matchIsOver)
             return;
         if (canMove)
@@ -72,6 +70,7 @@ public class TPSCamera : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(!IsOwner) return;
         if (!canMove || matchIsOver)
             return;
         camParent.transform.localRotation = Quaternion.Euler(yaw, pitch, 0);

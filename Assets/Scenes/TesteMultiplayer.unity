@@ -1306,6 +1306,7 @@ GameObject:
   - component: {fileID: 968475619}
   - component: {fileID: 968475620}
   - component: {fileID: 968475621}
+  - component: {fileID: 968475622}
   m_Layer: 0
   m_Name: MultiplayerManager
   m_TagString: Untagged
@@ -1381,6 +1382,23 @@ MonoBehaviour:
   currentPointBlue: 0
   maxPoints: 3
   flagSpot: {fileID: 1343530496}
+--- !u!114 &968475622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968475617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db73be472010549b046926c4c6c703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPointRed: 0
+  currentPointBlue: 0
+  maxPoints: 3
+  flagSpot: {fileID: 1343530496}
+  spawnPoint: {fileID: 0}
 --- !u!1 &990726819
 GameObject:
   m_ObjectHideFlags: 0

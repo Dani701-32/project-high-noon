@@ -32,12 +32,16 @@ public class TPSMovement : NetworkBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        canJump = true;
+        if (IsOwner)
+        {
+            rb = GetComponent<Rigidbody>();
+            canJump = true;
+        }
     }
 
     void Update()
     {
+        if (!IsOwner) return;
         grounded = Physics.Raycast(
             transform.position,
             Vector3.down,
@@ -61,30 +65,40 @@ public class TPSMovement : NetworkBehaviour
 
     void FixedUpdate()
     {
-        matchOver = IsServer ? MultiplayerManager.Instance.MatchOver : GameManager.Instance.MatchOver;
-        if (!grounded)
-            rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
+        if (IsOwner)
+        {
+            matchOver = IsServer ? MultiplayerManager.Instance.MatchOver : GameManager.Instance.MatchOver;
+            if (!grounded)
+                rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
 
-        if (!canMove || matchOver)
-            return;
-        MovePlayer();
+            if (!canMove || matchOver)
+                return;
+            MovePlayer();
+
+        }
+
+
     }
 
     void InputUpdate()
     {
-        horiInput = Input.GetAxisRaw("Horizontal");
-        vertInput = Input.GetAxisRaw("Vertical");
-
-        if (Input.GetKeyDown(KeyCode.Space) && canJump && grounded)
+        if (IsOwner)
         {
-            canJump = false;
-            Jump();
-            Invoke(nameof(ResetJump), jumpCooldown);
+            horiInput = Input.GetAxisRaw("Horizontal");
+            vertInput = Input.GetAxisRaw("Vertical");
+
+            if (Input.GetKeyDown(KeyCode.Space) && canJump && grounded)
+            {
+                canJump = false;
+                Jump();
+                Invoke(nameof(ResetJump), jumpCooldown);
+            }
         }
     }
 
     void MovePlayer()
     {
+        if (!IsOwner) return;
         moveDir = orientation.forward * vertInput + orientation.right * horiInput;
         if (grounded)
             rb.AddForce(moveDir.normalized * speed, ForceMode.VelocityChange);

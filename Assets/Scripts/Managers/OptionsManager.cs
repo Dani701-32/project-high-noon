@@ -12,6 +12,7 @@ public class OptionsManager : MonoBehaviour
     
     GameObject player;
     TPSCamera playerCam;
+    CameraOnline onlineCam; 
 
     public bool dynamicAim = true;
     public float sensitivity = 500;
