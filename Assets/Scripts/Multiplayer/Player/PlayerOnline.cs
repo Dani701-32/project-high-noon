@@ -27,7 +27,7 @@ public class PlayerOnline : NetworkBehaviour
         teamData = MultiplayerManager.Instance.GetTeamData(this);
         transform.position = spawnPoint.position;
         if (!IsOwner) return;
-        
+        playerCanvas.SetActive(true);
         _camera.enabled = true;
         _camera.gameObject.GetComponent<AudioListener>().enabled = true;
         base.OnNetworkSpawn();

@@ -32,7 +32,11 @@ public class GunController : NetworkBehaviour
                 return;
             if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
             {
-                currentWeapon.Shoot();
+                // if(IsServer){
+                    currentWeapon.Shoot_ServerRpc(); 
+                // }else{
+                    // currentWeapon.Shoot();
+                // }
             }
 
             if (Input.GetKeyDown(KeyCode.R))

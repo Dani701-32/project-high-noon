@@ -6,8 +6,11 @@ using Unity.Netcode;
 
 public class Bullet : NetworkBehaviour
 {
-    [SerializeField] Collider col;
-    [SerializeField] TrailRenderer trail;
+    [SerializeField]
+    Collider col;
+
+    [SerializeField]
+    TrailRenderer trail;
     public Rigidbody rb;
     public LayerMask groundLayer;
     public GameObject owner;
@@ -30,7 +33,21 @@ public class Bullet : NetworkBehaviour
             rb.velocity = rb.angularVelocity = Vector3.zero;
             rb.isKinematic = true;
             StartCoroutine("TrailGone");
-            Destroy(gameObject, 1);
+            if(IsServer){
+                Destroy(gameObject, 1);
+            }
         }
+    }
+
+    public override void OnDestroy()
+    {
+        NetworkObject netBullet = GetComponent<NetworkObject>();
+        if (netBullet == null)
+            return;
+        if (IsSpawned)
+        {
+            netBullet.Despawn();
+        }
+        base.OnDestroy();
     }
 }
