@@ -36,6 +36,7 @@ public class NetworkManagerUI : MonoBehaviour
                 camTeste.SetActive(false);
                 canvas.SetActive(false);
             }
+            MultiplayerManager.Instance.StartGame(); 
             NetworkManager.Singleton.StartHost();
         });
         btnServer.onClick.AddListener(() =>
@@ -46,6 +47,7 @@ public class NetworkManagerUI : MonoBehaviour
                 camTeste.SetActive(false);
                 canvas.SetActive(false);
             }
+            MultiplayerManager.Instance.StartGame(); 
             NetworkManager.Singleton.StartServer();
         });
         btnClient.onClick.AddListener(() =>
@@ -61,6 +63,7 @@ public class NetworkManagerUI : MonoBehaviour
                 camTeste.SetActive(false);
                 canvas.SetActive(false);
             }
+            MultiplayerManager.Instance.StartGame(); 
             NetworkManager.Singleton.StartClient();
         });
     }

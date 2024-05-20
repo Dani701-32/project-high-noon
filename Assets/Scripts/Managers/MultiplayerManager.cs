@@ -7,16 +7,36 @@ using Unity.Netcode;
 public class MultiplayerManager : NetworkBehaviour
 {
     static MultiplayerManager _instance;
-    [SerializeField] private Transform[] spawnPointsRed, spawnPointsBlue;
-    [SerializeField] private TeamData[] teamDatas;
-    [SerializeField] private List<PlayerOnline> playersRed, playersBlue;
+
+    [SerializeField]
+    private Transform[] spawnPointsRed,
+        spawnPointsBlue;
+
+    [SerializeField]
+    private TeamData[] teamDatas;
+
+    [SerializeField]
+    private List<PlayerOnline> playersRed,
+        playersBlue;
     public Transform defaultPos;
+
     [Header("Controles da partida")]
-    [SerializeField] private int currentPointRed = 0;
-    [SerializeField] private int currentPointBlue = 0;
+    [SerializeField]
+    private int currentPointRed = 0;
+
+    [SerializeField]
+    private int currentPointBlue = 0;
     public int maxPoints = 3;
-    [SerializeField] private FlagSpot flagSpot;
+
+    [SerializeField]
+    private FlagSpot flagSpot;
     private bool matchOver = false;
+    public float matchDuration = 300f;
+    public float currentTime = 0f;
+    private bool gameStart = false;
+
+    [Header("Online Variables")]
+    public NetworkVariable<float> networkCurrentTime = new NetworkVariable<float>();
     public static MultiplayerManager Instance
     {
         get
@@ -31,23 +51,46 @@ public class MultiplayerManager : NetworkBehaviour
         get => matchOver;
         private set { matchOver = value; }
     }
+
     private void Awake()
     {
         _instance = this;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
+    // Start is called before the first frame update
+    void Start() { }
 
     // Update is called once per frame
     void Update()
     {
-
+        UpdateTimerUi();
     }
+
+    public void StartGame()
+    {
+        currentTime = matchDuration;
+        if (IsServer)
+        {
+            networkCurrentTime.Value = matchDuration;
+        }
+
+        gameStart = true;
+    }
+
+    void UpdateTimerUi()
+    {
+        if (!gameStart)
+            return;
+        if (IsServer)
+        {
+            currentTime -= Time.deltaTime;
+            networkCurrentTime.Value = currentTime;
+        }
+    }
+
     public void GameOver()
     {
+        gameStart = false;
         MatchOver = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -66,6 +109,7 @@ public class MultiplayerManager : NetworkBehaviour
         playersRed.Add(newPlayer);
         return teamDatas[1];
     }
+
     public void AddPoint(TeamData team)
     {
         switch (team.teamName)
@@ -87,6 +131,7 @@ public class MultiplayerManager : NetworkBehaviour
         }
         ActivateFlag();
     }
+
     public void ActivateFlag()
     {
         flagSpot.ActiveFlag();
@@ -96,6 +141,7 @@ public class MultiplayerManager : NetworkBehaviour
     {
         UiManager.Instance.EndMatch();
     }
+
     public string GetStatus()
     {
         if (currentPointRed == maxPoints || currentPointRed > currentPointBlue)
@@ -111,10 +157,10 @@ public class MultiplayerManager : NetworkBehaviour
             return "Tie";
         }
     }
+
     IEnumerator ReturnMenu()
     {
         yield return new WaitForSeconds(5f);
         SceneManager.LoadScene("Menu");
     }
-
 }

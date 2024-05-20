@@ -10,7 +10,7 @@ public class UiManager : NetworkBehaviour
     public static UiManager Instance;
 
     [Header("Match Variables")]
-    public float matchDuration = 300f;
+    public float matchDuration = 240f;
     public float currentTime = 0f;
     public TMP_Text textTimer;
 
@@ -22,10 +22,19 @@ public class UiManager : NetworkBehaviour
 
     [SerializeField]
     TMP_Text textStatus;
-    [SerializeField] TMP_Text textTeam;
+
+    [SerializeField]
+    TMP_Text textTeam;
     GameManager gameManager;
+
+    [SerializeField]
     MultiplayerManager multiplayerManager;
     bool matchIsOver = false;
+
+    public override void OnNetworkSpawn()
+    {
+        multiplayerManager = MultiplayerManager.Instance;
+    }
 
     private void Awake()
     {
@@ -38,23 +47,33 @@ public class UiManager : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentTime = matchDuration;
         if (IsServer)
         {
             multiplayerManager = MultiplayerManager.Instance;
         }
         else
         {
-
             gameManager = GameManager.Instance;
+            currentTime = matchDuration;
         }
         EndMatchScreen.SetActive(false);
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         matchIsOver = IsServer ? multiplayerManager.MatchOver : gameManager.MatchOver;
+        if (multiplayerManager)
+        {
+            if (IsServer)
+            {
+                currentTime = multiplayerManager.currentTime;
+            }
+            else
+            {
+                currentTime = multiplayerManager.networkCurrentTime.Value;
+            }
+        }
         if (!matchIsOver)
         {
             UpdateTimerUi();
@@ -80,16 +99,17 @@ public class UiManager : NetworkBehaviour
                 textTeam.text = "";
             }
             EndMatchScreen.SetActive(true);
-            if(IsServer){
-                multiplayerManager.GameOver(); 
-            }else{  
+            if (IsServer)
+            {
+                multiplayerManager.GameOver();
+            }
+            else
+            {
                 gameManager.GameOver();
             }
-            
+
             return;
         }
-
-        currentTime -= Time.deltaTime;
         int minutes = Mathf.FloorToInt(currentTime / 60f);
         int seconds = Mathf.FloorToInt(currentTime % 60f);
         string timerString = string.Format("{0:00}:{1:00}", minutes, seconds);
