@@ -14,12 +14,16 @@ public class GunController : NetworkBehaviour
     bool auto;
     bool matchIsOver = false;
 
+    MultiplayerManager multiplayerManager;
+    GameManager gameManager;
     void Start()
     {
         if (IsOwner)
         {
             UpdateStats();
         }
+        gameManager = GameManager.Instance ?? null;
+        multiplayerManager = MultiplayerManager.Instance ?? null;
     }
 
     void Update()
@@ -27,7 +31,7 @@ public class GunController : NetworkBehaviour
         if (IsOwner)
         {
 
-            matchIsOver = IsServer ? MultiplayerManager.Instance.MatchOver : GameManager.Instance.MatchOver;
+            matchIsOver =  gameManager == null ? multiplayerManager.MatchOver : gameManager.MatchOver;
             if (matchIsOver)
                 return;
             if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))

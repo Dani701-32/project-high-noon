@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using TMPro;
@@ -23,32 +24,24 @@ public class NetworkManagerUI : MonoBehaviour
     private UnityTransport unityTransport;
     List<string> defaultInputs = new List<string> { "ip", "port", "localhost", "" };
 
-    public GameObject camTeste, canvas; 
-
     private void Start()
     {
         unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
         btnHost.onClick.AddListener(() =>
         {
             ConectionType.type = "host"; 
-            if(camTeste && canvas){
-
-                camTeste.SetActive(false);
-                canvas.SetActive(false);
-            }
-            MultiplayerManager.Instance.StartGame(); 
-            NetworkManager.Singleton.StartHost();
+            
+            // MultiplayerManager.Instance.StartGame(); 
+            // NetworkManager.Singleton.StartHost();
+            SceneManager.LoadScene("TesteMultiplayer");
         });
         btnServer.onClick.AddListener(() =>
         {
             ConectionType.type = "server"; 
-            if(camTeste && canvas){
-
-                camTeste.SetActive(false);
-                canvas.SetActive(false);
-            }
-            MultiplayerManager.Instance.StartGame(); 
-            NetworkManager.Singleton.StartServer();
+            
+            // MultiplayerManager.Instance.StartGame(); 
+            // NetworkManager.Singleton.StartServer();
+            SceneManager.LoadScene("TesteMultiplayer");
         });
         btnClient.onClick.AddListener(() =>
         {
@@ -58,15 +51,13 @@ public class NetworkManagerUI : MonoBehaviour
             //Se conecta com o servidor desejado
             unityTransport.ConnectionData.Address = inputIp.text;
             ConectionType.type = "client"; 
-            if(camTeste && canvas){
-
-                camTeste.SetActive(false);
-                canvas.SetActive(false);
-            }
-            MultiplayerManager.Instance.StartGame(); 
-            NetworkManager.Singleton.StartClient();
+            
+            // MultiplayerManager.Instance.StartGame(); 
+            // NetworkManager.Singleton.StartClient();
+            SceneManager.LoadScene("TesteMultiplayer");
         });
     }
+
 }
 
 public class ConectionType

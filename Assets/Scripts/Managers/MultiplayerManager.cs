@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 
 public class MultiplayerManager : NetworkBehaviour
 {
@@ -19,6 +20,10 @@ public class MultiplayerManager : NetworkBehaviour
     private List<PlayerOnline> playersRed,
         playersBlue;
     public Transform defaultPos;
+
+    [Header("Externos")]
+    [SerializeField]
+    GameObject cameraArea;
 
     [Header("Controles da partida")]
     [SerializeField]
@@ -58,7 +63,31 @@ public class MultiplayerManager : NetworkBehaviour
     }
 
     // Start is called before the first frame update
-    void Start() { }
+    void Start()
+    {
+        UnityTransport unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        switch (ConectionType.type)
+        {
+            default:
+            case "host":
+
+                Instance.StartGame();
+                cameraArea.SetActive(false);
+                NetworkManager.Singleton.StartHost();
+                break;
+            case "server":
+                Instance.StartGame();
+                cameraArea.SetActive(false);
+                NetworkManager.Singleton.StartServer();
+                break;
+            case "client":
+                Instance.StartGame();
+                cameraArea.SetActive(false);
+                Debug.Log(unityTransport.ConnectionData.Address);
+                NetworkManager.Singleton.StartClient();
+                break;
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -165,6 +194,16 @@ public class MultiplayerManager : NetworkBehaviour
     IEnumerator ReturnMenu()
     {
         yield return new WaitForSeconds(5f);
+        NetworkManager.Singleton.Shutdown();
+        Cleanup();
         SceneManager.LoadScene("Menu");
+    }
+
+    void Cleanup()
+    {
+        if (NetworkManager.Singleton != null)
+        {
+            Destroy(NetworkManager.Singleton.gameObject);
+        }
     }
 }
