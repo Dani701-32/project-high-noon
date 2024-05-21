@@ -97,6 +97,23 @@ public class Gun : NetworkBehaviour
             text_reserve.text = currentAmmo[gunID].ToString();
     }
 
+    [ServerRpc]
+    private void UpdateAmmo_ServerRpc(bool updateReserve = true)
+    {
+        text_ammo.text = bulletsLoaded[gunID].ToString();
+        if (updateReserve)
+            text_reserve.text = currentAmmo[gunID].ToString();
+        UpdateAmmo_ClientRpc(updateReserve);
+    }
+
+    [ClientRpc]
+    private void UpdateAmmo_ClientRpc(bool updateReserve = true)
+    {
+        text_ammo.text = bulletsLoaded[gunID].ToString();
+        if (updateReserve)
+            text_reserve.text = currentAmmo[gunID].ToString();
+    }
+
     private IEnumerator Cooldown()
     {
         yield return new WaitForSeconds(guns[gunID].shotCooldown);
@@ -147,10 +164,12 @@ public class Gun : NetworkBehaviour
             }
         }
     }
+
     [ServerRpc]
     public void Shoot_ServerRpc()
     {
-        if(!IsServer) return;
+        if (!IsServer)
+            return;
         if (isReloading[gunID])
             return;
 
@@ -178,13 +197,17 @@ public class Gun : NetworkBehaviour
                 (transform.forward + transform.right * deviation.x + transform.up * deviation.y)
                     * guns[gunID].bulletSpeed
             );
+            Rigidbody rbBullet = bullet.GetComponent<Rigidbody>();
+            rbBullet.isKinematic = false;
+
             bullet.owner = playerObject;
-            
+
             Destroy(bullet.gameObject, 5);
 
             spread = Mathf.Min(spread + guns[gunID].spreadIncrease, guns[gunID].maxSpread);
             // Atualize nosso número de balas na UI e, se aplicável, toque o barulho de tiro com pitch aleatório
-            UpdateAmmo(false);
+            if (IsOwner)
+                UpdateAmmo_ServerRpc(false);
             shotSound.pitch = Random.Range(0.9f, 1.1f);
             if (oneSound)
                 shotSound.Play();
@@ -218,6 +241,30 @@ public class Gun : NetworkBehaviour
         UpdateAmmo();
     }
 
+    [ServerRpc]
+    public void Reload_ServerRpc()
+    {
+        if (bulletsLoaded[gunID] == guns[gunID].clip)
+            return;
+        if (currentAmmo[gunID] <= 0)
+        {
+            currentAmmo[gunID] = 0;
+            return;
+        }
+
+        int ammoAdded = bulletsLoaded[gunID];
+        bulletsLoaded[gunID] =
+            currentAmmo[gunID] - guns[gunID].clip >= 0
+                ? guns[gunID].clip
+                : bulletsLoaded[gunID] + currentAmmo[gunID];
+        ammoAdded = bulletsLoaded[gunID] - ammoAdded;
+        currentAmmo[gunID] -= ammoAdded;
+        if (IsOwner)
+        {
+            UpdateAmmo_ServerRpc();
+        }
+    }
+
     void Update()
     {
         center = new Ray(cam.transform.position, cam.transform.forward);
@@ -246,6 +293,16 @@ public class Gun : NetworkBehaviour
     }
 
     public void SwapGun()
+    {
+        gunID++;
+        if (gunID == guns.Length)
+            gunID = 0;
+        AcquireWeapon(gunID, true);
+        UpdateAmmo();
+    }
+
+    [ServerRpc]
+    public void SwapGun_ServerRpc()
     {
         gunID++;
         if (gunID == guns.Length)

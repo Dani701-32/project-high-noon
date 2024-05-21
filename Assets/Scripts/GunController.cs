@@ -29,29 +29,53 @@ public class GunController : NetworkBehaviour
 
     void Update()
     {
-        if (IsOwner)
-        {
-            matchIsOver =
-                gameManager == null ? multiplayerManager.MatchOver : gameManager.MatchOver;
-            if (matchIsOver)
-                return;
-            if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
+        // if (IsServer)
+        // {
+            if (IsOwner)
             {
-                currentWeapon.Shoot_ServerRpc();
-            }
+                if (multiplayerManager.MatchOver)
+                    return;
+                if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
+                {
+                    Debug.Log("Shoot RPC");
+                    currentWeapon.Shoot_ServerRpc();
+                }
 
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                currentWeapon.Reload();
-            }
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    Debug.Log("Realod RPC");
+                    currentWeapon.Reload_ServerRpc();
+                }
 
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                print("got input");
-                currentWeapon.SwapGun();
-                UpdateStats();
+                if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    print("got input");
+                    currentWeapon.SwapGun_ServerRpc();
+                    UpdateStats();
+                }
             }
-        }
+        // }
+        // else
+        // {
+            // if (gameManager.MatchOver)
+            //     return;
+            // if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
+            // {
+            //     currentWeapon.Shoot();
+            // }
+
+            // if (Input.GetKeyDown(KeyCode.R))
+            // {
+            //     currentWeapon.Reload();
+            // }
+
+            // if (Input.GetKeyDown(KeyCode.Q))
+            // {
+            //     print("got input");
+            //     currentWeapon.SwapGun();
+            //     UpdateStats();
+            // }
+        // }
     }
 
     void UpdateStats()
