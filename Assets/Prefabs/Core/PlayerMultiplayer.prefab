@@ -4840,6 +4840,7 @@ MonoBehaviour:
   EndMatchScreen: {fileID: 2391057804193703258}
   textStatus: {fileID: 2316821964527525945}
   textTeam: {fileID: 8202134819352125410}
+  multiplayerManager: {fileID: 0}
 --- !u!1 &6859902248314406311
 GameObject:
   m_ObjectHideFlags: 0
@@ -4852,7 +4853,7 @@ GameObject:
   - component: {fileID: 3430307712863329497}
   - component: {fileID: 8751521264283966374}
   - component: {fileID: 6602995009808985241}
-  - component: {fileID: 4565157727353526114}
+  - component: {fileID: 8098087746679276235}
   - component: {fileID: 8505004049881736186}
   - component: {fileID: 8872359270686525574}
   - component: {fileID: 2041443311578922717}
@@ -4950,7 +4951,7 @@ MonoBehaviour:
   maxLookDownAngle: 50
   sensitivity: 1
   canMove: 1
---- !u!114 &4565157727353526114
+--- !u!114 &8098087746679276235
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4959,7 +4960,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6859902248314406311}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7efc1640d16222e408df63aef05b1ea1, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f72e438ce1852c40b1b491f57484331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   orientation: {fileID: 9166506370950342952}
@@ -5005,7 +5006,7 @@ MonoBehaviour:
   flagCarryEffects: {fileID: 601854355059027968}
   model: {fileID: 2405944352675376129}
   playerCanvas: {fileID: 6676432588917052655}
-  tPSMovement: {fileID: 4565157727353526114}
+  movementOnline: {fileID: 8098087746679276235}
   _camera: {fileID: 3571367267937191691}
   _hasFlag: 0
 --- !u!114 &2041443311578922717

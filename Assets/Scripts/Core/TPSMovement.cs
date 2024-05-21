@@ -1,6 +1,6 @@
 using UnityEngine;
-using Unity.Netcode;
-public class TPSMovement : NetworkBehaviour
+
+public class TPSMovement : MonoBehaviour
 {
     float horiInput;
     float vertInput;
@@ -28,20 +28,15 @@ public class TPSMovement : NetworkBehaviour
     [Header("Debug")]
     public bool canMove = true;
     private bool fixer = false;
-    private bool matchOver = false;
 
     void Start()
     {
-        if (IsOwner)
-        {
-            rb = GetComponent<Rigidbody>();
-            canJump = true;
-        }
+        rb = GetComponent<Rigidbody>();
+        canJump = true;
     }
 
     void Update()
     {
-        if (!IsOwner) return;
         grounded = Physics.Raycast(
             transform.position,
             Vector3.down,
@@ -58,47 +53,36 @@ public class TPSMovement : NetworkBehaviour
             return;
         }
 
-        if (!canMove || matchOver)
+        if (!canMove || GameManager.Instance.MatchOver)
             return;
         InputUpdate();
     }
 
     void FixedUpdate()
     {
-        if (IsOwner)
-        {
-            matchOver = IsServer ? MultiplayerManager.Instance.MatchOver : GameManager.Instance.MatchOver;
-            if (!grounded)
-                rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
+        if (!grounded)
+            rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
 
-            if (!canMove || matchOver)
-                return;
-            MovePlayer();
-
-        }
-
-
+        if (!canMove || GameManager.Instance.MatchOver)
+            return;
+        MovePlayer();
     }
 
     void InputUpdate()
     {
-        if (IsOwner)
-        {
-            horiInput = Input.GetAxisRaw("Horizontal");
-            vertInput = Input.GetAxisRaw("Vertical");
+        horiInput = Input.GetAxisRaw("Horizontal");
+        vertInput = Input.GetAxisRaw("Vertical");
 
-            if (Input.GetKeyDown(KeyCode.Space) && canJump && grounded)
-            {
-                canJump = false;
-                Jump();
-                Invoke(nameof(ResetJump), jumpCooldown);
-            }
+        if (Input.GetKeyDown(KeyCode.Space) && canJump && grounded)
+        {
+            canJump = false;
+            Jump();
+            Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
 
     void MovePlayer()
     {
-        if (!IsOwner) return;
         moveDir = orientation.forward * vertInput + orientation.right * horiInput;
         if (grounded)
             rb.AddForce(moveDir.normalized * speed, ForceMode.VelocityChange);
@@ -125,9 +109,5 @@ public class TPSMovement : NetworkBehaviour
     void ResetJump()
     {
         canJump = true;
-    }
-    public void SetSpawn(Transform transformSpawn)
-    {
-        spawnPoint = transformSpawn;
     }
 }

@@ -14,7 +14,7 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField] GameObject flagCarryEffects;
     [SerializeField] GameObject model, playerCanvas;
 
-    [SerializeField] private TPSMovement tPSMovement;
+    [SerializeField] private MovementOnline movementOnline;
     [SerializeField] private Camera _camera;
     Transform spawnPoint;
 
@@ -70,7 +70,7 @@ public class PlayerOnline : NetworkBehaviour
     {
         spawnPoint = sp;
         transform.position = sp.position;
-        tPSMovement.SetSpawn(sp);
+        movementOnline.SetSpawn(sp);
     }
 
     private void FlagUpdate()
