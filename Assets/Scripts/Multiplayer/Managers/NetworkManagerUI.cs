@@ -26,38 +26,31 @@ public class NetworkManagerUI : MonoBehaviour
 
     private void Start()
     {
+
         unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+
         btnHost.onClick.AddListener(() =>
         {
-            ConectionType.type = "host"; 
-            
-            // MultiplayerManager.Instance.StartGame(); 
-            // NetworkManager.Singleton.StartHost();
+            ConectionType.type = "host";
             SceneManager.LoadScene("TesteMultiplayer");
+
         });
         btnServer.onClick.AddListener(() =>
         {
-            ConectionType.type = "server"; 
-            
-            // MultiplayerManager.Instance.StartGame(); 
-            // NetworkManager.Singleton.StartServer();
+            ConectionType.type = "server";
             SceneManager.LoadScene("TesteMultiplayer");
         });
         btnClient.onClick.AddListener(() =>
         {
-            //Verifica se algum dado foi mandado para o servidor
             if (defaultInputs.Contains(inputIp.text.ToLower()) || inputIp.text.ToLower() == null)
                 inputIp.text = "127.0.0.1";
-            //Se conecta com o servidor desejado
+
             unityTransport.ConnectionData.Address = inputIp.text;
-            ConectionType.type = "client"; 
-            
-            // MultiplayerManager.Instance.StartGame(); 
-            // NetworkManager.Singleton.StartClient();
+
+            ConectionType.type = "client";
             SceneManager.LoadScene("TesteMultiplayer");
         });
     }
-
 }
 
 public class ConectionType
