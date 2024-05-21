@@ -58,7 +58,7 @@ public class TPSCamera : MonoBehaviour
 
     void Update()
     {
-        matchIsOver = (GameManager.Instance == null)? GameManager.Instance.MatchOver : MultiplayerManager.Instance.MatchOver;
+        matchIsOver = (GameManager.Instance != null)? GameManager.Instance.MatchOver : MultiplayerManager.Instance.MatchOver;
         if (matchIsOver)
             return;
         if (canMove)
