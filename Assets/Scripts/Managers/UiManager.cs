@@ -47,22 +47,16 @@ public class UiManager : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (IsServer)
-        {
-            multiplayerManager = MultiplayerManager.Instance;
-        }
-        else
-        {
-            gameManager = GameManager.Instance;
-            currentTime = matchDuration;
-        }
+        multiplayerManager = MultiplayerManager.Instance ?? null;
+        gameManager = GameManager.Instance ?? null;
+        currentTime = matchDuration;
         EndMatchScreen.SetActive(false);
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        matchIsOver = IsServer ? multiplayerManager.MatchOver : gameManager.MatchOver;
+        matchIsOver = gameManager == null ? multiplayerManager.MatchOver : gameManager.MatchOver;
         if (multiplayerManager)
         {
             if (IsServer)
@@ -87,7 +81,7 @@ public class UiManager : NetworkBehaviour
             currentTime = 0f;
             textTimer.text = "00:00";
 
-            string result = IsServer ? multiplayerManager.GetStatus() : gameManager.GetStatus();
+            string result =  gameManager == null ? multiplayerManager.GetStatus() : gameManager.GetStatus();
             if (result != "Tie")
             {
                 textStatus.text = "Victory";
@@ -99,7 +93,7 @@ public class UiManager : NetworkBehaviour
                 textTeam.text = "";
             }
             EndMatchScreen.SetActive(true);
-            if (IsServer)
+            if (IsServer ||  gameManager == null)
             {
                 multiplayerManager.GameOver();
             }

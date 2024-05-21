@@ -386,7 +386,7 @@ PrefabInstance:
     - target: {fileID: 312894977714799196, guid: a8b6e3b52554e0b4da24f19df0652560,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 119
+      value: 70.1
       objectReference: {fileID: 0}
     - target: {fileID: 312894977714799196, guid: a8b6e3b52554e0b4da24f19df0652560,
         type: 3}
@@ -396,7 +396,7 @@ PrefabInstance:
     - target: {fileID: 312894977714799196, guid: a8b6e3b52554e0b4da24f19df0652560,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 232.8
+      value: 194.6
       objectReference: {fileID: 0}
     - target: {fileID: 312894977714799196, guid: a8b6e3b52554e0b4da24f19df0652560,
         type: 3}
@@ -1036,7 +1036,7 @@ PrefabInstance:
     - target: {fileID: 312894977714799196, guid: a8b6e3b52554e0b4da24f19df0652560,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.8
+      value: 72.8
       objectReference: {fileID: 0}
     - target: {fileID: 312894977714799196, guid: a8b6e3b52554e0b4da24f19df0652560,
         type: 3}
@@ -1046,7 +1046,7 @@ PrefabInstance:
     - target: {fileID: 312894977714799196, guid: a8b6e3b52554e0b4da24f19df0652560,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 48.5
+      value: 56.4
       objectReference: {fileID: 0}
     - target: {fileID: 312894977714799196, guid: a8b6e3b52554e0b4da24f19df0652560,
         type: 3}
@@ -1306,7 +1306,6 @@ GameObject:
   - component: {fileID: 968475619}
   - component: {fileID: 968475620}
   - component: {fileID: 968475621}
-  - component: {fileID: 968475622}
   m_Layer: 0
   m_Name: MultiplayerManager
   m_TagString: Untagged
@@ -1386,23 +1385,6 @@ MonoBehaviour:
   currentTime: 0
   networkCurrentTime:
     m_InternalValue: 0
---- !u!114 &968475622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 968475617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db73be472010549b046926c4c6c703, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentPointRed: 0
-  currentPointBlue: 0
-  maxPoints: 3
-  flagSpot: {fileID: 1343530496}
-  spawnPoint: {fileID: 1831703583}
 --- !u!1 &990726819
 GameObject:
   m_ObjectHideFlags: 0
@@ -2605,7 +2587,7 @@ Transform:
   m_GameObject: {fileID: 1831703582}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.35, y: 2.54, z: 133.32}
+  m_LocalPosition: {x: 48.9, y: 2.54, z: 124.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -42,7 +42,7 @@ public class MultiplayerManager : NetworkBehaviour
         get
         {
             if (_instance == null)
-                Debug.LogError("Multiplayer manager é nulo");
+                Debug.Log("Multiplayer manager é nulo");
             return _instance;
         }
     }
@@ -139,7 +139,11 @@ public class MultiplayerManager : NetworkBehaviour
 
     public void EndGame()
     {
-        UiManager.Instance.EndMatch();
+        if (IsServer)
+        {
+            currentTime = 15f;
+            networkCurrentTime.Value = currentTime;
+        }
     }
 
     public string GetStatus()
