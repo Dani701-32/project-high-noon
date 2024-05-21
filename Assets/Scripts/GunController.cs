@@ -16,6 +16,7 @@ public class GunController : NetworkBehaviour
 
     MultiplayerManager multiplayerManager;
     GameManager gameManager;
+
     void Start()
     {
         if (IsOwner)
@@ -30,17 +31,13 @@ public class GunController : NetworkBehaviour
     {
         if (IsOwner)
         {
-
-            matchIsOver =  gameManager == null ? multiplayerManager.MatchOver : gameManager.MatchOver;
+            matchIsOver =
+                gameManager == null ? multiplayerManager.MatchOver : gameManager.MatchOver;
             if (matchIsOver)
                 return;
             if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
             {
-                // if(IsServer){
-                    currentWeapon.Shoot_ServerRpc(); 
-                // }else{
-                    // currentWeapon.Shoot();
-                // }
+                currentWeapon.Shoot_ServerRpc();
             }
 
             if (Input.GetKeyDown(KeyCode.R))

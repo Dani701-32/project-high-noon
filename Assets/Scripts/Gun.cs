@@ -150,6 +150,7 @@ public class Gun : NetworkBehaviour
     [ServerRpc]
     public void Shoot_ServerRpc()
     {
+        if(!IsServer) return;
         if (isReloading[gunID])
             return;
 
@@ -178,9 +179,9 @@ public class Gun : NetworkBehaviour
                     * guns[gunID].bulletSpeed
             );
             bullet.owner = playerObject;
-            if(IsServer){
-                Destroy(bullet.gameObject, 5);
-            }
+            
+            Destroy(bullet.gameObject, 5);
+
             spread = Mathf.Min(spread + guns[gunID].spreadIncrease, guns[gunID].maxSpread);
             // Atualize nosso número de balas na UI e, se aplicável, toque o barulho de tiro com pitch aleatório
             UpdateAmmo(false);
