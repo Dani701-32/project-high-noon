@@ -52,6 +52,9 @@ public class LobbyUiManager : MonoBehaviour
 
     [SerializeField]
     TMP_Text textLobbyOpenPlayers;
+
+    public bool lobbyIsOpen = false;
+
     public static LobbyUiManager Instance
     {
         get
@@ -111,7 +114,7 @@ public class LobbyUiManager : MonoBehaviour
     //Entrar em lobby
     public void JoinLobby(string id)
     {
-        CloseListLobbies(); 
+        CloseListLobbies();
         lobbyManager.JoinLobby(id);
     }
 
@@ -137,20 +140,34 @@ public class LobbyUiManager : MonoBehaviour
     }
 
     //Abrir Lobby
-    public void OpenLobby(string nameLobby, int numPlayers, int maxPlayers)
+    public void OpenLobby(string nameLobby, int numPlayers, int maxPlayers, string gameMode)
     {
-        textNameLobbyOpen.text = nameLobby;
+        textNameLobbyOpen.text = $"{nameLobby}: {gameMode}";
         textLobbyOpenPlayers.text = $"{numPlayers}/{maxPlayers}";
+        RefreshPlayer();
+        lobbyIsOpen = true;
+        openLobbyPopUp.SetActive(true);
+    }
+
+    public void UpdateLobby(string nameLobby, int numPlayers, int maxPlayers, string gameMode)
+    {
+        textNameLobbyOpen.text = $"{nameLobby}: {gameMode}";
+        textLobbyOpenPlayers.text = $"{numPlayers}/{maxPlayers}";
+        RefreshPlayer();
+    }
+
+    public void RefreshPlayer()
+    {
         if (listPlayers.Count > 0)
         {
             Debug.Log("Refressing Players...");
             foreach (PlayerItem playerItem in listPlayers)
             {
-                Destroy(playerItem.gameObject);
+                if (playerItem != null)
+                    Destroy(playerItem.gameObject);
             }
             listPlayers.Clear();
         }
-        openLobbyPopUp.SetActive(true);
     }
 
     public void AddPlayer(string playerId, string playerName)

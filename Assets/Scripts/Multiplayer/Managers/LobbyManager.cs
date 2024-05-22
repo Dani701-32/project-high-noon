@@ -11,8 +11,11 @@ public class LobbyManager : MonoBehaviour
     [SerializeField, ReadOnly]
     private LobbyUiManager lobbyUiManager;
     private Lobby hostLobby;
+    private Lobby joinedLobby;
     private float heartbeatTimer;
     private float heartbeatTimerMax = 15f;
+    private float lobbyUpdateTimer;
+    private float lobbyUpdateTimerMax = 1.1f;
 
     // Start is called before the first frame update
     async void Start()
@@ -31,6 +34,10 @@ public class LobbyManager : MonoBehaviour
     void Update()
     {
         HandleLobbyHeartbeat();
+        if (lobbyUiManager.lobbyIsOpen)
+        {
+            HanddleLobbyPollForUpdates();
+        }
     }
 
     private async void HandleLobbyHeartbeat()
@@ -46,6 +53,27 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    private async void HanddleLobbyPollForUpdates()
+    {
+        if (joinedLobby != null)
+        {
+            lobbyUpdateTimer -= Time.deltaTime;
+            if (lobbyUpdateTimer < 0f)
+            {
+                lobbyUpdateTimer = lobbyUpdateTimerMax;
+                Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
+                joinedLobby = lobby;
+                lobbyUiManager.UpdateLobby(
+                    joinedLobby.Name,
+                    joinedLobby.Players.Count,
+                    joinedLobby.MaxPlayers,
+                    joinedLobby.Data["GameMode"].Value
+                );
+                PrintPlayers(joinedLobby);
+            }
+        }
+    }
+
     //Cria um Lobby
     public async void CreateLobby(string nameLobby, int playerCount, string playerName)
     {
@@ -54,7 +82,18 @@ public class LobbyManager : MonoBehaviour
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
             {
                 IsPrivate = false,
-                Player = GetPlayer(playerName)
+                Player = GetPlayer(playerName),
+                Data = new Dictionary<string, DataObject>
+                {
+                    {
+                        "GameMode",
+                        new DataObject(
+                            DataObject.VisibilityOptions.Public,
+                            "CaptureTheFlag",
+                            DataObject.IndexOptions.S1 //Define CaptureTheFlag como campo S1 para ser pesquisado
+                        )
+                    }
+                }
             };
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(
                 nameLobby,
@@ -62,9 +101,15 @@ public class LobbyManager : MonoBehaviour
                 createLobbyOptions
             );
             hostLobby = lobby;
+            joinedLobby = hostLobby;
 
             lobbyUiManager.CloseCreateLobby();
-            lobbyUiManager.OpenLobby(hostLobby.Name, hostLobby.Players.Count, hostLobby.MaxPlayers);
+            lobbyUiManager.OpenLobby(
+                hostLobby.Name,
+                hostLobby.Players.Count,
+                hostLobby.MaxPlayers,
+                hostLobby.Data["GameMode"].Value
+            );
             PrintPlayers(hostLobby);
         }
         catch (LobbyServiceException error)
@@ -109,11 +154,13 @@ public class LobbyManager : MonoBehaviour
             {
                 Player = GetPlayer("testeName")
             };
-            Lobby joinedLobby = await Lobbies.Instance.JoinLobbyByIdAsync(id, joinLobbyByIdOptions);
+            Lobby lobby = await Lobbies.Instance.JoinLobbyByIdAsync(id, joinLobbyByIdOptions);
+            joinedLobby = lobby;
             lobbyUiManager.OpenLobby(
                 joinedLobby.Name,
                 joinedLobby.Players.Count,
-                joinedLobby.MaxPlayers
+                joinedLobby.MaxPlayers,
+                joinedLobby.Data["GameMode"].Value
             );
             PrintPlayers(joinedLobby);
         }
