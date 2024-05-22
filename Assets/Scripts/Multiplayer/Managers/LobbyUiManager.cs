@@ -53,6 +53,15 @@ public class LobbyUiManager : MonoBehaviour
     [SerializeField]
     TMP_Text textLobbyOpenPlayers;
 
+    [Header("Abri Lobby")]
+    [SerializeField]
+    GameObject joinLobbyScreen;
+
+    [SerializeField]
+    TMP_InputField inputLobbyJoinName;
+
+    private string joinLobbyId;
+
     public bool lobbyIsOpen = false;
 
     public static LobbyUiManager Instance
@@ -73,6 +82,14 @@ public class LobbyUiManager : MonoBehaviour
     private void Start()
     {
         lobbyManager = GetComponent<LobbyManager>();
+        foreach (Transform child in bodyList)
+        {
+            Destroy(child);
+        }
+        foreach (Transform child in bodyListPlayers)
+        {
+            Destroy(child);
+        }
     }
 
     //Listar Lobbies
@@ -98,6 +115,10 @@ public class LobbyUiManager : MonoBehaviour
             }
             listLobbies.Clear();
         }
+        foreach (Transform child in bodyList)
+        {
+            Destroy(child);
+        }
         lobbyManager.ListLobbies();
     }
 
@@ -112,10 +133,18 @@ public class LobbyUiManager : MonoBehaviour
     }
 
     //Entrar em lobby
-    public void JoinLobby(string id)
+    public void OpenPopUpJoin(string id)
     {
+        joinLobbyScreen.SetActive(true);
         CloseListLobbies();
-        lobbyManager.JoinLobby(id);
+        joinLobbyId = id;
+    }
+
+    public void JoinLobby()
+    {
+        joinLobbyScreen.SetActive(false);
+        string namePlayer = inputLobbyJoinName.text;
+        lobbyManager.JoinLobby(joinLobbyId, namePlayer);
     }
 
     //Create Lobby
@@ -168,6 +197,19 @@ public class LobbyUiManager : MonoBehaviour
             }
             listPlayers.Clear();
         }
+        foreach (Transform child in bodyListPlayers)
+        {
+            Destroy(child);
+        }
+    }
+
+    public void LeaveLobby()
+    {
+        lobbyIsOpen = false;
+        openLobbyPopUp.SetActive(false);
+        lobbyManager.LeaveLobby();
+        RefreshList();
+        listLobbyScreen.SetActive(true);
     }
 
     public void AddPlayer(string playerId, string playerName)

@@ -146,13 +146,13 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    public async void JoinLobby(string id)
+    public async void JoinLobby(string id, string playerName)
     {
         try
         {
             JoinLobbyByIdOptions joinLobbyByIdOptions = new JoinLobbyByIdOptions
             {
-                Player = GetPlayer("testeName")
+                Player = GetPlayer(playerName)
             };
             Lobby lobby = await Lobbies.Instance.JoinLobbyByIdAsync(id, joinLobbyByIdOptions);
             joinedLobby = lobby;
@@ -163,6 +163,21 @@ public class LobbyManager : MonoBehaviour
                 joinedLobby.Data["GameMode"].Value
             );
             PrintPlayers(joinedLobby);
+        }
+        catch (LobbyServiceException error)
+        {
+            Debug.Log(error);
+        }
+    }
+
+    public async void LeaveLobby()
+    {
+        try
+        {
+            await LobbyService.Instance.RemovePlayerAsync(
+                joinedLobby.Id,
+                AuthenticationService.Instance.PlayerId
+            );
         }
         catch (LobbyServiceException error)
         {

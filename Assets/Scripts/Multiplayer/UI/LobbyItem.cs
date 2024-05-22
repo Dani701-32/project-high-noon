@@ -48,6 +48,6 @@ public class LobbyItem : MonoBehaviour
 
     public void JoinLobby()
     {
-        lobbyUiManager.JoinLobby(id);
+        lobbyUiManager.OpenPopUpJoin(id);
     }
 }
