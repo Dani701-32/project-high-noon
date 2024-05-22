@@ -412,6 +412,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9073630204003537632}
   - component: {fileID: 3410289459936005412}
+  - component: {fileID: 7129538976675947730}
   m_Layer: 5
   m_Name: LobbyItem
   m_TagString: Untagged
@@ -467,3 +468,23 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &7129538976675947730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7682338265043919598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aacf32ea2aac13f48959f8e48cf7d285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
+  nameLobby: 
+  countPlayers: 0
+  maxPlayers: 0
+  gameMode: Capture the Flag
+  textName: {fileID: 668924269785665175}
+  textPlayers: {fileID: 8957682341121951477}
+  textGameMode: {fileID: 3272612692815904918}
