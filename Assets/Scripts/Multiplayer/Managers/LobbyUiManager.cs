@@ -48,7 +48,21 @@ public class LobbyUiManager : MonoBehaviour
     //Listar Lobbies
     public void OpenListLobbies()
     {
+        RefreshList(); 
         listLobbyScreen.SetActive(true);
+        
+    }
+
+    public void RefreshList()
+    {
+        if (listLobbies.Count > 0){
+            Debug.Log("Refressing...");
+            foreach (LobbyItem listItem in listLobbies)
+            {
+                Destroy(listItem.gameObject);
+            }
+            listLobbies.Clear();
+        }
         lobbyManager.ListLobbies();
     }
 
