@@ -5,20 +5,16 @@ using UnityEngine;
 
 public class LobbyItem : MonoBehaviour
 {
-    [SerializeField, ReadOnly]
-    string id;
+    private LobbyUiManager lobbyUiManager;
 
     [SerializeField, ReadOnly]
-    string nameLobby;
+    private string id;
+    private string nameLobby;
+    private int countPlayers;
+    private int maxPlayers;
 
     [SerializeField, ReadOnly]
-    int countPlayers;
-
-    [SerializeField, ReadOnly]
-    int maxPlayers;
-
-    [SerializeField, ReadOnly]
-    string gameMode = "Capture the Flag";
+    private string gameMode = "Capture the Flag";
 
     [SerializeField]
     private TMP_Text textName;
@@ -28,6 +24,11 @@ public class LobbyItem : MonoBehaviour
 
     [SerializeField]
     private TMP_Text textGameMode;
+
+    private void Start()
+    {
+        lobbyUiManager = LobbyUiManager.Instance;
+    }
 
     public void SetLobby(string id, string nameLobby, int countPlayers, int maxPlayers)
     {
@@ -43,5 +44,10 @@ public class LobbyItem : MonoBehaviour
         textName.text = nameLobby;
         textPlayers.text = $"{countPlayers}/{maxPlayers}";
         textGameMode.text = gameMode;
+    }
+
+    public void JoinLobby()
+    {
+        lobbyUiManager.JoinLobby(id);
     }
 }

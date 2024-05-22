@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class LobbyUiManager : MonoBehaviour
 {
+    static LobbyUiManager _instance;
     private LobbyManager lobbyManager;
 
     [Header("Listar Lobbies")]
@@ -28,6 +29,9 @@ public class LobbyUiManager : MonoBehaviour
     TMP_InputField inputLobbyName;
 
     [SerializeField]
+    TMP_InputField inputPlayerName;
+
+    [SerializeField]
     TMP_InputField inputLobbPlayerCap;
 
     [Header("Abri Lobby")]
@@ -35,10 +39,33 @@ public class LobbyUiManager : MonoBehaviour
     GameObject openLobbyPopUp;
 
     [SerializeField]
+    GameObject prefabPlayerItem;
+
+    [SerializeField]
+    Transform bodyListPlayers;
+
+    [SerializeField, ReadOnly]
+    List<PlayerItem> listPlayers;
+
+    [SerializeField]
     TMP_Text textNameLobbyOpen;
 
     [SerializeField]
     TMP_Text textLobbyOpenPlayers;
+    public static LobbyUiManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+                Debug.Log("Lobby Ui Manager é nulo");
+            return _instance;
+        }
+    }
+
+    void Awake()
+    {
+        _instance = this;
+    }
 
     private void Start()
     {
@@ -48,14 +75,19 @@ public class LobbyUiManager : MonoBehaviour
     //Listar Lobbies
     public void OpenListLobbies()
     {
-        RefreshList(); 
+        RefreshList();
         listLobbyScreen.SetActive(true);
-        
+    }
+
+    public void CloseListLobbies()
+    {
+        listLobbyScreen.SetActive(false);
     }
 
     public void RefreshList()
     {
-        if (listLobbies.Count > 0){
+        if (listLobbies.Count > 0)
+        {
             Debug.Log("Refressing...");
             foreach (LobbyItem listItem in listLobbies)
             {
@@ -76,6 +108,13 @@ public class LobbyUiManager : MonoBehaviour
         listLobbies.Add(lobbyItem);
     }
 
+    //Entrar em lobby
+    public void JoinLobby(string id)
+    {
+        CloseListLobbies(); 
+        lobbyManager.JoinLobby(id);
+    }
+
     //Create Lobby
     public void OpenCreateLobby()
     {
@@ -91,9 +130,10 @@ public class LobbyUiManager : MonoBehaviour
 
     public void CreateLobby()
     {
-        string lobbyName = inputLobbyName.text;
-        int lobbyPlayerCap = int.Parse(inputLobbPlayerCap.text);
-        lobbyManager.CreateLobby(lobbyName, lobbyPlayerCap);
+        string playerName = inputPlayerName.text ?? "player" + Random.Range(10, 100);
+        string lobbyName = inputLobbyName.text ?? "lobby" + Random.Range(1, 100);
+        int lobbyPlayerCap = int.Parse(inputLobbPlayerCap.text ?? "4");
+        lobbyManager.CreateLobby(lobbyName, lobbyPlayerCap, playerName);
     }
 
     //Abrir Lobby
@@ -101,6 +141,24 @@ public class LobbyUiManager : MonoBehaviour
     {
         textNameLobbyOpen.text = nameLobby;
         textLobbyOpenPlayers.text = $"{numPlayers}/{maxPlayers}";
+        if (listPlayers.Count > 0)
+        {
+            Debug.Log("Refressing Players...");
+            foreach (PlayerItem playerItem in listPlayers)
+            {
+                Destroy(playerItem.gameObject);
+            }
+            listPlayers.Clear();
+        }
         openLobbyPopUp.SetActive(true);
+    }
+
+    public void AddPlayer(string playerId, string playerName)
+    {
+        GameObject playerObject = Instantiate(prefabPlayerItem, bodyListPlayers);
+        PlayerItem playerItem = playerObject.GetComponent<PlayerItem>();
+
+        playerItem.SetPlayer(playerId, playerName);
+        listPlayers.Add(playerItem);
     }
 }

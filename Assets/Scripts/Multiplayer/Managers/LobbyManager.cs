@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviour
 {
+    [SerializeField, ReadOnly]
     private LobbyUiManager lobbyUiManager;
     private Lobby hostLobby;
     private float heartbeatTimer;
@@ -16,7 +17,7 @@ public class LobbyManager : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-        lobbyUiManager = GetComponent<LobbyUiManager>();
+        lobbyUiManager = LobbyUiManager.Instance;
         //Iniciando a parte asincrona da Unity
         await UnityServices.InitializeAsync();
         AuthenticationService.Instance.SignedIn += () =>
@@ -46,15 +47,25 @@ public class LobbyManager : MonoBehaviour
     }
 
     //Cria um Lobby
-    public async void CreateLobby(string nameLobby, int playerCount)
+    public async void CreateLobby(string nameLobby, int playerCount, string playerName)
     {
         try
         {
-            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(nameLobby, playerCount);
+            CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
+            {
+                IsPrivate = false,
+                Player = GetPlayer(playerName)
+            };
+            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(
+                nameLobby,
+                playerCount,
+                createLobbyOptions
+            );
             hostLobby = lobby;
 
             lobbyUiManager.CloseCreateLobby();
-            lobbyUiManager.OpenLobby(lobby.Name, lobby.Players.Count, lobby.MaxPlayers);
+            lobbyUiManager.OpenLobby(hostLobby.Name, hostLobby.Players.Count, hostLobby.MaxPlayers);
+            PrintPlayers(hostLobby);
         }
         catch (LobbyServiceException error)
         {
@@ -88,5 +99,52 @@ public class LobbyManager : MonoBehaviour
         {
             Debug.Log(error);
         }
+    }
+
+    public async void JoinLobby(string id)
+    {
+        try
+        {
+            JoinLobbyByIdOptions joinLobbyByIdOptions = new JoinLobbyByIdOptions
+            {
+                Player = GetPlayer("testeName")
+            };
+            Lobby joinedLobby = await Lobbies.Instance.JoinLobbyByIdAsync(id, joinLobbyByIdOptions);
+            lobbyUiManager.OpenLobby(
+                joinedLobby.Name,
+                joinedLobby.Players.Count,
+                joinedLobby.MaxPlayers
+            );
+            PrintPlayers(joinedLobby);
+        }
+        catch (LobbyServiceException error)
+        {
+            Debug.Log(error);
+        }
+    }
+
+    private void PrintPlayers(Lobby lobby)
+    {
+        Debug.Log(lobby.Players.Count);
+        foreach (Player player in lobby.Players)
+        {
+            Debug.Log(player.Id);
+            lobbyUiManager.AddPlayer(player.Id, player.Data["PlayerName"].Value);
+        }
+    }
+
+    private Player GetPlayer(string playerName)
+    {
+        Player player = new Player
+        {
+            Data = new Dictionary<string, PlayerDataObject>
+            {
+                {
+                    "PlayerName",
+                    new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, playerName)
+                }
+            }
+        };
+        return player;
     }
 }
