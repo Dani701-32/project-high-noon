@@ -60,9 +60,20 @@ public class LobbyUiManager : MonoBehaviour
     [SerializeField]
     TMP_InputField inputLobbyJoinName;
 
+    [SerializeField]
+    private GameObject btnStartGame;
+
+    [SerializeField, ReadOnly]
     private string joinLobbyId;
 
+    [SerializeField, ReadOnly]
+    private string relayCode;
+
+    [SerializeField, ReadOnly]
     public bool lobbyIsOpen = false;
+
+    [SerializeField, ReadOnly]
+    private bool isLobbyHost = false;
 
     public static LobbyUiManager Instance
     {
@@ -90,6 +101,7 @@ public class LobbyUiManager : MonoBehaviour
         {
             Destroy(child);
         }
+        btnStartGame.SetActive(false);
     }
 
     //Listar Lobbies
@@ -165,6 +177,7 @@ public class LobbyUiManager : MonoBehaviour
         string playerName = inputPlayerName.text ?? "player" + Random.Range(10, 100);
         string lobbyName = inputLobbyName.text ?? "lobby" + Random.Range(1, 100);
         int lobbyPlayerCap = int.Parse(inputLobbPlayerCap.text ?? "4");
+        isLobbyHost = true;
         lobbyManager.CreateLobby(lobbyName, lobbyPlayerCap, playerName);
     }
 
@@ -176,6 +189,10 @@ public class LobbyUiManager : MonoBehaviour
         RefreshPlayer();
         lobbyIsOpen = true;
         openLobbyPopUp.SetActive(true);
+        if (isLobbyHost)
+        {
+            btnStartGame.SetActive(true);
+        }
     }
 
     public void UpdateLobby(string nameLobby, int numPlayers, int maxPlayers, string gameMode)
@@ -205,6 +222,11 @@ public class LobbyUiManager : MonoBehaviour
 
     public void LeaveLobby()
     {
+        if (isLobbyHost)
+        {
+            isLobbyHost = false;
+            btnStartGame.SetActive(false);
+        }
         lobbyIsOpen = false;
         openLobbyPopUp.SetActive(false);
         lobbyManager.LeaveLobby();
@@ -219,5 +241,16 @@ public class LobbyUiManager : MonoBehaviour
 
         playerItem.SetPlayer(playerId, playerName);
         listPlayers.Add(playerItem);
+    }
+
+    public void StarMatch()
+    {
+        lobbyManager.StartMatch();
+    }
+
+    public bool IsLobbyHost
+    {
+        get { return isLobbyHost; }
+        private set { isLobbyHost = value; }
     }
 }

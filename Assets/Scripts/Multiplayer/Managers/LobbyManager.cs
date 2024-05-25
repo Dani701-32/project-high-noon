@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
@@ -10,6 +11,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -21,6 +23,9 @@ public class LobbyManager : MonoBehaviour
     private float heartbeatTimerMax = 15f;
     private float lobbyUpdateTimer;
     private float lobbyUpdateTimerMax = 1.1f;
+    private bool isPartyHost = false;
+    private string KEY_GAME_MODE = "GameMode";
+    private string KEY_START_GAME = "GameStarted";
 
     // Start is called before the first frame update
     async void Start()
@@ -45,11 +50,45 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    private async void CreateRealy()
+    public async void StartMatch()
     {
         try
         {
-            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
+            Debug.Log("Star Match");
+
+            string relayCode = await CreateRealy();
+            Debug.Log(relayCode);
+
+            Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(
+                joinedLobby.Id,
+                new UpdateLobbyOptions
+                {
+                    Data = new Dictionary<string, DataObject>
+                    {
+                        {
+                            KEY_START_GAME,
+                            new DataObject(DataObject.VisibilityOptions.Member, relayCode)
+                        }
+                    }
+                }
+            );
+
+            joinedLobby = lobby;
+
+            ConectionType.type = "host";
+            SceneManager.LoadScene("TesteMultiplayer");
+        }
+        catch (LobbyServiceException error)
+        {
+            Debug.Log(error);
+        }
+    }
+
+    private async Task<string> CreateRealy()
+    {
+        try
+        {
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(8);
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
             RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
@@ -57,10 +96,13 @@ public class LobbyManager : MonoBehaviour
             NetworkManager.Singleton
                 .GetComponent<UnityTransport>()
                 .SetRelayServerData(relayServerData);
+
+            return joinCode;
         }
         catch (RelayServiceException error)
         {
             Debug.Log(error);
+            return null;
         }
     }
 
@@ -77,6 +119,9 @@ public class LobbyManager : MonoBehaviour
             NetworkManager.Singleton
                 .GetComponent<UnityTransport>()
                 .SetRelayServerData(relayServerData);
+
+            ConectionType.type = "client";
+            SceneManager.LoadScene("TesteMultiplayer");
         }
         catch (RelayServiceException error)
         {
@@ -111,9 +156,17 @@ public class LobbyManager : MonoBehaviour
                     joinedLobby.Name,
                     joinedLobby.Players.Count,
                     joinedLobby.MaxPlayers,
-                    joinedLobby.Data["GameMode"].Value
+                    joinedLobby.Data[KEY_GAME_MODE].Value
                 );
                 PrintPlayers(joinedLobby);
+            }
+            if (joinedLobby.Data[KEY_START_GAME].Value != "0")
+            {
+                if (!lobbyUiManager.IsLobbyHost)
+                {
+                    JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
+                }
+                joinedLobby = null;
             }
         }
     }
@@ -130,13 +183,14 @@ public class LobbyManager : MonoBehaviour
                 Data = new Dictionary<string, DataObject>
                 {
                     {
-                        "GameMode",
+                        KEY_GAME_MODE,
                         new DataObject(
                             DataObject.VisibilityOptions.Public,
                             "CaptureTheFlag",
                             DataObject.IndexOptions.S1 //Define CaptureTheFlag como campo S1 para ser pesquisado
                         )
-                    }
+                    },
+                    { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0") }
                 }
             };
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(
@@ -152,8 +206,9 @@ public class LobbyManager : MonoBehaviour
                 hostLobby.Name,
                 hostLobby.Players.Count,
                 hostLobby.MaxPlayers,
-                hostLobby.Data["GameMode"].Value
+                hostLobby.Data[KEY_GAME_MODE].Value
             );
+
             PrintPlayers(hostLobby);
         }
         catch (LobbyServiceException error)
@@ -204,7 +259,7 @@ public class LobbyManager : MonoBehaviour
                 joinedLobby.Name,
                 joinedLobby.Players.Count,
                 joinedLobby.MaxPlayers,
-                joinedLobby.Data["GameMode"].Value
+                joinedLobby.Data[KEY_GAME_MODE].Value
             );
             PrintPlayers(joinedLobby);
         }
