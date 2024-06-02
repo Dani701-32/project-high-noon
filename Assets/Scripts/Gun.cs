@@ -8,6 +8,9 @@ using Random = UnityEngine.Random;
 
 public class Gun : NetworkBehaviour
 {
+    //ServerRPC é uma função que Apenas funciona no servidor
+    //ClienteRPC é uma função que só o servidor pode chamar mas que roda em todos os clientes
+
     [Header("References")]
     [SerializeField]
     private GameObject bulletPoint;
@@ -62,9 +65,6 @@ public class Gun : NetworkBehaviour
     bool[] inCooldown;
     bool[] isReloading;
     bool oneSound;
-    public TeamData teamData;
-    public char teamTag;
-    public NetworkVariable<char> networkTeamTag = new NetworkVariable<char>();
 
     void Start()
     {
@@ -94,23 +94,6 @@ public class Gun : NetworkBehaviour
     }
 
     private void UpdateAmmo(bool updateReserve = true)
-    {
-        text_ammo.text = bulletsLoaded[gunID].ToString();
-        if (updateReserve)
-            text_reserve.text = currentAmmo[gunID].ToString();
-    }
-
-    [ServerRpc]
-    private void UpdateAmmo_ServerRpc(bool updateReserve = true)
-    {
-        text_ammo.text = bulletsLoaded[gunID].ToString();
-        if (updateReserve)
-            text_reserve.text = currentAmmo[gunID].ToString();
-        UpdateAmmo_ClientRpc(updateReserve);
-    }
-
-    [ClientRpc]
-    private void UpdateAmmo_ClientRpc(bool updateReserve = true)
     {
         text_ammo.text = bulletsLoaded[gunID].ToString();
         if (updateReserve)
@@ -168,75 +151,6 @@ public class Gun : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
-    public void Shoot_ServerRpc()
-    {
-        if (!IsServer)
-            return;
-        if (isReloading[gunID])
-            return;
-
-        if (!inCooldown[gunID] && bulletsLoaded[gunID] > 0)
-        {
-            // Comece cooldown, se aplicável
-            bulletsLoaded[gunID] -= 1;
-            if (guns[gunID].shotCooldown > 0)
-            {
-                inCooldown[gunID] = true;
-                StartCoroutine("Cooldown");
-            }
-            // Crie a bala
-            Bullet bullet = Instantiate(
-                guns[gunID].bulletPrefab,
-                bulletPoint.transform.position,
-                bulletPoint.transform.rotation
-            );
-            NetworkObject netBullet = bullet.GetComponent<NetworkObject>();
-            netBullet.Spawn();
-            // Defina o spread com números aleatórios e acelere a bala com seu rigidbody. Destrua a bala após 2 segundos.
-            deviation.x = Random.Range(-spread, spread) / 10;
-            deviation.y = Random.Range(-spread, spread) / 10;
-            bullet.rb.AddForce(
-                (transform.forward + transform.right * deviation.x + transform.up * deviation.y)
-                    * guns[gunID].bulletSpeed
-            );
-            Rigidbody rbBullet = bullet.GetComponent<Rigidbody>();
-            rbBullet.isKinematic = false;
-
-            bullet.owner = playerObject;
-
-            Destroy(bullet.gameObject, 5);
-
-            spread = Mathf.Min(spread + guns[gunID].spreadIncrease, guns[gunID].maxSpread);
-            // Atualize nosso número de balas na UI e, se aplicável, toque o barulho de tiro com pitch aleatório
-            if (IsOwner)
-            {
-                UpdateAmmo_ServerRpc(false);
-                if (teamData == null)
-                {
-                    teamData = playerObject.GetComponent<PlayerOnline>().GetTeam();
-                }
-                teamTag = teamData.teamTag;
-                networkTeamTag.Value = teamTag;
-            }
-            else
-            {
-                teamTag = networkTeamTag.Value;
-            }
-            bullet.teamTag = teamTag;
-            shotSound.pitch = Random.Range(0.9f, 1.1f);
-            if (oneSound)
-                shotSound.Play();
-            else if (guns[gunID].firingSounds.Length > 0)
-            {
-                shotSound.clip = guns[gunID].firingSounds[
-                    Random.Range(0, guns[gunID].firingSounds.Length)
-                ];
-                shotSound.Play();
-            }
-        }
-    }
-
     public void Reload()
     {
         if (bulletsLoaded[gunID] == guns[gunID].clip)
@@ -256,30 +170,7 @@ public class Gun : NetworkBehaviour
         currentAmmo[gunID] -= ammoAdded;
         UpdateAmmo();
     }
-
-    [ServerRpc]
-    public void Reload_ServerRpc()
-    {
-        if (bulletsLoaded[gunID] == guns[gunID].clip)
-            return;
-        if (currentAmmo[gunID] <= 0)
-        {
-            currentAmmo[gunID] = 0;
-            return;
-        }
-
-        int ammoAdded = bulletsLoaded[gunID];
-        bulletsLoaded[gunID] =
-            currentAmmo[gunID] - guns[gunID].clip >= 0
-                ? guns[gunID].clip
-                : bulletsLoaded[gunID] + currentAmmo[gunID];
-        ammoAdded = bulletsLoaded[gunID] - ammoAdded;
-        currentAmmo[gunID] -= ammoAdded;
-        if (IsOwner)
-        {
-            UpdateAmmo_ServerRpc();
-        }
-    }
+   
 
     void Update()
     {
@@ -315,15 +206,5 @@ public class Gun : NetworkBehaviour
             gunID = 0;
         AcquireWeapon(gunID, true);
         UpdateAmmo();
-    }
-
-    [ServerRpc]
-    public void SwapGun_ServerRpc()
-    {
-        gunID++;
-        if (gunID == guns.Length)
-            gunID = 0;
-        AcquireWeapon(gunID, true);
-        UpdateAmmo();
-    }
+}
 }

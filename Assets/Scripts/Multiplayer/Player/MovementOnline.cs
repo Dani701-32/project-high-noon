@@ -44,7 +44,9 @@ public class MovementOnline : NetworkBehaviour
 
     void Update()
     {
+        //Apenas o dono pode movimentar o player
         if (!IsOwner) return;
+
         grounded = Physics.Raycast(
             transform.position,
             Vector3.down,
