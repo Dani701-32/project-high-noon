@@ -101,7 +101,6 @@ public class GunOnline : NetworkBehaviour
     [ClientRpc]
     private void UpdateAmmo_ClientRpc(int ammo, int reserve, int gunId)
     {
-        Debug.Log(ammo);
         bulletsLoaded[gunId] = ammo;
         currentAmmo[gunId] = reserve;
         textAmmo.text = ammo.ToString();
@@ -160,6 +159,7 @@ public class GunOnline : NetworkBehaviour
 
         //Criar Bala
         Bullet bullet = Instantiate(guns[gunId].bulletPrefab, bulletPoint.position, bulletPoint.rotation);
+        bullet.teamTag.Value = player.GetTeam().teamTag;
         //Spawna a bala nos clientes
         NetworkObject netBullet = bullet.GetComponent<NetworkObject>();
         netBullet.Spawn();

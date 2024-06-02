@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Unity.VisualScripting;
 
 public class Bullet : NetworkBehaviour
 {
@@ -16,7 +17,7 @@ public class Bullet : NetworkBehaviour
     public LayerMask playerLayer;
     public GameObject owner;
     public int damage = 1;
-    public char teamTag; 
+    public NetworkVariable<char> teamTag = new NetworkVariable<char>();
 
     private IEnumerator TrailGone()
     {
@@ -29,18 +30,16 @@ public class Bullet : NetworkBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if ((((1 << other.gameObject.layer) & playerLayer) != 0) && IsServer)
-        {
-            col.enabled = false;
-            rb.velocity = rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = true;
-            StartCoroutine("TrailGone");
+        
 
-            if(other.CompareTag("Player") && other.TryGetComponent<PlayerOnline>(out PlayerOnline playerHit)){
+        if(other.CompareTag("Player")){
+            PlayerOnline playerHit = other.GetComponentInParent<PlayerOnline>();    
 
+            if(IsOwner)
+            {
                 Debug.Log(playerHit.GetTeam().teamTag);
-                if(playerHit.GetTeam().teamTag != teamTag){
-                    playerHit.Damage_ServerRpc(); 
+                if(playerHit.GetTeam().teamTag != teamTag.Value){
+                    playerHit.Damage(damage); 
                 }
             }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.UI;
 
 public class PlayerOnline : NetworkBehaviour
 {
@@ -22,32 +23,25 @@ public class PlayerOnline : NetworkBehaviour
 
     [SerializeField]
     private MovementOnline movementOnline;
-
-    [SerializeField]
-    private Camera _camera;
+    [SerializeField] private Camera _camera;
     Transform spawnPoint;
-
-    [SerializeField, ReadOnly]
-    bool _hasFlag;
+    [SerializeField, ReadOnly] bool _hasFlag;
 
     [Header("PlayerStatus")]
-    [SerializeField, ReadOnly]
-    private float health = 100f;
-
-    [SerializeField, ReadOnly]
-    private NetworkVariable<float> networkHealth = new NetworkVariable<float>();
-    public NetworkVariable<bool> canMove = new NetworkVariable<bool>();
-
+    [SerializeField, ReadOnly] private float health = 10f;
+    [SerializeField, ReadOnly] private float maxHealth = 10f;
+    [SerializeField] private Slider sliderHealth;
     public override void OnNetworkSpawn()
     {
         teamData = MultiplayerManager.Instance.GetTeamData(this);
         transform.position = spawnPoint.position;
+        sliderHealth.maxValue = maxHealth;
+        sliderHealth.value = health;
         if (!IsOwner)
             return;
         playerCanvas.SetActive(true);
         _camera.enabled = true;
         _camera.gameObject.GetComponent<AudioListener>().enabled = true;
-        canMove.Value = true;
         health = 100f;
         base.OnNetworkSpawn();
     }
@@ -57,10 +51,7 @@ public class PlayerOnline : NetworkBehaviour
         if (IsOwner)
         {
             playerCanvas.SetActive(true);
-            
-        }
-        if(IsServer){
-            canMove.Value = true;
+
         }
         transform.position = MultiplayerManager.Instance.defaultPos.position;
         if (teamData != null)
@@ -71,15 +62,7 @@ public class PlayerOnline : NetworkBehaviour
 
     private void Update()
     {
-        if (IsServer)
-        {
-            networkHealth.Value = health;
-        }
-        else
-        {
-            health = networkHealth.Value;
-            movementOnline.canMove = canMove.Value;
-        }
+
     }
 
     public bool hasFlag
@@ -115,18 +98,31 @@ public class PlayerOnline : NetworkBehaviour
             flagCarryEffects.SetActive(!hasFlag);
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
     }
+    public void Damage(float damage)
+    {
+        if (!IsOwner) return;
+
+        Damage_ServerRpc(damage);
+    }
 
     [ServerRpc]
-    public void Damage_ServerRpc()
+    private void Damage_ServerRpc(float damage)
     {
-        Debug.Log("Dano");
+        health -= damage;
+        sliderHealth.value = health;
+        Damage_ClientRpc(health);
+    }
+    [ClientRpc]
+    private void Damage_ClientRpc(float health)
+    {
+        this.health = health;
+        sliderHealth.value = health;
     }
 
     [ServerRpc]
     public void Die_ServerRpc()
     {
         Debug.Log("Morreu");
-        canMove.Value = false;
         model.SetActive(false);
         transform.position = spawnPoint.position;
         transform.rotation = spawnPoint.rotation;
@@ -150,10 +146,6 @@ public class PlayerOnline : NetworkBehaviour
         if (this != null)
         {
             model.SetActive(true);
-            if (NetworkManager.Singleton.IsServer)
-            {
-                canMove.Value = true;
-            }
             AcetivePlayer_ClientRpc();
         }
     }
