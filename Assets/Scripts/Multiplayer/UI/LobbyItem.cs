@@ -24,6 +24,7 @@ public class LobbyItem : MonoBehaviour
 
     [SerializeField]
     private TMP_Text textGameMode;
+    [SerializeField] private GameObject buttonJoin; 
 
     private void Start()
     {
@@ -44,6 +45,7 @@ public class LobbyItem : MonoBehaviour
         textName.text = nameLobby;
         textPlayers.text = $"{countPlayers}/{maxPlayers}";
         textGameMode.text = gameMode;
+         buttonJoin.SetActive(countPlayers < maxPlayers);
     }
 
     public void JoinLobby()
