@@ -62,6 +62,9 @@ public class Gun : NetworkBehaviour
     bool[] inCooldown;
     bool[] isReloading;
     bool oneSound;
+    public TeamData teamData;
+    public char teamTag;
+    public NetworkVariable<char> networkTeamTag = new NetworkVariable<char>();
 
     void Start()
     {
@@ -207,7 +210,20 @@ public class Gun : NetworkBehaviour
             spread = Mathf.Min(spread + guns[gunID].spreadIncrease, guns[gunID].maxSpread);
             // Atualize nosso número de balas na UI e, se aplicável, toque o barulho de tiro com pitch aleatório
             if (IsOwner)
+            {
                 UpdateAmmo_ServerRpc(false);
+                if (teamData == null)
+                {
+                    teamData = playerObject.GetComponent<PlayerOnline>().GetTeam();
+                }
+                teamTag = teamData.teamTag;
+                networkTeamTag.Value = teamTag;
+            }
+            else
+            {
+                teamTag = networkTeamTag.Value;
+            }
+            bullet.teamTag = teamTag;
             shotSound.pitch = Random.Range(0.9f, 1.1f);
             if (oneSound)
                 shotSound.Play();
