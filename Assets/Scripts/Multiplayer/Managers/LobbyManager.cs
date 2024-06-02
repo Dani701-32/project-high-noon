@@ -23,7 +23,6 @@ public class LobbyManager : MonoBehaviour
     private float heartbeatTimerMax = 15f;
     private float lobbyUpdateTimer;
     private float lobbyUpdateTimerMax = 1.1f;
-    private bool isPartyHost = false;
     private string KEY_GAME_MODE = "GameMode";
     private string KEY_START_GAME = "GameStarted";
 
@@ -289,7 +288,6 @@ public class LobbyManager : MonoBehaviour
         Debug.Log(lobby.Players.Count);
         foreach (Player player in lobby.Players)
         {
-            Debug.Log(player.Id);
             lobbyUiManager.AddPlayer(player.Id, player.Data["PlayerName"].Value);
         }
     }
