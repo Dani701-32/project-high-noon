@@ -4,11 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class GunController : NetworkBehaviour
+public class GunController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject gunSpot;
-
     [SerializeField]
     private Gun currentWeapon;
     bool auto;
@@ -16,11 +13,8 @@ public class GunController : NetworkBehaviour
 
     void Start()
     {
-        if (IsOwner)
-        {
-            UpdateStats();
-        }
-        gameManager = GameManager.Instance ?? null;
+        UpdateStats();
+        gameManager = GameManager.Instance;
     }
 
     void Update()
@@ -40,9 +34,11 @@ public class GunController : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            print("got input");
-            currentWeapon.SwapGun();
-            UpdateStats();
+            if (!currentWeapon.gunLocked)
+            {
+                currentWeapon.SwapGun();
+                UpdateStats();
+            }
         }
     }
 
