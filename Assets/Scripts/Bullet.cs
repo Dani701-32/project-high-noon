@@ -30,7 +30,7 @@ public class Bullet : NetworkBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject == owner) return;
 
         if(other.CompareTag("Player")){
             PlayerOnline playerHit = other.GetComponentInParent<PlayerOnline>();    

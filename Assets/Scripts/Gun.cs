@@ -6,11 +6,8 @@ using UnityEngine;
 using Unity.Netcode;
 using Random = UnityEngine.Random;
 
-public class Gun : NetworkBehaviour
+public class Gun : MonoBehaviour
 {
-    //ServerRPC é uma função que Apenas funciona no servidor
-    //ClienteRPC é uma função que só o servidor pode chamar mas que roda em todos os clientes
-
     [Header("References")]
     [SerializeField]
     private GameObject bulletPoint;
@@ -62,9 +59,12 @@ public class Gun : NetworkBehaviour
 
     [SerializeField, ReadOnly]
     int[] currentAmmo;
+    [SerializeField, ReadOnly]
     bool[] inCooldown;
+    [SerializeField, ReadOnly]
     bool[] isReloading;
     bool oneSound;
+    public bool gunLocked;
 
     void Start()
     {
@@ -78,6 +78,7 @@ public class Gun : NetworkBehaviour
             AcquireWeapon(i);
         }
         UpdateAmmo();
+        AcquireWeapon(0, true);
     }
 
     public void AcquireWeapon(int slot, bool swap = false)
@@ -102,7 +103,9 @@ public class Gun : NetworkBehaviour
 
     private IEnumerator Cooldown()
     {
+        gunLocked = true;
         yield return new WaitForSeconds(guns[gunID].shotCooldown);
+        gunLocked = false;
         inCooldown[gunID] = false;
     }
 
@@ -120,22 +123,27 @@ public class Gun : NetworkBehaviour
                 inCooldown[gunID] = true;
                 StartCoroutine("Cooldown");
             }
-            // Crie a bala
-            Bullet bullet = Instantiate(
-                guns[gunID].bulletPrefab,
-                bulletPoint.transform.position,
-                bulletPoint.transform.rotation
-            );
-            // Defina o spread com números aleatórios e acelere a bala com seu rigidbody. Destrua a bala após 2 segundos.
-            deviation.x = Random.Range(-spread, spread) / 10;
-            deviation.y = Random.Range(-spread, spread) / 10;
-            bullet.rb.AddForce(
-                (transform.forward + transform.right * deviation.x + transform.up * deviation.y)
+
+            for (int i = 0; i < guns[gunID].bulletPerShot; i++)
+            {
+                // Crie a bala
+                Bullet bullet = Instantiate(
+                    guns[gunID].bulletPrefab,
+                    bulletPoint.transform.position,
+                    bulletPoint.transform.rotation
+                );
+                // Defina o spread com números aleatórios e acelere a bala com seu rigidbody. Destrua a bala após 2 segundos.
+                deviation.x = Random.Range(-spread, spread) / 10;
+                deviation.y = Random.Range(-spread, spread) / 10;
+                bullet.rb.isKinematic = false;
+                bullet.rb.AddForce(
+                    (transform.forward + transform.right * deviation.x + transform.up * deviation.y)
                     * guns[gunID].bulletSpeed
-            );
-            bullet.owner = playerObject;
-            Destroy(bullet.gameObject, 5);
-            spread = Mathf.Min(spread + guns[gunID].spreadIncrease, guns[gunID].maxSpread);
+                );
+                bullet.owner = playerObject;
+                Destroy(bullet.gameObject, 5);
+                spread = Mathf.Min(spread + guns[gunID].spreadIncrease, guns[gunID].maxSpread);
+            }
             // Atualize nosso número de balas na UI e, se aplicável, toque o barulho de tiro com pitch aleatório
             UpdateAmmo(false);
             shotSound.pitch = Random.Range(0.9f, 1.1f);

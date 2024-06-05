@@ -15,6 +15,7 @@ public class GunData : ScriptableObject
     public Bullet bulletPrefab;
     public float bulletSpeed = 10000;
     public int bulletDamage = 1;
+    public int bulletPerShot = 1;
     
     [Header("Sounds")]
     public AudioClip[] firingSounds;

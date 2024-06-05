@@ -17,9 +17,6 @@ public class TPSCamera : MonoBehaviour
     [SerializeField]
     GameObject camParent;
 
-    [SerializeField]
-    Transform orientation;
-
     //[SerializeField] Transform body;
 
     [Header("Angles")]
@@ -64,9 +61,12 @@ public class TPSCamera : MonoBehaviour
         if (canMove)
         {
             yaw += -Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
-            pitch += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
+            pitch = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
             yaw = Mathf.Clamp(yaw, maxLookUpAngle, maxLookDownAngle);
             pitch = Mathf.Clamp(pitch, -maxTurnAngle - 0.5f, maxTurnAngle + 0.5f);
+            
+            camParent.transform.localRotation = Quaternion.Euler(yaw, 0, 0);
+            transform.Rotate(0, pitch, 0);
         }
     }
 
@@ -74,60 +74,14 @@ public class TPSCamera : MonoBehaviour
     {
         if (!canMove || matchIsOver)
             return;
-        camParent.transform.localRotation = Quaternion.Euler(yaw, pitch, 0);
-        orientation.rotation = Quaternion.Euler(0, myCamera.transform.rotation.eulerAngles.y, 0);
-
         //body.rotation = orientation.rotation;
 
         //angleDiff = Mathf.DeltaAngle(transform.rotation.eulerAngles.y, camParent.transform.rotation.eulerAngles.y);
         //if ((angleDiff > maxTurnAngle || angleDiff < -maxTurnAngle) && Input.GetAxis("Mouse X") != 0)
         //{
-        transform.Rotate(0, Input.GetAxis("Mouse X") * (sensitivity * 0.011f), 0);
+        
         //}
     }
-
-#if UNITY_EDITOR
-    void OnDrawGizmos()
-    {
-        float gizmoDist = 1;
-        float gizmoThickness = 8;
-
-        Transform[] transforms = { transform, orientation };
-        int i = 1;
-        foreach (Transform trans in transforms)
-        {
-            Vector3 pos = trans.position + Vector3.up;
-            Handles.DrawBezier(
-                pos,
-                pos + trans.forward * gizmoDist,
-                pos,
-                pos + trans.forward * gizmoDist,
-                Color.blue * i,
-                null,
-                gizmoThickness
-            );
-            Handles.DrawBezier(
-                pos,
-                pos + trans.up * gizmoDist,
-                pos,
-                pos + trans.up * gizmoDist,
-                Color.green * i,
-                null,
-                gizmoThickness
-            );
-            Handles.DrawBezier(
-                pos,
-                pos + trans.right * gizmoDist,
-                pos,
-                pos + trans.right * gizmoDist,
-                Color.red * i,
-                null,
-                gizmoThickness
-            );
-            i++;
-        }
-    }
-#endif
 
     private IEnumerator WaitForStart()
     {
