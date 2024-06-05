@@ -5185,7 +5185,7 @@ Transform:
   m_GameObject: {fileID: 6859902248314406311}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.35, y: 2.54, z: 133.32}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5234,7 +5234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 377743609
+  GlobalObjectIdHash: 3506581875
   InScenePlacedSourceGlobalObjectIdHash: 3946469069
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -5322,11 +5322,8 @@ MonoBehaviour:
   _camera: {fileID: 3571367267937191691}
   _hasFlag: 0
   health: 100
+  maxHealth: 10
   sliderHealth: {fileID: 4114415068505537719}
-  networkHealth:
-    m_InternalValue: 0
-  canMove:
-    m_InternalValue: 0
 --- !u!114 &2041443311578922717
 MonoBehaviour:
   m_ObjectHideFlags: 0

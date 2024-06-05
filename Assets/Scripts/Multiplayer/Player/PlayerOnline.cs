@@ -34,7 +34,6 @@ public class PlayerOnline : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         teamData = MultiplayerManager.Instance.GetTeamData(this);
-        transform.position = spawnPoint.position;
         sliderHealth.maxValue = maxHealth;
         sliderHealth.value = health;
         if (!IsOwner)
@@ -53,7 +52,6 @@ public class PlayerOnline : NetworkBehaviour
             playerCanvas.SetActive(true);
 
         }
-        transform.position = MultiplayerManager.Instance.defaultPos.position;
         if (teamData != null)
         {
             model.GetComponent<MeshRenderer>().material = teamData.teamEquipMaterial;
