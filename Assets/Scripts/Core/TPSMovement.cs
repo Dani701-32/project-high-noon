@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class TPSMovement : MonoBehaviour
@@ -7,23 +8,24 @@ public class TPSMovement : MonoBehaviour
     Vector3 moveDir;
     Rigidbody rb;
 
-    [SerializeField]
-    Transform orientation;
+    [SerializeField] Transform orientation;
+    [SerializeField] TEMP_PlayerStats stats;
     Transform spawnPoint;
 
     [Header("Movement")]
-    public float speed;
+    public float maxSpeed;
     public float groundDrag;
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
     public float extraGravityForce;
+    public float focusSpeedDiv = 1;
+    float speed;
     bool canJump;
 
     [Header("Ground check")]
     public float playerHeight;
     public LayerMask groundLayer;
-    bool grounded;
 
     [Header("Debug")]
     public bool canMove = true;
@@ -33,18 +35,20 @@ public class TPSMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         canJump = true;
+        speed = maxSpeed;
     }
 
     void Update()
     {
-        grounded = Physics.Raycast(
+        stats.grounded = Physics.Raycast(
             transform.position,
             Vector3.down,
             playerHeight * 0.5f + 0.2f,
             groundLayer
         );
+        speed = Mathf.Lerp(maxSpeed, maxSpeed / focusSpeedDiv, stats.focusInterp);
         SpeedClamp();
-        rb.drag = grounded ? groundDrag : 0;
+        rb.drag = stats.grounded ? groundDrag : 0;
         if (transform.position.y < -1 && !fixer)
         {
             Debug.Log("Teste");
@@ -55,12 +59,15 @@ public class TPSMovement : MonoBehaviour
 
         if (!canMove || GameManager.Instance.MatchOver)
             return;
+        
+        
+        
         InputUpdate();
     }
 
     void FixedUpdate()
     {
-        if (!grounded)
+        if (!stats.grounded)
             rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
 
         if (!canMove || GameManager.Instance.MatchOver)
@@ -73,7 +80,7 @@ public class TPSMovement : MonoBehaviour
         horiInput = Input.GetAxisRaw("Horizontal");
         vertInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.Space) && canJump && grounded)
+        if (Input.GetKeyDown(KeyCode.Space) && canJump && stats.grounded && !stats.focused)
         {
             canJump = false;
             Jump();
@@ -84,7 +91,7 @@ public class TPSMovement : MonoBehaviour
     void MovePlayer()
     {
         moveDir = orientation.forward * vertInput + orientation.right * horiInput;
-        if (grounded)
+        if (stats.grounded)
             rb.AddForce(moveDir.normalized * speed, ForceMode.VelocityChange);
         else
             rb.AddForce(moveDir.normalized * speed * airMultiplier, ForceMode.VelocityChange);

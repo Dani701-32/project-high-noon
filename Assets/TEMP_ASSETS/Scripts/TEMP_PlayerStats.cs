@@ -13,13 +13,19 @@ public class TEMP_PlayerStats : MonoBehaviour
     [SerializeField]
     GameObject flagCarryEffects;
 
-    //public int HP = 100;
-    [SerializeField]
-    GameObject model;
+    [Header("Stats")]
+    [ReadOnly] public int HP = 100;
+    [ReadOnly] public float focusInterp;
+    [SerializeField] GameObject model;
 
-    //private int HPMax = 100;
+    [SerializeField]
+    private int HPMax = 100;
     [SerializeField, ReadOnly]
     bool _hasFlag;
+    [ReadOnly]
+    public bool focused;
+    [ReadOnly] 
+    public bool grounded;
 
     private void Start()
     {
