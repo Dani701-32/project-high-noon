@@ -28,18 +28,31 @@ public class MovementOnline : NetworkBehaviour
     public LayerMask groundLayer;
     bool grounded;
 
+    [Header("Animator")]
+    [SerializeField, ReadOnly] private Animator animator;
+    private int inputxHash = Animator.StringToHash("X");
+    private int inputYHash = Animator.StringToHash("Y");
+
     [Header("Debug")]
     public bool canMove = true;
     private bool fixer = false;
     private bool matchOver = false;
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
         if (IsOwner)
         {
             rb = GetComponent<Rigidbody>();
+            animator = GetComponent<Animator>();
             canJump = true;
         }
+
+        base.OnNetworkSpawn();
+    }
+
+    void Start()
+    {
+
     }
 
     void Update()
@@ -72,7 +85,7 @@ public class MovementOnline : NetworkBehaviour
     {
         if (IsOwner)
         {
-            matchOver =  MultiplayerManager.Instance.MatchOver ;
+            matchOver = MultiplayerManager.Instance.MatchOver;
             if (!grounded)
                 rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
 
@@ -91,6 +104,9 @@ public class MovementOnline : NetworkBehaviour
         {
             horiInput = Input.GetAxisRaw("Horizontal");
             vertInput = Input.GetAxisRaw("Vertical");
+
+            animator.SetFloat(inputxHash, horiInput);
+            animator.SetFloat(inputYHash, vertInput);
 
             if (Input.GetKeyDown(KeyCode.Space) && canJump && grounded)
             {

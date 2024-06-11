@@ -52,10 +52,6 @@ public class PlayerOnline : NetworkBehaviour
             playerCanvas.SetActive(true);
 
         }
-        if (teamData != null)
-        {
-            model.GetComponent<MeshRenderer>().material = teamData.teamEquipMaterial;
-        }
     }
 
     private void Update()
