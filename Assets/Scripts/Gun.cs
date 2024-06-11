@@ -137,14 +137,16 @@ public class Gun : MonoBehaviour
                 deviation.y = Random.Range(-spread, spread) / 10;
                 bullet.rb.isKinematic = false;
                 bullet.rb.AddForce(
-                    (transform.forward + transform.right * deviation.x + transform.up * deviation.y)
+                    (bulletPoint.transform.forward +
+                     bulletPoint.transform.right * deviation.x + 
+                     bulletPoint.transform.up * deviation.y)
                     * guns[gunID].bulletSpeed
                 );
                 bullet.owner = playerObject;
                 Destroy(bullet.gameObject, 5);
-                spread = Mathf.Min(spread + guns[gunID].spreadIncrease, guns[gunID].maxSpread);
             }
-            // Atualize nosso número de balas na UI e, se aplicável, toque o barulho de tiro com pitch aleatório
+            // Atualize nosso número de balas na UI e, se aplicável, toque o barulho de tiro com pitch aleatório e aumente o spread
+            spread = Mathf.Min(spread + guns[gunID].spreadIncrease, guns[gunID].maxSpread);
             UpdateAmmo(false);
             shotSound.pitch = Random.Range(0.9f, 1.1f);
             if (oneSound)
@@ -185,7 +187,7 @@ public class Gun : MonoBehaviour
         center = new Ray(cam.transform.position, cam.transform.forward);
         aimPoint = center.GetPoint(100);
         transform.parent.LookAt(aimPoint + Vector3.up * 3, Vector3.up);
-        aimSprite.transform.position = center.GetPoint(8);
+        aimSprite.transform.position = center.GetPoint(8) + aimSprite.transform.right * aimLeftRightTweak;
 
         accuracySprite.transform.localScale = Vector3.one * (spread + 0.25f);
     }

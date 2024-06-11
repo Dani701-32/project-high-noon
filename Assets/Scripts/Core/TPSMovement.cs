@@ -1,4 +1,3 @@
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class TPSMovement : MonoBehaviour
@@ -24,12 +23,13 @@ public class TPSMovement : MonoBehaviour
     bool canJump;
 
     [Header("Ground check")]
-    public float playerHeight;
-    public LayerMask groundLayer;
+    [SerializeField] float sphereRadius = 1;
+    [SerializeField] Transform groundCheckPos;
+    Collider[] gCol = new Collider[10];
 
     [Header("Debug")]
     public bool canMove = true;
-    private bool fixer = false;
+    bool fixer = false;
 
     void Start()
     {
@@ -40,18 +40,13 @@ public class TPSMovement : MonoBehaviour
 
     void Update()
     {
-        stats.grounded = Physics.Raycast(
-            transform.position,
-            Vector3.down,
-            playerHeight * 0.5f + 0.2f,
-            groundLayer
-        );
+        CheckGround();
+        
         speed = Mathf.Lerp(maxSpeed, maxSpeed / focusSpeedDiv, stats.focusInterp);
         SpeedClamp();
         rb.drag = stats.grounded ? groundDrag : 0;
         if (transform.position.y < -1 && !fixer)
         {
-            Debug.Log("Teste");
             fixer = true;
             transform.position = spawnPoint.position;
             return;
@@ -59,8 +54,6 @@ public class TPSMovement : MonoBehaviour
 
         if (!canMove || GameManager.Instance.MatchOver)
             return;
-        
-        
         
         InputUpdate();
     }
@@ -109,12 +102,33 @@ public class TPSMovement : MonoBehaviour
 
     void Jump()
     {
+        rb.drag = 0;
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-        rb.AddForce(orientation.up * jumpForce, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
     }
 
     void ResetJump()
     {
         canJump = true;
+    }
+
+    void CheckGround()
+    {
+        int numCol = Physics.OverlapSphereNonAlloc(groundCheckPos.position, sphereRadius, gCol);
+        bool found = false;
+        for (int i = 0; i < numCol; i++)
+        {
+            if (gCol[i].gameObject.layer == 3)
+            {
+                found = true;
+                break;
+            }
+        }
+        stats.grounded = found && canJump;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(groundCheckPos.position, sphereRadius/2);
     }
 }
