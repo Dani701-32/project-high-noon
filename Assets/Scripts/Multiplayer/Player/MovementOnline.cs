@@ -14,14 +14,18 @@ public class MovementOnline : NetworkBehaviour
     Transform orientation;
     Transform spawnPoint;
 
-    [Header("Movement")]
+     [Header("Movement")]
+    public float maxSpeed;
     public float speed;
     public float groundDrag;
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
     public float extraGravityForce;
+    public float focusSpeedDiv = 1;
+    public float focusInterp;
     bool canJump;
+    public bool focused;
 
     [Header("Ground check")]
     public float playerHeight;
@@ -32,6 +36,10 @@ public class MovementOnline : NetworkBehaviour
     [SerializeField, ReadOnly] private Animator animator;
     private int inputxHash = Animator.StringToHash("X");
     private int inputYHash = Animator.StringToHash("Y");
+    [Header("Ground check")]
+    [SerializeField] float sphereRadius = 1;
+    [SerializeField] Transform groundCheckPos;
+    Collider[] gCol = new Collider[10];
 
     [Header("Debug")]
     public bool canMove = true;
@@ -61,24 +69,21 @@ public class MovementOnline : NetworkBehaviour
         //Apenas o dono pode movimentar o player
         if (!IsOwner) return;
 
-        grounded = Physics.Raycast(
-            transform.position,
-            Vector3.down,
-            playerHeight * 0.5f + 0.2f,
-            groundLayer
-        );
+        CheckGround(); 
+
+        speed = Mathf.Lerp(maxSpeed, maxSpeed / focusSpeedDiv, focusInterp);
         SpeedClamp();
         rb.drag = grounded ? groundDrag : 0;
         if (transform.position.y < -1 && !fixer)
         {
-            Debug.Log("Teste");
             fixer = true;
             transform.position = spawnPoint.position;
             return;
         }
 
-        if (!canMove || matchOver)
+        if (!canMove || MultiplayerManager.Instance.MatchOver)
             return;
+        
         InputUpdate();
     }
 
@@ -87,10 +92,11 @@ public class MovementOnline : NetworkBehaviour
         if (IsOwner)
         {
             matchOver = MultiplayerManager.Instance.MatchOver;
-            if (!grounded)
-                rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
 
-            if (!canMove || matchOver)
+            if (!grounded)
+            rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
+
+            if (!canMove || MultiplayerManager.Instance.MatchOver)
                 return;
             MovePlayer();
 
@@ -109,7 +115,7 @@ public class MovementOnline : NetworkBehaviour
             animator.SetFloat(inputxHash, horiInput);
             animator.SetFloat(inputYHash, vertInput);
 
-            if (Input.GetKeyDown(KeyCode.Space) && canJump && grounded)
+            if (Input.GetKeyDown(KeyCode.Space) && canJump && grounded && !focused)
             {
                 canJump = false;
                 Jump();
@@ -140,8 +146,9 @@ public class MovementOnline : NetworkBehaviour
 
     void Jump()
     {
+        rb.drag = 0;
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-        rb.AddForce(orientation.up * jumpForce, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
     }
 
     void ResetJump()
@@ -151,5 +158,23 @@ public class MovementOnline : NetworkBehaviour
     public void SetSpawn(Transform transformSpawn)
     {
         spawnPoint = transformSpawn;
+    }
+    void CheckGround()
+    {
+        int numCol = Physics.OverlapSphereNonAlloc(groundCheckPos.position, sphereRadius, gCol);
+        bool found = false;
+        for (int i = 0; i < numCol; i++)
+        {
+            if (gCol[i].gameObject.layer == 3)
+            {
+                found = true;
+                break;
+            }
+        }
+        grounded = found && canJump;
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(groundCheckPos.position, sphereRadius/2);
     }
 }

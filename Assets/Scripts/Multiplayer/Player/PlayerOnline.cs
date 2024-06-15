@@ -40,6 +40,7 @@ public class PlayerOnline : NetworkBehaviour
             return;
         playerCanvas.SetActive(true);
         _camera.enabled = true;
+        model.GetComponent<SkinnedMeshRenderer>().material.color = teamData.teamColor; 
         _camera.gameObject.GetComponent<AudioListener>().enabled = true;
         health = 100f;
         base.OnNetworkSpawn();

@@ -6740,6 +6740,37 @@ Transform:
   - {fileID: 6678805981407762357}
   m_Father: {fileID: 6116549144448173684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5563877633537660961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5060936515053341383}
+  m_Layer: 6
+  m_Name: GroundCheckPos
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5060936515053341383
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5563877633537660961}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7725768503613538794}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5644364908969388535
 GameObject:
   m_ObjectHideFlags: 0
@@ -8878,6 +8909,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5060936515053341383}
   - {fileID: 7278992578648509543}
   - {fileID: 8339784213879291973}
   - {fileID: 5789796501166775273}
@@ -8924,7 +8956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 377743609
+  GlobalObjectIdHash: 1081217511
   InScenePlacedSourceGlobalObjectIdHash: 3946469069
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -8965,17 +8997,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orientation: {fileID: 9166506370950342952}
+  maxSpeed: 5
   speed: 5.5
-  groundDrag: 15
+  groundDrag: 20
   jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0.25
   extraGravityForce: 10
+  focusSpeedDiv: 5
+  focusInterp: 0
+  focused: 0
   playerHeight: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   animator: {fileID: 0}
+  sphereRadius: 1
+  groundCheckPos: {fileID: 5060936515053341383}
   canMove: 1
 --- !u!114 &3352453945099070820
 MonoBehaviour:
@@ -9007,7 +9045,7 @@ MonoBehaviour:
   teamData: {fileID: 0}
   flagCarryObject: {fileID: 6631173785179650592}
   flagCarryEffects: {fileID: 601854355059027968}
-  model: {fileID: 7948850609228928733}
+  model: {fileID: 7506228205050788715}
   playerCanvas: {fileID: 6676432588917052655}
   movementOnline: {fileID: 8098087746679276235}
   _camera: {fileID: 3571367267937191691}
@@ -15701,9 +15739,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.3
-  m_Height: 1.8
+  m_Height: 1.87
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 0.88, z: 0}
 --- !u!1 &8805285273341460886
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,10 +30,15 @@ public class TPSMovement : MonoBehaviour
     [Header("Debug")]
     public bool canMove = true;
     bool fixer = false;
+    [Header("Animator")]
+    [SerializeField, ReadOnly] private Animator animator;
+    private int inputxHash = Animator.StringToHash("X");
+    private int inputYHash = Animator.StringToHash("Y");
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
         canJump = true;
         speed = maxSpeed;
     }
@@ -72,6 +77,9 @@ public class TPSMovement : MonoBehaviour
     {
         horiInput = Input.GetAxisRaw("Horizontal");
         vertInput = Input.GetAxisRaw("Vertical");
+        
+        animator.SetFloat(inputxHash, horiInput);
+        animator.SetFloat(inputYHash, vertInput);
 
         if (Input.GetKeyDown(KeyCode.Space) && canJump && stats.grounded && !stats.focused)
         {
