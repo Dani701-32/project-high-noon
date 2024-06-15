@@ -45,6 +45,7 @@ public class MovementOnline : NetworkBehaviour
             rb = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
             canJump = true;
+            transform.position = MultiplayerManager.Instance.defaultPos.position; 
         }
 
         base.OnNetworkSpawn();
@@ -52,7 +53,7 @@ public class MovementOnline : NetworkBehaviour
 
     void Start()
     {
-
+        transform.position = MultiplayerManager.Instance.defaultPos.position; 
     }
 
     void Update()
