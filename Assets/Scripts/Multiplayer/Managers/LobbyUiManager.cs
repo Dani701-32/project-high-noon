@@ -74,6 +74,9 @@ public class LobbyUiManager : MonoBehaviour
 
     [SerializeField, ReadOnly]
     private bool isLobbyHost = false;
+    [SerializeField, ReadOnly ] private bool isLobbyList = false; 
+    private float lobbyTimer = 1f; 
+    private float lobbyMaxTimer = 5f; 
 
     public static LobbyUiManager Instance
     {
@@ -88,6 +91,18 @@ public class LobbyUiManager : MonoBehaviour
     void Awake()
     {
         _instance = this;
+    }
+    void Update()
+    {
+        if(isLobbyList){
+            lobbyTimer -= Time.deltaTime;
+            if (lobbyTimer < 0f)
+            {
+                Debug.Log("rtwes");
+                lobbyTimer = lobbyMaxTimer;
+                RefreshList(); 
+            }
+        }
     }
 
     private void Start()
@@ -108,12 +123,14 @@ public class LobbyUiManager : MonoBehaviour
     public void OpenListLobbies()
     {
         RefreshList();
+        isLobbyList = true; 
         listLobbyScreen.SetActive(true);
     }
 
     public void CloseListLobbies()
     {
         listLobbyScreen.SetActive(false);
+        isLobbyList = false; 
     }
 
     public void RefreshList()
@@ -230,6 +247,7 @@ public class LobbyUiManager : MonoBehaviour
         lobbyIsOpen = false;
         openLobbyPopUp.SetActive(false);
         lobbyManager.LeaveLobby();
+        isLobbyList = true;
         RefreshList();
         listLobbyScreen.SetActive(true);
     }
