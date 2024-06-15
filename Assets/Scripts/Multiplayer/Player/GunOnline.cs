@@ -164,6 +164,8 @@ public class GunOnline : NetworkBehaviour
         NetworkObject netBullet = bullet.GetComponent<NetworkObject>();
         netBullet.Spawn();
 
+        bullet.owner = player.gameObject;  
+
         deviation.x = Random.Range(-spread, spread) / 10;
         deviation.y = Random.Range(-spread, spread) / 10;
         bullet.rb.AddForce((transform.forward + transform.right * deviation.x + transform.up * deviation.y) * guns[gunId].bulletSpeed);

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
-using Unity.VisualScripting;
 
 public class Bullet : NetworkBehaviour
 {
@@ -32,19 +31,23 @@ public class Bullet : NetworkBehaviour
     {
         if (other.gameObject == owner) return;
 
-        if(other.CompareTag("Player")){
-            PlayerOnline playerHit = other.GetComponentInParent<PlayerOnline>();    
-
-            if(IsOwner)
+        if (other.CompareTag("Player"))
+        {
+            PlayerOnline playerHit = other.GetComponentInParent<PlayerOnline>();
+            Debug.Log("Teste");
+            if (IsOwner)
             {
+                PlayerOnline ownerPlayer = owner.GetComponentInParent<PlayerOnline>();
                 Debug.Log(playerHit.GetTeam().teamTag);
-                if(playerHit.GetTeam().teamTag != teamTag.Value){
-                    playerHit.Damage(damage); 
+                if (playerHit.GetTeam().teamTag != ownerPlayer.GetTeam().teamTag)
+                {
+                    playerHit.Damage(damage);
                 }
             }
 
-            if(IsServer){
-                Debug.Log("Teste"); 
+            if (IsServer)
+            {
+                Debug.Log("Teste");
                 Destroy(gameObject, 1);
             }
         }
@@ -54,7 +57,8 @@ public class Bullet : NetworkBehaviour
             rb.velocity = rb.angularVelocity = Vector3.zero;
             rb.isKinematic = true;
             StartCoroutine("TrailGone");
-            if(IsServer){
+            if (IsServer)
+            {
                 Destroy(gameObject, 1);
             }
         }
