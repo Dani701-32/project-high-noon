@@ -39,7 +39,7 @@ public class Bullet : NetworkBehaviour
             {
                 PlayerOnline ownerPlayer = owner.GetComponentInParent<PlayerOnline>();
                 Debug.Log(playerHit.GetTeam().teamTag);
-                if (playerHit.GetTeam().teamTag != ownerPlayer.GetTeam().teamTag)
+                if (playerHit.GetTeam().teamTag != teamTag.Value)
                 {
                     playerHit.Damage(damage);
                 }
