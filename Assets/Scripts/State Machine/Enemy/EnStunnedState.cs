@@ -19,7 +19,11 @@ public class EnStunnedState : State
     public override State RunCurrentState()
     {
         if (!stunned)
+        {
+            if (!ChaseState && !LookingState) stateMachine.currentState = null;
             return stateMachine.trackingObject && stateMachine.trackingObject.activeInHierarchy ? ChaseState : LookingState;
+        }
+            
         
         return this;
     }

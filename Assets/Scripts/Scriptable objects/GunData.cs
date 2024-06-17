@@ -10,6 +10,8 @@ public class GunData : ScriptableObject
     public float minSpread;
     public float spreadIncrease;
     public float spreadRecovery;
+    public float focusSpreadDecrease = 0;
+    public float focusRecoveryIncrease = 0;
 
     [Header("Bullet stats")] 
     public Bullet bulletPrefab;
@@ -23,6 +25,7 @@ public class GunData : ScriptableObject
     
     [Header("Generic data")]
     public float shotCooldown;
+    public float focusShotCooldownExtra = 0;
     public float reloadTime;
     public int maxAmmo;
     public int clip;

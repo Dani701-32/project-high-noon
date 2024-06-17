@@ -9,20 +9,12 @@ using Random = UnityEngine.Random;
 public class Gun : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField]
-    private GameObject bulletPoint;
-
-    [SerializeField]
-    private GameObject aimSprite;
-
-    [SerializeField]
-    private GameObject accuracySprite;
-
-    [SerializeField]
-    private Camera cam;
-
-    [SerializeField]
-    private AudioSource shotSound;
+    [SerializeField] GameObject bulletPoint;
+    [SerializeField] GameObject aimSprite;
+    [SerializeField] GameObject accuracySprite;
+    [SerializeField] Camera cam;
+    [SerializeField] TEMP_PlayerStats playerStats;
+    [SerializeField] AudioSource shotSound;
 
     [SerializeField]
     GameObject playerObject;
@@ -50,6 +42,8 @@ public class Gun : MonoBehaviour
     RaycastHit hit;
     float aimDistance;
     float spread;
+    float focusSpread;
+    float focusCooldown;
 
     // Updating gun stats
     [SerializeField, ReadOnly]
@@ -83,6 +77,9 @@ public class Gun : MonoBehaviour
         }
         UpdateAmmo();
         AcquireWeapon(0, true);
+        
+        if(!playerStats)
+            Debug.LogError("PlayerStats não foi referenciado no componente Gun!");
     }
 
     public void AcquireWeapon(int slot, bool swap = false)
@@ -94,7 +91,7 @@ public class Gun : MonoBehaviour
         }
         spread = guns[slot].minSpread;
         oneSound = guns[slot].firingSounds.Length == 1;
-        if (oneSound)
+        if (oneSound && slot == gunID)
             shotSound.clip = guns[slot].firingSounds[0];
     }
 
@@ -108,7 +105,7 @@ public class Gun : MonoBehaviour
     private IEnumerator Cooldown()
     {
         gunLocked = true;
-        yield return new WaitForSeconds(guns[gunID].shotCooldown);
+        yield return new WaitForSeconds(guns[gunID].shotCooldown + focusCooldown);
         gunLocked = !events || events.greaterGunLock;
         inCooldown[gunID] = false;
     }
@@ -194,13 +191,16 @@ public class Gun : MonoBehaviour
         transform.parent.LookAt(aimPoint + Vector3.up * 3, Vector3.up);
         aimSprite.transform.position = center.GetPoint(8) + aimSprite.transform.right * aimLeftRightTweak;
 
-        accuracySprite.transform.localScale = Vector3.one * (spread + 0.25f);
+        accuracySprite.transform.localScale = Vector3.one * spread;
     }
 
     void FixedUpdate()
     {
-        if (spread > guns[gunID].minSpread)
-            spread = Mathf.Max(spread - guns[gunID].spreadRecovery / 20, guns[gunID].minSpread);
+        if (Math.Abs(spread - (guns[gunID].minSpread - focusSpread)) > 0.01f)
+            spread = Mathf.Max(spread - guns[gunID].spreadRecovery / 20, guns[gunID].minSpread - focusSpread);
+        bool focused = playerStats.focused;
+        focusCooldown = focused ? guns[gunID].focusShotCooldownExtra : 0;
+        focusSpread = focused ? guns[gunID].focusSpreadDecrease : 0;
     }
 
     public bool IsAuto()

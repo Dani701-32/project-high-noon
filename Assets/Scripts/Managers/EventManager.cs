@@ -23,7 +23,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    private void Awake()
+    void Awake()
     {
         _instance = this;
         playerCam = FindObjectOfType<TPSCamera>();
@@ -43,6 +43,10 @@ public class EventManager : MonoBehaviour
     }
 
     public void InfiniteAmmo(bool enable) { infiniteAmmo = enable; }
+    
+    public void ToggleFocus(bool enable) { playerCam.canFocus = enable; }
+    
+    public void ToggleCamera(bool enable) { playerCam.canMove = enable; }
 
     public void GiveNewGun(GunData gun)
     {
@@ -55,7 +59,12 @@ public class EventManager : MonoBehaviour
             playerGun.guns[playerGun.gunID] = gun;
             playerGun.AcquireWeapon(playerGun.gunID);
         }
+    }
 
+    public void ForceReleaseMouse()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
     
 }

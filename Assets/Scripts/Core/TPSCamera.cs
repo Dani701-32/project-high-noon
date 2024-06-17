@@ -36,6 +36,7 @@ public class TPSCamera : MonoBehaviour
     [Header("Debug and temporary values")]
     [Tooltip("O jogador está em jogo ou está ocupado com algo?")] // LEVAR ESSA VARIÁVEL PRO GAME MANAGER MAIS TARDE
     public bool canMove;
+    public bool canFocus = true;
     private bool matchIsOver;
 
     [SerializeField] Transform nearCamPos;
@@ -77,7 +78,7 @@ public class TPSCamera : MonoBehaviour
             camParent.transform.localRotation = Quaternion.Euler(yaw, 0, 0);
             transform.rotation = Quaternion.Euler(0, pitch, 0);
             
-            stats.focused = stats.grounded && Input.GetKey(teclaDeFoco);
+            stats.focused = canFocus && stats.grounded && Input.GetKey(teclaDeFoco);
             stats.focusInterp = Mathf.Clamp(stats.focusInterp + (stats.focused ? 1 : -1)*Time.deltaTime*fovChangeSpeed, 0, 1);
             
             cam.transform.localPosition =
