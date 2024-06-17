@@ -66,7 +66,7 @@ public class EnemyStateMachine : MonoBehaviour
         Bullet bull = other.GetComponent<Bullet>();
         if (bull)
         {
-            if (bull.owner && bull.owner.activeInHierarchy) 
+            if (bull.owner && bull.owner.activeInHierarchy && chasingState) 
                 trackingObject = bull.owner;
             HP -= bull.damage;
             Destroy(bull.gameObject);

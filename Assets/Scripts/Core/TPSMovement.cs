@@ -58,7 +58,11 @@ public class TPSMovement : MonoBehaviour
         }
 
         if (!canMove || GameManager.Instance.MatchOver)
+        {
+            animator.SetFloat(inputxHash, 0);
+            animator.SetFloat(inputYHash, 0);
             return;
+        }
         
         InputUpdate();
     }

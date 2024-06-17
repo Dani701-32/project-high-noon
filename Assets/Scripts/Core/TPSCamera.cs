@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
@@ -41,6 +42,13 @@ public class TPSCamera : MonoBehaviour
     [SerializeField] Transform farCamPos;
     [SerializeField] float fovChangeSpeed;
 
+    void Awake()
+    {
+        // Eu não sei explicar que porra que tá rolando aqui mas normalmente começar o char em qualquer ângulo fora 0 no Y quebra tudo
+        // Coloquei isso aqui e tudo foi resolvido. EU NÃO SEI O MOTIVO.
+        transform.rotation = Quaternion.identity;
+    }
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -80,6 +88,7 @@ public class TPSCamera : MonoBehaviour
     private IEnumerator WaitForStart()
     {
         yield return new WaitForSeconds(0.5f);
+        pitch = transform.eulerAngles.y;
         canMove = true;
     }
 }

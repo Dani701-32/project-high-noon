@@ -33,8 +33,11 @@ public class ZombieAnim : MonoBehaviour
 
     void FixedUpdate()
     {
-        lerp = Mathf.Lerp(lerp, esm.currentState == chaseState ? 1 : 0, Time.deltaTime * animationBlendSpeed);
-        anim.SetFloat(runID, lerp);
+        if (chaseState)
+        {
+            lerp = Mathf.Lerp(lerp, esm.currentState == chaseState ? 1 : 0, Time.deltaTime * animationBlendSpeed);
+            anim.SetFloat(runID, lerp);
+        }
         
         if(esm.IsDying()) { anim.SetBool(dieID, true); }
 

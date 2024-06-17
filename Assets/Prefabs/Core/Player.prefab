@@ -126,7 +126,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6414601553067895478}
-  - {fileID: 1973337235871623234}
   m_Father: {fileID: 1912728740513549640}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &4482510746536960084
@@ -657,13 +656,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2582659451448620208}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
-  m_ConstrainProportionsScale: 1
+  m_LocalRotation: {x: -0.000000020736472, y: 0.00000009499487, z: -0.000000015124892,
+    w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3518244655798269152}
-  m_Father: {fileID: 1794560742445663973}
+  m_Father: {fileID: 1912728740513549640}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6807890480616001753
 SpriteRenderer:
@@ -1876,6 +1876,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1973337235871623234}
   - {fileID: 1794560742445663973}
   - {fileID: 4982142344901068441}
   m_Father: {fileID: 6614972973053307307}
@@ -8377,12 +8378,12 @@ MonoBehaviour:
   stats: {fileID: 5196779164960026610}
   maxSpeed: 5
   groundDrag: 20
-  jumpForce: 12
+  jumpForce: 7.5
   jumpCooldown: 0.25
   airMultiplier: 0.25
   extraGravityForce: 10
   focusSpeedDiv: 5
-  sphereRadius: 1
+  sphereRadius: 0.15
   groundCheckPos: {fileID: 3020357956560835041}
   canMove: 1
   animator: {fileID: 0}

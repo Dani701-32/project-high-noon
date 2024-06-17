@@ -35,11 +35,9 @@ public class Gun : MonoBehaviour
     TextMeshProUGUI text_reserve;
 
     [Header("Gun stats")]
-    [SerializeField]
-    GunData[] guns;
+    public GunData[] guns = new GunData[2];
 
-    [SerializeField, ReadOnly]
-    int gunID;
+    [ReadOnly] public int gunID;
 
     [SerializeField]
     float aimLeftRightTweak;
@@ -56,6 +54,9 @@ public class Gun : MonoBehaviour
     // Updating gun stats
     [SerializeField, ReadOnly]
     int[] bulletsLoaded;
+    
+    // Single player stuff
+    EventManager events;
 
     [SerializeField, ReadOnly]
     int[] currentAmmo;
@@ -72,9 +73,12 @@ public class Gun : MonoBehaviour
         currentAmmo = new int[guns.Length];
         inCooldown = new bool[guns.Length];
         isReloading = new bool[guns.Length];
+        
+        events = EventManager.Instance;
 
         for (int i = 0; i < guns.Length; i++)
         {
+            if(!guns[i]) continue;
             AcquireWeapon(i);
         }
         UpdateAmmo();
@@ -105,19 +109,20 @@ public class Gun : MonoBehaviour
     {
         gunLocked = true;
         yield return new WaitForSeconds(guns[gunID].shotCooldown);
-        gunLocked = false;
+        gunLocked = !events || events.greaterGunLock;
         inCooldown[gunID] = false;
     }
 
     public void Shoot()
     {
-        if (isReloading[gunID])
+        if (isReloading[gunID] || gunLocked)
             return;
 
         if (!inCooldown[gunID] && bulletsLoaded[gunID] > 0)
         {
             // Comece cooldown, se aplicável
-            bulletsLoaded[gunID] -= 1;
+            if(!events || (events && !events.infiniteAmmo) )
+                bulletsLoaded[gunID] -= 1;
             if (guns[gunID].shotCooldown > 0)
             {
                 inCooldown[gunID] = true;
@@ -163,7 +168,7 @@ public class Gun : MonoBehaviour
 
     public void Reload()
     {
-        if (bulletsLoaded[gunID] == guns[gunID].clip)
+        if (bulletsLoaded[gunID] == guns[gunID].clip || gunLocked)
             return;
         if (currentAmmo[gunID] <= 0)
         {
@@ -211,10 +216,15 @@ public class Gun : MonoBehaviour
 
     public void SwapGun()
     {
+        if (gunLocked) return;
         gunID++;
         if (gunID == guns.Length)
+        {
             gunID = 0;
+            if (!guns[gunID]) return;
+        }
+        if (!guns[gunID]) return;
         AcquireWeapon(gunID, true);
         UpdateAmmo();
-}
+    }
 }

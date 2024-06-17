@@ -11,14 +11,15 @@ public class GameManager : MonoBehaviour
     [Header("Controles da partida")]
     [SerializeField]
     private int currentPointRed = 0,
-        currentPointBlue = 0;
+                currentPointBlue = 0;
     public int maxPoints = 3;
 
     [SerializeField]
     private FlagSpot flagSpot;
     private bool matchOver = false;
+    
     [Header("Map Section")]
-    public Transform spawnPoint; 
+    public Transform spawnPoint;
     
 
     public bool MatchOver
