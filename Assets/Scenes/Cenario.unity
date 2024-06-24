@@ -16,8 +16,8 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.57254905, g: 0.46274513, b: 0.3529412, a: 1}
-  m_FogMode: 3
+  m_FogColor: {r: 0.57254905, g: 0.43581247, b: 0.3529412, a: 1}
+  m_FogMode: 2
   m_FogDensity: 0.005
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SubtractiveShadowColor: {r: 0.38069597, g: 0.4110827, b: 0.5566038, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -36,10 +36,10 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 64
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 1
+  m_ReflectionIntensity: 0.8
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.18130392, g: 0.22691447, b: 0.30736032, a: 1}
+  m_IndirectSpecularColor: {r: 0.1450434, g: 0.18153203, b: 0.24588907, a: 0.8}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1649,7 +1649,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.9172122, b: 0.7971698, a: 1}
+  m_Color: {r: 1, g: 0.9180878, b: 0.7971698, a: 1}
   m_Intensity: 3
   m_Range: 10
   m_SpotAngle: 30
@@ -4491,7 +4491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1104852128
 Transform:
   m_ObjectHideFlags: 0
@@ -11162,26 +11162,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 799175426505779281, guid: efb6557352063f84592bdcbe5c348b5e,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 799175426505779281, guid: efb6557352063f84592bdcbe5c348b5e,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 799175426505779281, guid: efb6557352063f84592bdcbe5c348b5e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.633
-      objectReference: {fileID: 0}
-    - target: {fileID: 856883573903436999, guid: efb6557352063f84592bdcbe5c348b5e,
-        type: 3}
-      propertyPath: m_Convex
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1866877216362784931, guid: efb6557352063f84592bdcbe5c348b5e,
         type: 3}
       propertyPath: m_LocalPosition.x
