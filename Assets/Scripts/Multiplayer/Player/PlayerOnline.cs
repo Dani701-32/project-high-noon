@@ -31,6 +31,9 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField, ReadOnly] private float health = 10f;
     [SerializeField, ReadOnly] private float maxHealth = 10f;
     [SerializeField] private Slider sliderHealth;
+    [ReadOnly] public float focusInterp;
+    [ReadOnly] public bool isFocused;
+    [ReadOnly] public bool isGrounded;
     public override void OnNetworkSpawn()
     {
         teamData = MultiplayerManager.Instance.GetTeamData(this);

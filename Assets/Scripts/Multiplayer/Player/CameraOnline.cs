@@ -7,30 +7,21 @@ public class CameraOnline : NetworkBehaviour
     float pitch;
     float yaw;
     float angleDiff;
-    Camera myCamera;
     Transform camTrans;
+    Camera myCamera;
     IEnumerator waiting;
-
-    [SerializeField]
-    GameObject camParent;
-
-    [SerializeField]
-    Transform orientation;
-
-    //[SerializeField] Transform body;
-
+    [SerializeField] private GameObject camParent;
+    [SerializeField] private Transform orientation;
+    [SerializeField] KeyCode key;
     [Header("Angles")]
     [Tooltip("Ângulo máximo antes do jogador começar a virar para acompanhar a câmera")]
-    [SerializeField]
-    float maxTurnAngle;
+    [SerializeField] private float maxTurnAngle;
 
     [Tooltip("Ângulo máximo que o jogador pode olhar acima de si")]
-    [SerializeField]
-    float maxLookUpAngle = -55;
+    [SerializeField] private float maxLookUpAngle = -55;
 
     [Tooltip("Ângulo máximo que o jogador pode olhar abaixo de si")]
-    [SerializeField]
-    float maxLookDownAngle = 50;
+    [SerializeField]private float maxLookDownAngle = 50;
 
     [Tooltip("Velocidade de rotação da câmera")]
     public float sensitivity = 1;
@@ -38,8 +29,13 @@ public class CameraOnline : NetworkBehaviour
     [Header("Debug and temporary values")]
     [Tooltip("O jogador está em jogo ou está ocupado com algo?")] // LEVAR ESSA VARIÁVEL PRO GAME MANAGER MAIS TARDE
     public bool canMove;
+    public bool canFocus = true;
     private bool matchIsOver = false;
 
+    [SerializeField] Transform nearCamPos;
+    [SerializeField] Transform farCamPos;
+    [SerializeField] float fovChangeSpeed;
+    [SerializeField, ReadOnly] private PlayerOnline player;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -50,7 +46,8 @@ public class CameraOnline : NetworkBehaviour
         waiting = WaitForStart();
         StartCoroutine(waiting);
 
-        myCamera = GetComponentInChildren<Camera>();
+        myCamera = camParent.GetComponentInChildren<Camera>();
+        player = GetComponent<PlayerOnline>();
     }
 
     void Update()
@@ -64,25 +61,19 @@ public class CameraOnline : NetworkBehaviour
             yaw += -Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
             pitch += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
             yaw = Mathf.Clamp(yaw, maxLookUpAngle, maxLookDownAngle);
-            pitch = Mathf.Clamp(pitch, -maxTurnAngle - 0.5f, maxTurnAngle + 0.5f);
+            // pitch = Mathf.Clamp(pitch, -maxTurnAngle - 0.5f, maxTurnAngle + 0.5f);
+
+            camParent.transform.localRotation = Quaternion.Euler(yaw, pitch, 0);
+            transform.rotation = Quaternion.Euler(0, pitch, 0);
+            // orientation.rotation = Quaternion.Euler(0, myCamera.transform.rotation.eulerAngles.y, 0);
+
+            player.isFocused = canFocus && player.isGrounded && Input.GetKey(key); 
+            player.focusInterp = Mathf.Clamp(player.focusInterp + (player.isFocused ? 1 : -1)*Time.deltaTime*fovChangeSpeed, 0, 1);
+            
+            myCamera.transform.localPosition = Vector3.Lerp(farCamPos.localPosition, nearCamPos.localPosition, player.focusInterp);
+
+            transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivity * 0.011f, 0);
         }
-    }
-
-    void FixedUpdate()
-    {
-        if(!IsOwner) return;
-        if (!canMove || matchIsOver)
-            return;
-        camParent.transform.localRotation = Quaternion.Euler(yaw, pitch, 0);
-        orientation.rotation = Quaternion.Euler(0, myCamera.transform.rotation.eulerAngles.y, 0);
-
-        //body.rotation = orientation.rotation;
-
-        //angleDiff = Mathf.DeltaAngle(transform.rotation.eulerAngles.y, camParent.transform.rotation.eulerAngles.y);
-        //if ((angleDiff > maxTurnAngle || angleDiff < -maxTurnAngle) && Input.GetAxis("Mouse X") != 0)
-        //{
-        transform.Rotate(0, Input.GetAxis("Mouse X") * (sensitivity * 0.011f), 0);
-        //}
     }
 
 #if UNITY_EDITOR
@@ -131,6 +122,7 @@ public class CameraOnline : NetworkBehaviour
     private IEnumerator WaitForStart()
     {
         yield return new WaitForSeconds(0.5f);
+        pitch = transform.eulerAngles.y;
         canMove = true;
     }
 }

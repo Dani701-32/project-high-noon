@@ -30,16 +30,14 @@ public class MovementOnline : NetworkBehaviour
     [Header("Ground check")]
     public float playerHeight;
     public LayerMask groundLayer;
-    bool grounded;
-
+    [SerializeField] float sphereRadius = 1;
+    [SerializeField] Transform groundCheckPos;
+    Collider[] gCol = new Collider[10];
+    [SerializeField, ReadOnly] private PlayerOnline player;
     [Header("Animator")]
     [SerializeField, ReadOnly] private Animator animator;
     private int inputxHash = Animator.StringToHash("X");
     private int inputYHash = Animator.StringToHash("Y");
-    [Header("Ground check")]
-    [SerializeField] float sphereRadius = 1;
-    [SerializeField] Transform groundCheckPos;
-    Collider[] gCol = new Collider[10];
 
     [Header("Debug")]
     public bool canMove = true;
@@ -51,6 +49,7 @@ public class MovementOnline : NetworkBehaviour
         if (IsOwner)
         {
             rb = GetComponent<Rigidbody>();
+            player = GetComponent<PlayerOnline>();
             animator = GetComponent<Animator>();
             canJump = true;
             transform.position = MultiplayerManager.Instance.defaultPos.position; 
@@ -69,7 +68,7 @@ public class MovementOnline : NetworkBehaviour
 
         speed = Mathf.Lerp(maxSpeed, maxSpeed / focusSpeedDiv, focusInterp);
         SpeedClamp();
-        rb.drag = grounded ? groundDrag : 0;
+        rb.drag = player.isGrounded ? groundDrag : 0;
         if (transform.position.y < -1 && !fixer)
         {
             fixer = true;
@@ -93,7 +92,7 @@ public class MovementOnline : NetworkBehaviour
         {
             matchOver = MultiplayerManager.Instance.MatchOver;
 
-            if (!grounded)
+            if (!player.isGrounded)
             rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
 
             if (!canMove || MultiplayerManager.Instance.MatchOver)
@@ -115,7 +114,7 @@ public class MovementOnline : NetworkBehaviour
             animator.SetFloat(inputxHash, horiInput);
             animator.SetFloat(inputYHash, vertInput);
 
-            if (Input.GetKeyDown(KeyCode.Space) && canJump && grounded && !focused)
+            if (Input.GetKeyDown(KeyCode.Space) && canJump && player.isGrounded && !focused)
             {
                 canJump = false;
                 Jump();
@@ -128,7 +127,7 @@ public class MovementOnline : NetworkBehaviour
     {
         if (!IsOwner) return;
         moveDir = orientation.forward * vertInput + orientation.right * horiInput;
-        if (grounded)
+        if (player.isGrounded)
             rb.AddForce(moveDir.normalized * speed, ForceMode.VelocityChange);
         else
             rb.AddForce(moveDir.normalized * speed * airMultiplier, ForceMode.VelocityChange);
@@ -171,7 +170,7 @@ public class MovementOnline : NetworkBehaviour
                 break;
             }
         }
-        grounded = found && canJump;
+        player.isGrounded = found && canJump;
     }
     void OnDrawGizmos()
     {
