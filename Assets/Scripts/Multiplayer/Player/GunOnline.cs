@@ -211,7 +211,13 @@ public class GunOnline : NetworkBehaviour
     [ServerRpc]
     private void SwapGun_ServerRpc()
     {
-        gunId = (gunId == guns.Length) ? 0 : gunId + 1;
+        gunId++;
+        if (gunId == guns.Length)
+        {
+            gunId = 0;
+            if (!guns[gunId]) return;
+        }
+        if (!guns[gunId]) return;
         SwapGun_ClientRpc(gunId);
         AcquireWeapon(gunId, true);
     }
