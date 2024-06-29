@@ -54,14 +54,10 @@ public class MovementOnline : NetworkBehaviour
             animator = GetComponent<Animator>();
             canJump = true;
             transform.position = MultiplayerManager.Instance.defaultPos.position; 
+            speed = maxSpeed; 
         }
 
         base.OnNetworkSpawn();
-    }
-
-    void Start()
-    {
-        transform.position = MultiplayerManager.Instance.defaultPos.position; 
     }
 
     void Update()
@@ -82,7 +78,11 @@ public class MovementOnline : NetworkBehaviour
         }
 
         if (!canMove || MultiplayerManager.Instance.MatchOver)
+        {
+            animator.SetFloat(inputxHash, 0);
+            animator.SetFloat(inputYHash, 0);
             return;
+        }
         
         InputUpdate();
     }
