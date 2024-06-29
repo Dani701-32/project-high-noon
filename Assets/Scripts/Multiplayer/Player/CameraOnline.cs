@@ -63,7 +63,7 @@ public class CameraOnline : NetworkBehaviour
             yaw = Mathf.Clamp(yaw, maxLookUpAngle, maxLookDownAngle);
             // pitch = Mathf.Clamp(pitch, -maxTurnAngle - 0.5f, maxTurnAngle + 0.5f);
 
-            camParent.transform.localRotation = Quaternion.Euler(yaw, pitch, 0);
+            camParent.transform.localRotation = Quaternion.Euler(yaw, 0, 0);
             transform.rotation = Quaternion.Euler(0, pitch, 0);
             // orientation.rotation = Quaternion.Euler(0, myCamera.transform.rotation.eulerAngles.y, 0);
 
