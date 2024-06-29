@@ -30,7 +30,7 @@ public class MovementOnline : NetworkBehaviour
     [Header("Ground check")]
     public float playerHeight;
     public LayerMask groundLayer;
-    [SerializeField] float sphereRadius = 1;
+    [SerializeField] Vector3 boxCastDimensions = Vector3.zero;
     [SerializeField] Transform groundCheckPos;
     Collider[] gCol = new Collider[10];
     [SerializeField, ReadOnly] private PlayerOnline player;
@@ -66,7 +66,7 @@ public class MovementOnline : NetworkBehaviour
 
         CheckGround(); 
 
-        speed = Mathf.Lerp(maxSpeed, maxSpeed / focusSpeedDiv, focusInterp);
+        speed = Mathf.Lerp(maxSpeed, maxSpeed / focusSpeedDiv, player.focusInterp);
         SpeedClamp();
         rb.drag = player.isGrounded ? groundDrag : 0;
         if (transform.position.y < -1 && !fixer)
@@ -114,7 +114,7 @@ public class MovementOnline : NetworkBehaviour
             animator.SetFloat(inputxHash, horiInput);
             animator.SetFloat(inputYHash, vertInput);
 
-            if (Input.GetKeyDown(KeyCode.Space) && canJump && player.isGrounded && !focused)
+            if (Input.GetKeyDown(KeyCode.Space) && canJump && player.isGrounded && !player.isFocused)
             {
                 canJump = false;
                 Jump();
@@ -160,7 +160,7 @@ public class MovementOnline : NetworkBehaviour
     }
     void CheckGround()
     {
-        int numCol = Physics.OverlapSphereNonAlloc(groundCheckPos.position, sphereRadius, gCol);
+        int numCol = Physics.OverlapBoxNonAlloc(groundCheckPos.position, boxCastDimensions, gCol);
         bool found = false;
         for (int i = 0; i < numCol; i++)
         {
@@ -174,6 +174,6 @@ public class MovementOnline : NetworkBehaviour
     }
     void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(groundCheckPos.position, sphereRadius/2);
+         Gizmos.DrawCube(groundCheckPos.position, boxCastDimensions);
     }
 }
