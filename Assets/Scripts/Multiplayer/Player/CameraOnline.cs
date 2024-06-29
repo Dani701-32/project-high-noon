@@ -46,8 +46,8 @@ public class CameraOnline : NetworkBehaviour
         waiting = WaitForStart();
         StartCoroutine(waiting);
 
-        myCamera = camParent.GetComponentInChildren<Camera>();
         player = GetComponent<PlayerOnline>();
+        myCamera = camParent.GetComponentInChildren<Camera>();
     }
 
     void Update()
@@ -72,7 +72,7 @@ public class CameraOnline : NetworkBehaviour
             
             myCamera.transform.localPosition = Vector3.Lerp(farCamPos.localPosition, nearCamPos.localPosition, player.focusInterp);
 
-            transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivity * 0.011f, 0);
+            // transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivity * 0.011f, 0);
         }
     }
 
