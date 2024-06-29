@@ -1734,6 +1734,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5040107872976925064}
   - component: {fileID: 905867625016671342}
+  - component: {fileID: 3404364095957899504}
   m_Layer: 0
   m_Name: BaseFemaleRigMixamo
   m_TagString: Player
@@ -1783,8 +1784,31 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.49, y: 2, z: 0.37}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 0.421, y: 1.6041912, z: 0.421}
+  m_Center: {x: 0, y: 0.8854812, z: 0}
+--- !u!136 &3404364095957899504
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672811241723145010}
+  m_Material: {fileID: 13400000, guid: 13c71000107998347a9055d9a3f6990e, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Height: 1.4737129
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.0932791, z: 0}
 --- !u!1 &5676752560440936919
 GameObject:
   m_ObjectHideFlags: 0
@@ -8385,7 +8409,7 @@ MonoBehaviour:
   airMultiplier: 0.25
   extraGravityForce: 10
   focusSpeedDiv: 5
-  sphereRadius: 0.15
+  boxCastDimensions: {x: 0.2, y: 0.1, z: 0.2}
   groundCheckPos: {fileID: 3020357956560835041}
   canMove: 1
   animator: {fileID: 0}

@@ -23,7 +23,7 @@ public class TPSMovement : MonoBehaviour
     bool canJump;
 
     [Header("Ground check")]
-    [SerializeField] float sphereRadius = 1;
+    [SerializeField] Vector3 boxCastDimensions = Vector3.zero;
     [SerializeField] Transform groundCheckPos;
     Collider[] gCol = new Collider[10];
 
@@ -126,7 +126,7 @@ public class TPSMovement : MonoBehaviour
 
     void CheckGround()
     {
-        int numCol = Physics.OverlapSphereNonAlloc(groundCheckPos.position, sphereRadius, gCol);
+        int numCol = Physics.OverlapBoxNonAlloc(groundCheckPos.position, boxCastDimensions, gCol);
         bool found = false;
         for (int i = 0; i < numCol; i++)
         {
@@ -141,6 +141,7 @@ public class TPSMovement : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(groundCheckPos.position, sphereRadius/2);
+        //Gizmos.DrawSphere(groundCheckPos.position, sphereRadius/2);
+        Gizmos.DrawCube(groundCheckPos.position, boxCastDimensions);
     }
 }
