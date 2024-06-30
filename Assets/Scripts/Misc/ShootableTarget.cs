@@ -5,7 +5,7 @@ public class ShootableTarget : MonoBehaviour
     [SerializeField] AllTargetsGone targetParent;
     [SerializeField] bool manualTriggerCheck = true;
     bool executed;
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
         if (!manualTriggerCheck || other.gameObject.layer != 7 || executed) return;
 

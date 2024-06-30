@@ -142,10 +142,11 @@ public class Gun : MonoBehaviour
                     (bulletPoint.transform.forward +
                      bulletPoint.transform.right * deviation.x + 
                      bulletPoint.transform.up * deviation.y)
-                    * guns[gunID].bulletSpeed
+                    * guns[gunID].bulletSpeed,
+                    ForceMode.VelocityChange
                 );
                 bullet.owner = playerObject;
-                Destroy(bullet.gameObject, 5);
+                Destroy(bullet.gameObject, 2);
             }
             // Atualize nosso número de balas na UI e, se aplicável, toque o barulho de tiro com pitch aleatório e aumente o spread
             spread = Mathf.Min(spread + guns[gunID].spreadIncrease, guns[gunID].maxSpread);

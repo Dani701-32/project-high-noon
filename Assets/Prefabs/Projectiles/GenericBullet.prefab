@@ -138,7 +138,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -152,7 +152,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3548750535829731554}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.0001
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -168,9 +168,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 2
+  m_Interpolate: 0
   m_Constraints: 48
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!114 &3899962838922302207
 MonoBehaviour:
   m_ObjectHideFlags: 0

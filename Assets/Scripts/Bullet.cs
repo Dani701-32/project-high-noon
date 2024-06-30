@@ -27,13 +27,13 @@ public class Bullet : NetworkBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
         if (other.gameObject == owner) return;
 
-        if (other.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            PlayerOnline playerHit = other.GetComponentInParent<PlayerOnline>();
+            PlayerOnline playerHit = other.gameObject.GetComponentInParent<PlayerOnline>();
             Debug.Log("Teste");
             if (IsOwner)
             {
@@ -62,6 +62,7 @@ public class Bullet : NetworkBehaviour
                 Destroy(gameObject, 1);
             }
         }
+
     }
 
     public override void OnDestroy()

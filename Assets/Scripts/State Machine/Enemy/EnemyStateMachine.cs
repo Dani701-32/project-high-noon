@@ -56,14 +56,14 @@ public class EnemyStateMachine : MonoBehaviour
         currentState.SwitchIntoState();
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
         // Se não colidimos com uma bala ou estamos morrendo pare a execução
         if (dying) return;
         if (other.gameObject.layer != playerBulletMask) return;
 
         // Fomos atingidos por uma bala válida? Caso sim, reduza nosso HP, procure seu dono e faça ele nosso alvo
-        Bullet bull = other.GetComponent<Bullet>();
+        Bullet bull = other.gameObject.GetComponent<Bullet>();
         if (bull)
         {
             if (bull.owner && bull.owner.activeInHierarchy && chasingState) 
