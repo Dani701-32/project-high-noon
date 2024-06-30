@@ -75,11 +75,21 @@ public class LobbyManager : MonoBehaviour
             joinedLobby = lobby;
 
             ConectionType.type = "host";
-            SceneManager.LoadScene("TesteMultiplayer");
+            StartCoroutine(LoadMatchAsync());
         }
         catch (LobbyServiceException error)
         {
             Debug.Log(error);
+        }
+    }
+    IEnumerator LoadMatchAsync(){ 
+        Debug.Log("LoadMatch");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("TesteMultiplayer"); 
+        // SceneManager.LoadScene("TesteMultiplayer");
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
         }
     }
 
@@ -120,7 +130,8 @@ public class LobbyManager : MonoBehaviour
                 .SetRelayServerData(relayServerData);
 
             ConectionType.type = "client";
-            SceneManager.LoadScene("TesteMultiplayer");
+            // SceneManager.LoadScene("TesteMultiplayer");
+            StartCoroutine(LoadMatchAsync());
         }
         catch (RelayServiceException error)
         {

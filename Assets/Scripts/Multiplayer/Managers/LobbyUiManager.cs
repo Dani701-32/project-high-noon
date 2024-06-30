@@ -261,8 +261,9 @@ public class LobbyUiManager : MonoBehaviour
         listPlayers.Add(playerItem);
     }
 
-    public void StarMatch()
+    public void StartMatch()
     {
+        btnStartGame.SetActive(false);
         lobbyManager.StartMatch();
     }
 
