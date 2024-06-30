@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using Unity.Netcode;
 public class GameManager : MonoBehaviour
 {
     static GameManager _instance;
@@ -107,6 +107,14 @@ public class GameManager : MonoBehaviour
     IEnumerator ReturnMenu()
     {
         yield return new WaitForSeconds(5f);
+        Cleanup(); 
         SceneManager.LoadScene("Menu");
+    }
+    void Cleanup()
+    {
+        if (NetworkManager.Singleton != null)
+        {
+            Destroy(NetworkManager.Singleton.gameObject);
+        }
     }
 }
