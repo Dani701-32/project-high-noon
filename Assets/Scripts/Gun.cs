@@ -221,9 +221,17 @@ public class Gun : MonoBehaviour
         if (gunID == guns.Length)
         {
             gunID = 0;
-            if (!guns[gunID]) return;
+            if (!guns[gunID])
+            {
+                gunID = guns.Length - 1;
+                return;
+            }
         }
-        if (!guns[gunID]) return;
+        if (!guns[gunID])
+        {
+            gunID--;
+            return;
+        }
         AcquireWeapon(gunID, true);
         UpdateAmmo();
     }
