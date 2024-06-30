@@ -16,7 +16,7 @@ public class Bullet : NetworkBehaviour
     public LayerMask playerLayer;
     public GameObject owner;
     public int damage = 1;
-    public NetworkVariable<char> teamTag = new NetworkVariable<char>();
+    public NetworkVariable<int> teamId = new NetworkVariable<int>();
 
     private IEnumerator TrailGone()
     {
@@ -33,21 +33,16 @@ public class Bullet : NetworkBehaviour
 
         if (other.gameObject.CompareTag("Player"))
         {
+
             PlayerOnline playerHit = other.gameObject.GetComponentInParent<PlayerOnline>();
-            Debug.Log("Teste");
-            if (IsOwner)
+            Debug.Log(playerHit.GetTeam().teamId);
+            if (playerHit.GetTeam().teamId != teamId.Value )
             {
-                PlayerOnline ownerPlayer = owner.GetComponentInParent<PlayerOnline>();
-                Debug.Log(playerHit.GetTeam().teamTag);
-                if (playerHit.GetTeam().teamTag != teamTag.Value)
-                {
-                    playerHit.Damage(damage);
-                }
+                playerHit.Damage(damage);
             }
 
             if (IsServer)
             {
-                Debug.Log("Teste");
                 Destroy(gameObject, 1);
             }
         }

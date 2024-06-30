@@ -28,8 +28,8 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField, ReadOnly] bool _hasFlag;
 
     [Header("PlayerStatus")]
-    [SerializeField, ReadOnly] private float health = 10f;
-    [SerializeField, ReadOnly] private float maxHealth = 10f;
+    [SerializeField] private float health = 3f;
+    [SerializeField] private float maxHealth = 3f;
     [SerializeField] private Slider sliderHealth;
     [ReadOnly] public float focusInterp;
     [ReadOnly] public bool isFocused;
@@ -37,16 +37,16 @@ public class PlayerOnline : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         teamData = MultiplayerManager.Instance.GetTeamData(this);
+        health = maxHealth;
         sliderHealth.maxValue = maxHealth;
         sliderHealth.value = health;
-        model.GetComponent<SkinnedMeshRenderer>().material.color = teamData.teamColor; 
+        model.GetComponent<SkinnedMeshRenderer>().material.color = teamData.teamColor;
         if (!IsOwner)
             return;
         playerCanvas.SetActive(true);
         _camera.enabled = true;
-        
+
         _camera.gameObject.GetComponent<AudioListener>().enabled = true;
-        health = 100f;
         base.OnNetworkSpawn();
     }
 
@@ -100,7 +100,7 @@ public class PlayerOnline : NetworkBehaviour
     public void Damage(float damage)
     {
         if (!IsOwner) return;
-
+        Debug.Log("Teste");
         Damage_ServerRpc(damage);
     }
 
@@ -108,14 +108,28 @@ public class PlayerOnline : NetworkBehaviour
     private void Damage_ServerRpc(float damage)
     {
         health -= damage;
-        sliderHealth.value = health;
+        if (IsOwner)
+        {
+            sliderHealth.value = health;
+            if (health <= 0)
+            {
+                Die_ServerRpc();
+            }
+        }
         Damage_ClientRpc(health);
     }
     [ClientRpc]
     private void Damage_ClientRpc(float health)
     {
         this.health = health;
-        sliderHealth.value = health;
+        if (IsOwner)
+        {
+            sliderHealth.value = health;
+            if (health <= 0)
+            {
+                Die_ServerRpc();
+            }
+        }
     }
 
     [ServerRpc]
@@ -123,8 +137,10 @@ public class PlayerOnline : NetworkBehaviour
     {
         Debug.Log("Morreu");
         model.SetActive(false);
-        transform.position = spawnPoint.position;
-        transform.rotation = spawnPoint.rotation;
+        if (IsOwner)
+        {
+            movementOnline.enabled = false;
+        }
         Die_ClientRpc();
         StartCoroutine("delaySpawn");
     }
@@ -132,11 +148,12 @@ public class PlayerOnline : NetworkBehaviour
     [ClientRpc]
     private void Die_ClientRpc()
     {
+
         Debug.Log("Morreu");
         model.SetActive(false);
-        transform.position = spawnPoint.position;
-        transform.rotation = spawnPoint.rotation;
-        StartCoroutine("delaySpawn");
+        if(IsOwner){
+            movementOnline.enabled = false;
+        }
     }
 
     public IEnumerator delaySpawn()
@@ -144,6 +161,15 @@ public class PlayerOnline : NetworkBehaviour
         yield return new WaitForSeconds(3);
         if (this != null)
         {
+            health = maxHealth;
+            if (IsOwner)
+            {
+                sliderHealth.value = health;
+                transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
+                transform.rotation = spawnPoint.rotation;
+                movementOnline.enabled = true;
+            }
+
             model.SetActive(true);
             AcetivePlayer_ClientRpc();
         }
@@ -153,5 +179,13 @@ public class PlayerOnline : NetworkBehaviour
     private void AcetivePlayer_ClientRpc()
     {
         model.SetActive(true);
+        health = maxHealth;
+        if (IsOwner)
+        {
+            transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
+            transform.rotation = spawnPoint.rotation;
+            sliderHealth.value = health;
+            movementOnline.enabled = true;
+        }
     }
 }

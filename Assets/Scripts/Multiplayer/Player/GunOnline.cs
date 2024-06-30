@@ -159,10 +159,10 @@ public class GunOnline : NetworkBehaviour
 
         //Criar Bala
         Bullet bullet = Instantiate(guns[gunId].bulletPrefab, bulletPoint.position, bulletPoint.rotation);
-        bullet.teamTag.Value = player.GetTeam().teamTag;
         //Spawna a bala nos clientes
         NetworkObject netBullet = bullet.GetComponent<NetworkObject>();
         netBullet.Spawn();
+        bullet.teamId.Value = player.GetTeam().teamId;
 
         bullet.owner = player.gameObject;  
 
