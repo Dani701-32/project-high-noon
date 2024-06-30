@@ -168,7 +168,13 @@ public class GunOnline : NetworkBehaviour
 
         deviation.x = Random.Range(-spread, spread) / 10;
         deviation.y = Random.Range(-spread, spread) / 10;
-        bullet.rb.AddForce((transform.forward + transform.right * deviation.x + transform.up * deviation.y) * guns[gunId].bulletSpeed);
+        bullet.rb.AddForce(
+                    (bulletPoint.transform.forward +
+                     bulletPoint.transform.right * deviation.x + 
+                     bulletPoint.transform.up * deviation.y)
+                    * guns[gunId].bulletSpeed,
+                    ForceMode.VelocityChange
+                );
 
         Rigidbody rbBullet = bullet.GetComponent<Rigidbody>();
         rbBullet.isKinematic = false;
