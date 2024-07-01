@@ -164,13 +164,13 @@ public class GunOnline : NetworkBehaviour
         netBullet.Spawn();
         bullet.teamId.Value = player.GetTeam().teamId;
 
-        bullet.owner = player.gameObject;  
+        bullet.owner = player.gameObject;
 
         deviation.x = Random.Range(-spread, spread) / 10;
         deviation.y = Random.Range(-spread, spread) / 10;
         bullet.rb.AddForce(
                     (bulletPoint.transform.forward +
-                     bulletPoint.transform.right * deviation.x + 
+                     bulletPoint.transform.right * deviation.x +
                      bulletPoint.transform.up * deviation.y)
                     * guns[gunId].bulletSpeed,
                     ForceMode.VelocityChange
@@ -232,5 +232,22 @@ public class GunOnline : NetworkBehaviour
     {
         gunId = id;
         AcquireWeapon(gunId, true);
+    }
+
+    public void Refill()
+    {
+        bulletsLoaded = new int[guns.Length];
+        currentAmmo = new int[guns.Length];
+        inCoolDown = new bool[guns.Length];
+        isReloaing = new bool[guns.Length];
+        for (int i = 0; i < guns.Length; i++)
+        {
+            AcquireWeapon(i);
+        }
+        if (IsOwner)
+        {
+            aimSprite.SetActive(true);
+            UpdateAmmo_ServerRpc();
+        }
     }
 }

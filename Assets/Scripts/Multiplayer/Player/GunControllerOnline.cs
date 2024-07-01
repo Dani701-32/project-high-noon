@@ -46,4 +46,8 @@ public class GunControllerOnline : NetworkBehaviour
     {
         auto = currentGun.IsAuto();
     }
+    
+    public void RefillWeapons(){
+        currentGun.Refill(); 
+    }
 }
