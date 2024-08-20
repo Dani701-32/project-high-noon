@@ -44,7 +44,8 @@ public class Bullet : NetworkBehaviour
             {
                 rb.velocity = rb.angularVelocity = Vector3.zero;
                 col.enabled = false;
-                Destroy(gameObject,1);
+                rb.isKinematic = true;
+                Destroy(gameObject, 1);
             }
         }
         if (((1 << other.gameObject.layer) & groundLayer) != 0)

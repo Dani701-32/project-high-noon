@@ -21,8 +21,8 @@ public class PlayerOnline : NetworkBehaviour
     GameObject model,
         playerCanvas;
 
-    [SerializeField]
-    private MovementOnline movementOnline;
+    [SerializeField, ReadOnly] private MovementOnline movementOnline;
+    [SerializeField, ReadOnly] private GunControllerOnline gunController;
     [SerializeField] private Camera _camera;
     Transform spawnPoint;
     [SerializeField, ReadOnly] bool _hasFlag;
@@ -36,6 +36,8 @@ public class PlayerOnline : NetworkBehaviour
     [ReadOnly] public bool isGrounded;
     public override void OnNetworkSpawn()
     {
+        gunController = GetComponent<GunControllerOnline>();
+        movementOnline = GetComponent<MovementOnline>();
         teamData = MultiplayerManager.Instance.GetTeamData(this);
         health = maxHealth;
         sliderHealth.maxValue = maxHealth;
@@ -168,6 +170,7 @@ public class PlayerOnline : NetworkBehaviour
                 transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
                 transform.rotation = spawnPoint.rotation;
                 movementOnline.enabled = true;
+                gunController.RefillWeapons(); 
             }
 
             model.SetActive(true);
@@ -178,7 +181,6 @@ public class PlayerOnline : NetworkBehaviour
     [ClientRpc]
     private void AcetivePlayer_ClientRpc()
     {
-        model.SetActive(true);
         health = maxHealth;
         if (IsOwner)
         {
@@ -186,6 +188,8 @@ public class PlayerOnline : NetworkBehaviour
             transform.rotation = spawnPoint.rotation;
             sliderHealth.value = health;
             movementOnline.enabled = true;
+            gunController.RefillWeapons(); 
         }
+        model.SetActive(true);
     }
 }
