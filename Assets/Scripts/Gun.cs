@@ -15,6 +15,7 @@ public class Gun : MonoBehaviour
     [SerializeField] Camera cam;
     [SerializeField] TEMP_PlayerStats playerStats;
     [SerializeField] AudioSource shotSound;
+    [SerializeField] GunSwapper swapper;
 
     [SerializeField]
     GameObject playerObject;
@@ -235,5 +236,7 @@ public class Gun : MonoBehaviour
         }
         AcquireWeapon(gunID, true);
         UpdateAmmo();
+        if(!swapper.SwapToGun(guns[gunID].gunName))
+           Debug.LogError("Tried to swap to a gun model that does not exist in the prefab's gun holder");
     }
 }
