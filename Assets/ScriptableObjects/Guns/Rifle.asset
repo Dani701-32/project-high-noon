@@ -12,24 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0990dbcb2353d94d88dd7001d48adc0, type: 3}
   m_Name: Rifle
   m_EditorClassIdentifier: 
-  gunName: Shotgun
-  maxSpread: 2
-  minSpread: 0.45
-  spreadIncrease: 0.4
-  spreadRecovery: 0.1
-  focusSpreadDecrease: 0
+  gunName: Rifle
+  maxSpread: 0.5
+  minSpread: 0.1
+  spreadIncrease: 0
+  spreadRecovery: 0
+  focusSpreadDecrease: 0.4
   focusRecoveryIncrease: 0
   bulletPrefab: {fileID: 2112666863910200106, guid: d7af4ae0587ebc547a181d360647a0d1,
     type: 3}
-  bulletSpeed: 350
+  bulletSpeed: 700
   bulletDamage: 1
-  bulletPerShot: 5
+  bulletPerShot: 1
   firingSounds:
   - {fileID: 8300000, guid: ebd39db76fb0e294e983831121cb8d3a, type: 3}
   reloadSound: {fileID: 0}
-  shotCooldown: 1
-  focusShotCooldownExtra: 0
+  shotCooldown: 2
+  focusShotCooldownExtra: 1
   reloadTime: 0
-  maxAmmo: 18
-  clip: 2
+  maxAmmo: 25
+  clip: 1
   autoFire: 0
