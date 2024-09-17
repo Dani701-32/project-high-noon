@@ -58,6 +58,8 @@ public class EventManager : MonoBehaviour
         {
             playerGun.guns[playerGun.gunID] = gun;
             playerGun.AcquireWeapon(playerGun.gunID);
+            playerGun.SwapGun();
+            playerGun.SwapGun();
         }
     }
 

@@ -32,4 +32,7 @@ public class GunData : ScriptableObject
 
     [Header("Special")]
     public bool autoFire;
+    public bool autoReload;
+    public bool scopeView;
+    
 }

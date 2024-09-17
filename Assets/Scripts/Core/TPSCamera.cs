@@ -41,6 +41,8 @@ public class TPSCamera : MonoBehaviour
 
     [SerializeField] Transform nearCamPos;
     [SerializeField] Transform farCamPos;
+    [SerializeField] Transform scopeCamPos;
+    Transform zoomTarget;
     [SerializeField] float fovChangeSpeed;
 
     void Awake()
@@ -80,9 +82,10 @@ public class TPSCamera : MonoBehaviour
             
             stats.focused = canFocus && stats.grounded && Input.GetKey(teclaDeFoco);
             stats.focusInterp = Mathf.Clamp(stats.focusInterp + (stats.focused ? 1 : -1)*Time.deltaTime*fovChangeSpeed, 0, 1);
-            
+
+            zoomTarget = stats.carryingScopedGun ? scopeCamPos : nearCamPos;
             cam.transform.localPosition =
-                Vector3.Lerp(farCamPos.localPosition, nearCamPos.localPosition, stats.focusInterp);
+                Vector3.Lerp(farCamPos.localPosition, zoomTarget.localPosition, stats.focusInterp);
         }
     }
 

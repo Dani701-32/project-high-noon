@@ -16,6 +16,7 @@ public class TEMP_PlayerStats : MonoBehaviour
     [Header("Stats")]
     [ReadOnly] public int HP = 100;
     [ReadOnly] public float focusInterp;
+    [ReadOnly] public bool carryingScopedGun;
     [SerializeField] GameObject model;
 
     [SerializeField]

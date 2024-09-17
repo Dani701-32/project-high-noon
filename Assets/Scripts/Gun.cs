@@ -34,6 +34,7 @@ public class Gun : MonoBehaviour
 
     [SerializeField]
     float aimLeftRightTweak;
+    float tweak;
 
     // Aim stuff
     Vector3 aimPoint;
@@ -64,6 +65,7 @@ public class Gun : MonoBehaviour
 
     void Start()
     {
+        tweak = aimLeftRightTweak;
         bulletsLoaded = new int[guns.Length];
         currentAmmo = new int[guns.Length];
         inCooldown = new bool[guns.Length];
@@ -94,6 +96,7 @@ public class Gun : MonoBehaviour
         oneSound = guns[slot].firingSounds.Length == 1;
         if (oneSound && slot == gunID)
             shotSound.clip = guns[slot].firingSounds[0];
+        playerStats.carryingScopedGun = guns[slot].scopeView;
     }
 
     private void UpdateAmmo(bool updateReserve = true)
@@ -109,6 +112,8 @@ public class Gun : MonoBehaviour
         yield return new WaitForSeconds(guns[gunID].shotCooldown + focusCooldown);
         gunLocked = !events || events.greaterGunLock;
         inCooldown[gunID] = false;
+        if(guns[gunID].autoReload)
+            Reload();
     }
 
     public void Shoot()
@@ -129,20 +134,21 @@ public class Gun : MonoBehaviour
 
             for (int i = 0; i < guns[gunID].bulletPerShot; i++)
             {
+                GameObject source = playerStats.carryingScopedGun && playerStats.focused ? cam.gameObject : bulletPoint; 
                 // Crie a bala
                 Bullet bullet = Instantiate(
                     guns[gunID].bulletPrefab,
-                    bulletPoint.transform.position,
-                    bulletPoint.transform.rotation
+                    source.transform.position,
+                    source.transform.rotation
                 );
                 // Defina o spread com números aleatórios e acelere a bala com seu rigidbody. Destrua a bala após 2 segundos.
                 deviation.x = Random.Range(-spread, spread) / 10;
                 deviation.y = Random.Range(-spread, spread) / 10;
                 bullet.rb.isKinematic = false;
                 bullet.rb.AddForce(
-                    (bulletPoint.transform.forward +
-                     bulletPoint.transform.right * deviation.x + 
-                     bulletPoint.transform.up * deviation.y)
+                    (source.transform.forward +
+                     source.transform.right * deviation.x + 
+                     source.transform.up * deviation.y)
                     * guns[gunID].bulletSpeed,
                     ForceMode.VelocityChange
                 );
@@ -191,6 +197,8 @@ public class Gun : MonoBehaviour
         center = new Ray(cam.transform.position, cam.transform.forward);
         aimPoint = center.GetPoint(100);
         transform.parent.LookAt(aimPoint + Vector3.up * 3, Vector3.up);
+
+        aimLeftRightTweak = playerStats.carryingScopedGun && playerStats.focused ? 0 : tweak;
         aimSprite.transform.position = center.GetPoint(8) + aimSprite.transform.right * aimLeftRightTweak;
 
         accuracySprite.transform.localScale = Vector3.one * spread;
