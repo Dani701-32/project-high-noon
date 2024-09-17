@@ -7,6 +7,8 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using static Unity.Netcode.NetworkManager;
 using Random = UnityEngine.Random;
+using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
 
 public class MultiplayerManager : NetworkBehaviour
 {
@@ -123,6 +125,7 @@ public class MultiplayerManager : NetworkBehaviour
         {
             currentTime -= Time.deltaTime;
             networkCurrentTime.Value = currentTime;
+            LobbyManager.Instance.ShowLobby();
         }
     }
 

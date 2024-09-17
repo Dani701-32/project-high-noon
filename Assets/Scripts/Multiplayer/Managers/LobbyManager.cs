@@ -25,23 +25,50 @@ public class LobbyManager : MonoBehaviour
     private float lobbyUpdateTimerMax = 1.1f;
     private string KEY_GAME_MODE = "GameMode";
     private string KEY_START_GAME = "GameStarted";
+    [SerializeField, ReadOnly]
+    private string playerId = "";
+    public static LobbyManager Instance { get; private set; }
+    [SerializeField, ReadOnly]
+    private bool isMenu = true; 
+
+
+    private void Awake()
+    {
+        // Garante que este objeto persista entre cenas
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     async void Start()
     {
         lobbyUiManager = LobbyUiManager.Instance;
+        isMenu = true; 
         //Iniciando a parte asincrona da Unity
         await UnityServices.InitializeAsync();
+        
         AuthenticationService.Instance.SignedIn += () =>
         {
             Debug.Log($"Player Id {AuthenticationService.Instance.PlayerId}");
         };
+        playerId = AuthenticationService.Instance.PlayerId;
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
 
     // Update is called once per frame
     void Update()
     {
+        isMenu = SceneManager.GetActiveScene().name == "Menu";
+        if(isMenu && lobbyUiManager == null){
+            lobbyUiManager = LobbyUiManager.Instance;
+        }
         HandleLobbyHeartbeat();
         if (lobbyUiManager.lobbyIsOpen)
         {
@@ -62,8 +89,10 @@ public class LobbyManager : MonoBehaviour
                 joinedLobby.Id,
                 new UpdateLobbyOptions
                 {
+            
                     Data = new Dictionary<string, DataObject>
                     {
+                        
                         {
                             KEY_START_GAME,
                             new DataObject(DataObject.VisibilityOptions.Member, relayCode)
@@ -73,6 +102,9 @@ public class LobbyManager : MonoBehaviour
             );
 
             joinedLobby = lobby;
+            hostLobby = joinedLobby;
+            lobbyUiManager = null;
+            isMenu = false;
 
             ConectionType.type = "host";
             StartCoroutine(LoadMatchAsync());
@@ -302,6 +334,14 @@ public class LobbyManager : MonoBehaviour
             lobbyUiManager.AddPlayer(player.Id, player.Data["PlayerName"].Value);
         }
     }
+    private void DebugPlayer(Lobby lobby){
+
+        Debug.Log(lobby.Players.Count);
+        foreach (Player player in lobby.Players)
+        {
+             Debug.Log(player.Data["PlayerName"].Value);
+        }
+    }
 
     private Player GetPlayer(string playerName)
     {
@@ -316,5 +356,14 @@ public class LobbyManager : MonoBehaviour
             }
         };
         return player;
+    }
+
+    public void ShowLobby(){
+        if(joinedLobby != null){
+            DebugPlayer(joinedLobby);
+        }else{
+            DebugPlayer(hostLobby);
+
+        }
     }
 }

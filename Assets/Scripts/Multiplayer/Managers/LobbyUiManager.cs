@@ -6,7 +6,7 @@ using UnityEngine;
 public class LobbyUiManager : MonoBehaviour
 {
     static LobbyUiManager _instance;
-    private LobbyManager lobbyManager;
+    [SerializeField] private LobbyManager lobbyManager;
 
     [Header("Listar Lobbies")]
     [SerializeField]
@@ -91,6 +91,7 @@ public class LobbyUiManager : MonoBehaviour
     void Awake()
     {
         _instance = this;
+        lobbyManager = LobbyManager.Instance;
     }
     void Update()
     {
@@ -107,7 +108,6 @@ public class LobbyUiManager : MonoBehaviour
 
     private void Start()
     {
-        lobbyManager = GetComponent<LobbyManager>();
         foreach (Transform child in bodyList)
         {
             Destroy(child);
