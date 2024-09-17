@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Rifle
   m_EditorClassIdentifier: 
   gunName: Rifle
-  maxSpread: 0.5
-  minSpread: 0.1
+  maxSpread: 0
+  minSpread: 0
   spreadIncrease: 0
   spreadRecovery: 0
-  focusSpreadDecrease: 0.4
+  focusSpreadDecrease: 0
   focusRecoveryIncrease: 0
   bulletPrefab: {fileID: 2112666863910200106, guid: d7af4ae0587ebc547a181d360647a0d1,
     type: 3}
@@ -33,3 +33,5 @@ MonoBehaviour:
   maxAmmo: 25
   clip: 1
   autoFire: 0
+  autoReload: 1
+  scopeView: 1
