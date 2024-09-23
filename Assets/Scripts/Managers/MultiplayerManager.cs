@@ -208,6 +208,7 @@ public class MultiplayerManager : NetworkBehaviour
         yield return new WaitForSeconds(5f);
         NetworkManager.Singleton.Shutdown();
         Cleanup();
+        LobbyManager.Instance.LeaveLobby();
         SceneManager.LoadScene("Menu");
     }
 

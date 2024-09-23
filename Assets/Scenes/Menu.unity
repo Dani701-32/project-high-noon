@@ -3935,7 +3935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0357614b5a143c5428dd8c12694c7fb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lobbyManager: {fileID: 1344384936}
+  lobbyManager: {fileID: 0}
   listLobbyScreen: {fileID: 887796603}
   prefabLobbyItem: {fileID: 7682338265043919598, guid: 98c5c38a552dabd49b7937ab5b2e3ef0,
     type: 3}
@@ -17821,6 +17821,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lobbyUiManager: {fileID: 0}
+  playerId: 
+  isMenu: 1
 --- !u!4 &1344384937
 Transform:
   m_ObjectHideFlags: 0

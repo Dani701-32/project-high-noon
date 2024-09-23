@@ -80,8 +80,6 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
-            Debug.Log("Star Match");
-
             string relayCode = await CreateRealy();
             Debug.Log(relayCode);
 
@@ -116,7 +114,7 @@ public class LobbyManager : MonoBehaviour
     }
     IEnumerator LoadMatchAsync(){ 
         Debug.Log("LoadMatch");
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("TesteMultiplayer"); 
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MultiplayerCTF"); 
         // SceneManager.LoadScene("TesteMultiplayer");
 
         while (!asyncLoad.isDone)

@@ -91,7 +91,7 @@ public class LobbyUiManager : MonoBehaviour
     void Awake()
     {
         _instance = this;
-        lobbyManager = LobbyManager.Instance;
+        
     }
     void Update()
     {
@@ -108,6 +108,7 @@ public class LobbyUiManager : MonoBehaviour
 
     private void Start()
     {
+        lobbyManager = LobbyManager.Instance;
         foreach (Transform child in bodyList)
         {
             Destroy(child);
