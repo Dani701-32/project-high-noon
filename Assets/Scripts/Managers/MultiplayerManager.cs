@@ -125,7 +125,6 @@ public class MultiplayerManager : NetworkBehaviour
         {
             currentTime -= Time.deltaTime;
             networkCurrentTime.Value = currentTime;
-            LobbyManager.Instance.ShowLobby();
         }
     }
 

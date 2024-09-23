@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerOnline : NetworkBehaviour
 {
@@ -34,6 +35,12 @@ public class PlayerOnline : NetworkBehaviour
     [ReadOnly] public float focusInterp;
     [ReadOnly] public bool isFocused;
     [ReadOnly] public bool isGrounded;
+
+    [Header("Player UI")]
+    [SerializeField, ReadOnly] private string playerName; 
+    [SerializeField] private TMP_Text playerNameText; 
+    [SerializeField] private GameObject bgPlayerName;
+
     public override void OnNetworkSpawn()
     {
         gunController = GetComponent<GunControllerOnline>();
@@ -57,7 +64,9 @@ public class PlayerOnline : NetworkBehaviour
         if (IsOwner)
         {
             playerCanvas.SetActive(true);
-
+            bgPlayerName.SetActive(false);
+            playerName = LobbyManager.Instance.GetPlayerName();
+            UpdatePlayerNameServerRpc(playerName);
         }
     }
 
@@ -191,5 +200,19 @@ public class PlayerOnline : NetworkBehaviour
             gunController.RefillWeapons(); 
         }
         model.SetActive(true);
+    }
+    [ServerRpc]
+    private void UpdatePlayerNameServerRpc(string pName){
+        Debug.Log("Nome do jogador recebido no cliente: " + pName);
+        UpdatePlayerNameClientRpc(pName);
+    }
+    [ClientRpc]
+    private void UpdatePlayerNameClientRpc(string pName)
+    {
+        if(!IsOwner){
+            playerName = pName;
+            playerNameText.text = playerName;
+            bgPlayerName.SetActive(true);
+        }
     }
 }

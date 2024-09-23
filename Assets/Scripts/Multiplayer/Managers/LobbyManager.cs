@@ -337,7 +337,7 @@ public class LobbyManager : MonoBehaviour
         Debug.Log(lobby.Players.Count);
         foreach (Player player in lobby.Players)
         {
-             Debug.Log(player.Data["PlayerName"].Value);
+             Debug.Log(player.Id+ "--" + player.Data["PlayerName"].Value);
         }
     }
 
@@ -356,12 +356,33 @@ public class LobbyManager : MonoBehaviour
         return player;
     }
 
-    public void ShowLobby(){
-        if(joinedLobby != null){
-            DebugPlayer(joinedLobby);
-        }else{
-            DebugPlayer(hostLobby);
-
+    private string GetPlayerName(Lobby lobby)
+    {
+        string playerName = "";
+        foreach (Player player in lobby.Players)
+        {
+            
+            if (player.Id == playerId)
+            {
+                playerName = player.Data["PlayerName"].Value;
+                
+                break;
+            }
         }
+        return playerName;
+    }
+
+    public string GetPlayerName()
+    {
+        string namePlayer;
+        if (joinedLobby != null)
+        {
+            namePlayer = GetPlayerName(joinedLobby);
+        }
+        else
+        {
+            namePlayer = GetPlayerName(hostLobby);
+        }
+        return namePlayer;
     }
 }
