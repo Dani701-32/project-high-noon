@@ -70,10 +70,7 @@ public class PlayerOnline : NetworkBehaviour
         }
     }
 
-    private void Update()
-    {
-
-    }
+    private void Update() { }
 
     public bool hasFlag
     {
@@ -209,10 +206,8 @@ public class PlayerOnline : NetworkBehaviour
     [ClientRpc]
     private void UpdatePlayerNameClientRpc(string pName)
     {
-        if(!IsOwner){
-            playerName = pName;
-            playerNameText.text = playerName;
-            bgPlayerName.SetActive(true);
-        }
+        playerName = pName;
+        playerNameText.text = pName;
+        bgPlayerName.SetActive(!IsOwner);
     }
 }

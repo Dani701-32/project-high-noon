@@ -1221,6 +1221,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &158206214 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5861416188148606541, guid: 48690ed96b58c8b48a534c62c3006217,
+    type: 3}
+  m_PrefabInstance: {fileID: 1660553168}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &181992750
 GameObject:
   m_ObjectHideFlags: 0
@@ -9335,6 +9341,11 @@ PrefabInstance:
       objectReference: {fileID: 1970426214}
     - target: {fileID: 25934616478363526, guid: 48690ed96b58c8b48a534c62c3006217,
         type: 3}
+      propertyPath: accuracySprite
+      value: 
+      objectReference: {fileID: 158206214}
+    - target: {fileID: 25934616478363526, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
       propertyPath: guns.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: a5481451cd2147f499a94dbe3a1a7dbd,
@@ -9348,6 +9359,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 480605863649769397, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 480605863649769397, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 480605863649769397, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1973337235871623234, guid: 48690ed96b58c8b48a534c62c3006217,
         type: 3}
@@ -9389,6 +9415,27 @@ PrefabInstance:
       propertyPath: m_Avatar
       value: 
       objectReference: {fileID: 9000000, guid: 6cdc3d71d8a2b3c4f97c8180fd58a56c, type: 3}
+    - target: {fileID: 3521793380574893500, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521793380574893500, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521793380574893500, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 57a99a72cb3104440b3a86e5582ad083,
+        type: 3}
+    - target: {fileID: 3521793380574893500, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4305944821250484216, guid: 48690ed96b58c8b48a534c62c3006217,
         type: 3}
       propertyPath: m_Material
@@ -9409,6 +9456,27 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 68.727
+      objectReference: {fileID: 0}
+    - target: {fileID: 5861416188148606541, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5861416188148606541, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5861416188148606541, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f56574feb811cd549b9d8cee7554c070,
+        type: 3}
+    - target: {fileID: 5861416188148606541, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: m_DrawMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5887273413297176803, guid: 48690ed96b58c8b48a534c62c3006217,
         type: 3}

@@ -19,6 +19,7 @@ public class LobbyManager : MonoBehaviour
     private LobbyUiManager lobbyUiManager;
     private Lobby hostLobby;
     private Lobby joinedLobby;
+    private Lobby currentLobby;
     private float heartbeatTimer;
     private float heartbeatTimerMax = 15f;
     private float lobbyUpdateTimer;
@@ -81,7 +82,6 @@ public class LobbyManager : MonoBehaviour
         try
         {
             string relayCode = await CreateRealy();
-            Debug.Log(relayCode);
 
             Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(
                 joinedLobby.Id,
@@ -206,6 +206,7 @@ public class LobbyManager : MonoBehaviour
                 {
                     JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
                 }
+                currentLobby = joinedLobby;
                 joinedLobby = null;
             }
         }
@@ -327,6 +328,7 @@ public class LobbyManager : MonoBehaviour
     private void PrintPlayers(Lobby lobby)
     {
         Debug.Log(lobby.Players.Count);
+        DebugPlayer(lobby);
         foreach (Player player in lobby.Players)
         {
             lobbyUiManager.AddPlayer(player.Id, player.Data["PlayerName"].Value);
@@ -375,13 +377,15 @@ public class LobbyManager : MonoBehaviour
     public string GetPlayerName()
     {
         string namePlayer;
-        if (joinedLobby != null)
+        if (currentLobby != null)
         {
-            namePlayer = GetPlayerName(joinedLobby);
+            namePlayer = GetPlayerName(currentLobby);
+            DebugPlayer(currentLobby);
         }
         else
         {
             namePlayer = GetPlayerName(hostLobby);
+            DebugPlayer(hostLobby);
         }
         return namePlayer;
     }
