@@ -37,10 +37,10 @@ public class PlayerOnline : NetworkBehaviour
     [ReadOnly] public bool isGrounded;
 
     [Header("Player UI")]
-    [SerializeField, ReadOnly] private string playerName; 
+    [SerializeField, ReadOnly] private string playerName = ""; 
     [SerializeField] private TMP_Text playerNameText; 
     [SerializeField] private GameObject bgPlayerName;
-
+    
     public override void OnNetworkSpawn()
     {
         gunController = GetComponent<GunControllerOnline>();
@@ -54,6 +54,11 @@ public class PlayerOnline : NetworkBehaviour
             return;
         playerCanvas.SetActive(true);
         _camera.enabled = true;
+        if(IsOwner){
+            bgPlayerName.SetActive(false);
+            playerName = LobbyManager.Instance.GetPlayerName();
+            UpdatePlayerNameServerRpc(playerName);
+        }
 
         _camera.gameObject.GetComponent<AudioListener>().enabled = true;
         base.OnNetworkSpawn();
@@ -64,13 +69,20 @@ public class PlayerOnline : NetworkBehaviour
         if (IsOwner)
         {
             playerCanvas.SetActive(true);
+            
+        }
+    }
+
+    private void Update()
+    {
+        if (IsOwner && playerName == "")
+        {
             bgPlayerName.SetActive(false);
             playerName = LobbyManager.Instance.GetPlayerName();
             UpdatePlayerNameServerRpc(playerName);
         }
-    }
 
-    private void Update() { }
+    }
 
     public bool hasFlag
     {
