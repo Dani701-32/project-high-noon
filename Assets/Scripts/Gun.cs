@@ -4,6 +4,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Gun : MonoBehaviour
@@ -11,7 +12,7 @@ public class Gun : MonoBehaviour
     [Header("References")]
     [SerializeField] GameObject bulletPoint;
     [SerializeField] GameObject aimSprite;
-    [SerializeField] GameObject accuracySprite;
+    [SerializeField] SpriteRenderer accuracySprite;
     [SerializeField] Camera cam;
     [SerializeField] TEMP_PlayerStats playerStats;
     [SerializeField] AudioSource shotSound;
@@ -201,7 +202,8 @@ public class Gun : MonoBehaviour
         aimLeftRightTweak = playerStats.carryingScopedGun && playerStats.focused ? 0 : tweak;
         aimSprite.transform.position = center.GetPoint(8) + aimSprite.transform.right * aimLeftRightTweak;
 
-        accuracySprite.transform.localScale = Vector3.one * spread;
+        //accuracySprite.transform.localScale = Vector3.one * spread;
+        accuracySprite.size = Vector2.one * Mathf.Max(0.25f, spread);
     }
 
     void FixedUpdate()

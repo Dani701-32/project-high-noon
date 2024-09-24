@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 
 // ReSharper disable Unity.InefficientPropertyAccess
@@ -15,9 +17,14 @@ public class TPSCamera : MonoBehaviour
     IEnumerator waiting;
     TEMP_PlayerStats stats;
     Camera cam;
+    bool fullFocus;
+    Vignette vignette;
 
     [SerializeField]
     GameObject camParent;
+
+    [SerializeField] 
+    GameObject gunHolder;
 
     [SerializeField] KeyCode teclaDeFoco;
 
@@ -64,6 +71,15 @@ public class TPSCamera : MonoBehaviour
         
         stats = GetComponent<TEMP_PlayerStats>();
         cam = camParent.GetComponentInChildren<Camera>();
+        if (!vignette)
+        {
+            Volume vol = GameObject.Find("Global Volume").GetComponent<Volume>();
+            if(vol)
+                vol.profile.TryGet(out vignette);
+            else
+                Debug.LogError("Componente de nome 'Global Volume' não pode ser encontrado na cena!");
+        }
+            
     }
 
     void Update()
@@ -86,6 +102,23 @@ public class TPSCamera : MonoBehaviour
             zoomTarget = stats.carryingScopedGun ? scopeCamPos : nearCamPos;
             cam.transform.localPosition =
                 Vector3.Lerp(farCamPos.localPosition, zoomTarget.localPosition, stats.focusInterp);
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (stats.focusInterp >= 0.9f && !fullFocus && stats.carryingScopedGun)
+        {
+            fullFocus = true;
+            vignette.intensity.value = 0.4f;
+            gunHolder.SetActive(false);
+        }
+
+        if ((!stats.carryingScopedGun && fullFocus) || (stats.focusInterp < 0.9f && fullFocus))
+        {
+            fullFocus = false;
+            vignette.intensity.value = 0.2f;
+            gunHolder.SetActive(true);
         }
     }
 
