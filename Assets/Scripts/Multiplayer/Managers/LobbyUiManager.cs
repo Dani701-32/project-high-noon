@@ -194,8 +194,11 @@ public class LobbyUiManager : MonoBehaviour
     {
         string playerName = inputPlayerName.text ?? "player" + Random.Range(10, 100);
         string lobbyName = inputLobbyName.text ?? "lobby" + Random.Range(1, 100);
-        int lobbyPlayerCap = int.Parse(inputLobbPlayerCap.text ?? "4");
+        int lobbyPlayerCap = int.Parse(inputLobbPlayerCap.text ?? "1");
         isLobbyHost = true;
+        if(lobbyPlayerCap > 8){
+            lobbyPlayerCap = 8;
+        }
         lobbyManager.CreateLobby(lobbyName, lobbyPlayerCap, playerName);
     }
 

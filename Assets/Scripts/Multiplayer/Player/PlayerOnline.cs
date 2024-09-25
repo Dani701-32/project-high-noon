@@ -102,12 +102,12 @@ public class PlayerOnline : NetworkBehaviour
         return teamData;
     }
 
-    public void SpawnPoint(Transform sp)
-    {
-        spawnPoint = sp;
-        transform.position = sp.position;
-        movementOnline.SetSpawn(sp);
-    }
+    // public void SpawnPoint(Transform sp)
+    // {
+    //     spawnPoint = sp;
+    //     transform.position = sp.position;
+    //     movementOnline.SetSpawn(sp);
+    // }
 
     private void FlagUpdate()
     {
@@ -185,8 +185,8 @@ public class PlayerOnline : NetworkBehaviour
             if (IsOwner)
             {
                 sliderHealth.value = health;
-                transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
-                transform.rotation = spawnPoint.rotation;
+                // transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
+                // transform.rotation = spawnPoint.rotation;
                 movementOnline.enabled = true;
                 gunController.RefillWeapons(); 
             }
@@ -202,8 +202,8 @@ public class PlayerOnline : NetworkBehaviour
         health = maxHealth;
         if (IsOwner)
         {
-            transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
-            transform.rotation = spawnPoint.rotation;
+            // transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
+            // transform.rotation = spawnPoint.rotation;
             sliderHealth.value = health;
             movementOnline.enabled = true;
             gunController.RefillWeapons(); 

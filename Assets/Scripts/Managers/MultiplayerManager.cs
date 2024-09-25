@@ -69,7 +69,7 @@ public class MultiplayerManager : NetworkBehaviour
 
     private void Awake()
     {
-        NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalWithRandomSpawnPos;
+        // NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalWithRandomSpawnPos;
         _instance = this;
     }
 
@@ -141,11 +141,11 @@ public class MultiplayerManager : NetworkBehaviour
     {
         if (playersRed.Count == playersBlue.Count)
         {
-            newPlayer.SpawnPoint(spawnPointsBlue[0]);
+            // newPlayer.SpawnPoint(spawnPointsBlue[0]);
             playersBlue.Add(newPlayer);
             return teamDatas[0];
         }
-        newPlayer.SpawnPoint(spawnPointsRed[0]);
+        // newPlayer.SpawnPoint(spawnPointsRed[0]);
         playersRed.Add(newPlayer);
         return teamDatas[1];
     }
@@ -218,27 +218,27 @@ public class MultiplayerManager : NetworkBehaviour
             Destroy(NetworkManager.Singleton.gameObject);
         }
     }
-    public Vector3 GetNextSpawnPosition(){
-        switch (m_SpawnMethod)
-        {
-            case SpawnMethod.Random:
-                var index = Random.Range(0, m_SpawnPositions.Count);
-                return m_SpawnPositions[index];
-            case SpawnMethod.RoundRobin:
-                m_RoundRobinIndex = (m_RoundRobinIndex+1) % m_SpawnPositions.Count;
-                return m_SpawnPositions[m_RoundRobinIndex];
-            default:
-                throw new NotImplementedException(); 
-        }
-    }
-    void ConnectionApprovalWithRandomSpawnPos(ConnectionApprovalRequest request, ConnectionApprovalResponse response)
-    {
-        // Here we are only using ConnectionApproval to set the player's spawn position. Connections are always approved.
-        response.CreatePlayerObject = true;
-        response.Position = GetNextSpawnPosition();
-        response.Rotation = Quaternion.identity;
-        response.Approved = true;
-    }
+    // public Vector3 GetNextSpawnPosition(){
+    //     switch (m_SpawnMethod)
+    //     {
+    //         case SpawnMethod.Random:
+    //             var index = Random.Range(0, m_SpawnPositions.Count);
+    //             return m_SpawnPositions[index];
+    //         case SpawnMethod.RoundRobin:
+    //             m_RoundRobinIndex = (m_RoundRobinIndex+1) % m_SpawnPositions.Count;
+    //             return m_SpawnPositions[m_RoundRobinIndex];
+    //         default:
+    //             throw new NotImplementedException(); 
+    //     }
+    // }
+    // void ConnectionApprovalWithRandomSpawnPos(ConnectionApprovalRequest request, ConnectionApprovalResponse response)
+    // {
+    //     // Here we are only using ConnectionApproval to set the player's spawn position. Connections are always approved.
+    //     response.CreatePlayerObject = true;
+    //     response.Position = GetNextSpawnPosition();
+    //     response.Rotation = Quaternion.identity;
+    //     response.Approved = true;
+    // }
 }
 
 enum SpawnMethod
