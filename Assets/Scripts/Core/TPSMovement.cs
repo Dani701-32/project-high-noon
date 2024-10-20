@@ -8,7 +8,7 @@ public class TPSMovement : MonoBehaviour
     Rigidbody rb;
 
     [SerializeField] Transform orientation;
-    [SerializeField] TEMP_PlayerStats stats;
+    [SerializeField] PlayerStats stats;
     Transform spawnPoint;
 
     [Header("Movement")]

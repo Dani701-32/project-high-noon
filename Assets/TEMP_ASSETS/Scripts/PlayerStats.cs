@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TEMP_PlayerStats : MonoBehaviour
+public class PlayerStats : MonoBehaviour
 {
     [Header("Team data")]
     [SerializeField]
@@ -14,13 +14,13 @@ public class TEMP_PlayerStats : MonoBehaviour
     GameObject flagCarryEffects;
 
     [Header("Stats")]
-    [ReadOnly] public int HP = 100;
+    [ReadOnly] public int HP;
     [ReadOnly] public float focusInterp;
     [ReadOnly] public bool carryingScopedGun;
     [SerializeField] GameObject model;
 
     [SerializeField]
-    private int HPMax = 100;
+    private int HPMax = 6;
     [SerializeField, ReadOnly]
     bool _hasFlag;
     [ReadOnly]
@@ -28,8 +28,12 @@ public class TEMP_PlayerStats : MonoBehaviour
     [ReadOnly] 
     public bool grounded;
 
+    EventManager events;
+
     private void Start()
     {
+        HP = Mathf.Max(HPMax, 1);
+        events = EventManager.Instance;
         if (team != null)
         {
             model.GetComponent<MeshRenderer>().material = team.teamEquipMaterial;
@@ -54,6 +58,13 @@ public class TEMP_PlayerStats : MonoBehaviour
         return team;
     }
 
+    public void Damage(int damage)
+    {
+        HP -= damage;
+        if (HP <= 0)
+            Death();
+    }
+
     private void FlagUpdate()
     {
         if (flagCarryObject != null)
@@ -61,5 +72,10 @@ public class TEMP_PlayerStats : MonoBehaviour
         if (flagCarryEffects != null)
             flagCarryEffects.SetActive(!hasFlag);
         flagCarryObject.GetComponent<MeshRenderer>().material.color = team.teamColor;
+    }
+
+    void Death()
+    {
+        Debug.LogWarning("stub: death");
     }
 }

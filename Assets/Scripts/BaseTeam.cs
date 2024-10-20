@@ -43,7 +43,7 @@ public class BaseTeam : MonoBehaviour
             else
             {
 
-                TEMP_PlayerStats playerStats = other.GetComponentInParent<TEMP_PlayerStats>();
+                PlayerStats playerStats = other.GetComponentInParent<PlayerStats>();
                 if (playerStats.GetTeam().teamName == teamData.teamName && playerStats.hasFlag)
                 {
                     playerStats.hasFlag = false;

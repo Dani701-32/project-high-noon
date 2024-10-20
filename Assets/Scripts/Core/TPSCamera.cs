@@ -15,7 +15,7 @@ public class TPSCamera : MonoBehaviour
     float angleDiff;
     Transform camTrans;
     IEnumerator waiting;
-    TEMP_PlayerStats stats;
+    PlayerStats stats;
     Camera cam;
     bool fullFocus;
     Vignette vignette;
@@ -69,7 +69,7 @@ public class TPSCamera : MonoBehaviour
         waiting = WaitForStart();
         StartCoroutine(waiting);
         
-        stats = GetComponent<TEMP_PlayerStats>();
+        stats = GetComponent<PlayerStats>();
         cam = camParent.GetComponentInChildren<Camera>();
         if (!vignette)
         {

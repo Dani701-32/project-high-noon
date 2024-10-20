@@ -29,7 +29,7 @@ public class FlagSpot : MonoBehaviour
                 playerOnline.hasFlag = true; 
             }else{
 
-                other.GetComponentInParent<TEMP_PlayerStats>().hasFlag = true;
+                other.GetComponentInParent<PlayerStats>().hasFlag = true;
             }
             flagModel.SetActive(false);
         }

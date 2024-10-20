@@ -14,7 +14,7 @@ public class Gun : MonoBehaviour
     [SerializeField] GameObject aimSprite;
     [SerializeField] SpriteRenderer accuracySprite;
     [SerializeField] Camera cam;
-    [SerializeField] TEMP_PlayerStats playerStats;
+    [SerializeField] PlayerStats playerStats;
     [SerializeField] AudioSource shotSound;
     [SerializeField] GunSwapper swapper;
 

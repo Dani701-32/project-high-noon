@@ -11,13 +11,22 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         TextWindow tx = EventManager.Instance.canvasTextWindow;
-        if (tx != null)
+        if (tx != null || texts.Length == 0)
         {
-            tx.texts = texts;
-            tx.dialogueEndEvents = events;
-            tx.StartText();
-            if(vanishOnTrigger)
-                gameObject.SetActive(false);
+            if (texts.Length > 0)
+            {
+                tx.texts = texts;
+                tx.StartText();
+                tx.dialogueEndEvents = events;
+                if(vanishOnTrigger)
+                    gameObject.SetActive(false);
+            }
+            else
+            {
+                events.Invoke();
+                if(vanishOnTrigger)
+                    gameObject.SetActive(false);
+            }
         }
             
     }

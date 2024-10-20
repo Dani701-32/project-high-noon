@@ -9,7 +9,7 @@ public class EventManager : MonoBehaviour
     public TPSMovement playerMove;
     public TPSCamera playerCam;
     public TextWindow canvasTextWindow;
-    
+
     public bool greaterGunLock;
     public bool infiniteAmmo;
 
@@ -48,6 +48,8 @@ public class EventManager : MonoBehaviour
     
     public void ToggleCamera(bool enable) { playerCam.canMove = enable; }
 
+    public void ToggleMovement(bool enable) { playerMove.canMove = enable; }
+
     public void GiveNewGun(GunData gun)
     {
         if (playerGun.guns[1] == null)
@@ -69,4 +71,10 @@ public class EventManager : MonoBehaviour
         Cursor.visible = true;
     }
     
+    public void ForceFocusMouse()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
 }

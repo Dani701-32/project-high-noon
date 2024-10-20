@@ -1,14 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
+using UnityEngine.UI;
+
 public class GameManager : MonoBehaviour
 {
     static GameManager _instance;
 
-    [Header("Controles da partida")]
+    [Header("Controles da partida [CTF]")]
     [SerializeField]
     private int currentPointRed = 0,
                 currentPointBlue = 0;
@@ -17,7 +21,21 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private FlagSpot flagSpot;
     private bool matchOver = false;
-    
+
+    [Header("Controles da partida [Survival]")]
+    [SerializeField] TextMeshProUGUI survivalTimer;
+    [SerializeField] bool timerOn;
+    public int goldSeconds;
+    public Sprite goldMedal;
+    public int silverSeconds;
+    public Sprite silverMedal;
+    public int bronzeSeconds;
+    public Sprite bronzeMedal;
+    [SerializeField] GameObject gameEndScore;
+    [SerializeField] TextMeshProUGUI gameEndTime;
+    [SerializeField] Image gameEndMedal;
+    float timer;
+
     [Header("Map Section")]
     public Transform spawnPoint;
     
@@ -83,6 +101,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         MatchOver = true;
+        timerOn = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         StartCoroutine("ReturnMenu");
@@ -115,6 +134,47 @@ public class GameManager : MonoBehaviour
         if (NetworkManager.Singleton != null)
         {
             Destroy(NetworkManager.Singleton.gameObject);
+        }
+    }
+
+    public void StartSurvivalTimer() { timerOn = true; }
+    void Update()
+    {
+        if (timerOn)
+        {
+            timer += Time.deltaTime;
+            int minutes = Mathf.FloorToInt(timer / 60F);
+            int seconds = Mathf.FloorToInt(timer - minutes * 60);
+
+            survivalTimer.text = $"{minutes:00}:{seconds:00}";
+        }
+
+        if (timer > 0 && !timerOn)
+        {
+            int finalTime = Mathf.FloorToInt(timer);
+            survivalTimer.transform.parent.gameObject.SetActive(false);
+
+            if (finalTime >= goldSeconds)
+            {
+                gameEndMedal.sprite = goldMedal;
+            } else if (finalTime >= silverSeconds)
+            {
+                gameEndMedal.sprite = silverMedal;
+            }else if (finalTime >= bronzeSeconds)
+            {
+                gameEndMedal.sprite = bronzeMedal;
+            }
+            finalTime /= 60;
+            int seconds = Mathf.FloorToInt(timer - finalTime * 60);
+            gameEndTime.text = $"{finalTime:00}:{seconds:00}";
+            gameEndScore.SetActive(true);
+            timer = 0;
+            EventManager events = EventManager.Instance;
+            events.ToggleGreaterLock(true);
+            events.ToggleCamera(false);
+            events.ToggleMovement(false);
+            events.ForceReleaseMouse();
+            
         }
     }
 }
