@@ -1,17 +1,15 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class MusicManager : MonoBehaviour
 {
-    AudioSource playing;
-    [SerializeField][ReadOnly] AudioClip loadedClip;
+    [SerializeField][ReadOnly] AudioSource playing;
     [Space]
     [SerializeField] AudioSource startAudio;
     [SerializeField] AudioSource mainAudio;
     [SerializeField] AudioSource endAudio;
 
-    AudioClip nextAudio;
+    AudioSource nextAudio;
     bool alreadyFading;
 
     void Start()
@@ -19,18 +17,17 @@ public class MusicManager : MonoBehaviour
         playing = GetComponent<AudioSource>();
         
         if (startAudio && startAudio.playOnAwake)
-        { playing.clip = startAudio.clip; }
+        { playing = startAudio; }
         
         else if (mainAudio && mainAudio.playOnAwake)
-        { playing.clip = mainAudio.clip; } 
+        { playing = mainAudio; } 
         
         else if (endAudio && endAudio.playOnAwake)
-        { playing.clip = endAudio.clip; }
+        { playing = endAudio; }
         
         startAudio?.Stop();
         mainAudio?.Stop();
         endAudio?.Stop();
-        loadedClip = playing.clip;
         playing.Play();
     }
     
@@ -47,7 +44,6 @@ public class MusicManager : MonoBehaviour
         if(playing)
             playing.Stop();
         next.Stop();
-        loadedClip = playing.clip = next.clip;
         playing.Play();
     }
     
@@ -55,7 +51,7 @@ public class MusicManager : MonoBehaviour
     {
         if (alreadyFading)
         {
-            nextAudio = aud.clip;
+            nextAudio = aud;
             return;
         }
 
@@ -68,7 +64,7 @@ public class MusicManager : MonoBehaviour
         if (waitAndPlay)
         {
             yield return new WaitForSeconds(secs);
-            loadedClip = playing.clip = aud.clip;
+            playing = aud;
             playing.Play();
             yield break;
         }
@@ -76,7 +72,7 @@ public class MusicManager : MonoBehaviour
         alreadyFading = true;
         bool fading = true;
         float increment = playing.volume / (secs / Time.deltaTime);
-        nextAudio = aud.clip;
+        nextAudio = aud;
         float prevVol = playing.volume;
         while (fading)
         {
@@ -88,7 +84,7 @@ public class MusicManager : MonoBehaviour
             }
             yield return new WaitForEndOfFrame();
         }
-        loadedClip = playing.clip = nextAudio;
+        playing = nextAudio;
         playing.volume = prevVol;
         playing.Play();
         alreadyFading = false;
