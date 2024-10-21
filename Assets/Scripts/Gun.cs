@@ -91,13 +91,20 @@ public class Gun : MonoBehaviour
         if (!swap)
         {
             bulletsLoaded[slot] = guns[slot].clip;
-            currentAmmo[slot] = guns[slot].maxAmmo;
+            currentAmmo[slot] = guns[slot].startingAmmo;
         }
         spread = guns[slot].minSpread;
         oneSound = guns[slot].firingSounds.Length == 1;
         if (oneSound && slot == gunID)
             shotSound.clip = guns[slot].firingSounds[0];
         playerStats.carryingScopedGun = guns[slot].scopeView;
+    }
+
+    public void AddAmmo(int amount)
+    {
+        currentAmmo[gunID] += amount * guns[gunID].bulletsInAmmoBox;
+        currentAmmo[gunID] = Mathf.Min(currentAmmo[gunID], guns[gunID].maxAmmo);
+        UpdateAmmo();
     }
 
     private void UpdateAmmo(bool updateReserve = true)

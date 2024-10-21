@@ -28,7 +28,9 @@ public class GunData : ScriptableObject
     public float focusShotCooldownExtra = 0;
     public float reloadTime;
     public int maxAmmo;
+    public int startingAmmo;
     public int clip;
+    public int bulletsInAmmoBox;
 
     [Header("Special")]
     public bool autoFire;

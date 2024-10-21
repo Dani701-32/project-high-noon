@@ -65,6 +65,8 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public void GiveAmmoToCurrentGun(int amount) { playerGun.AddAmmo(amount); }
+
     public void ForceReleaseMouse()
     {
         Cursor.lockState = CursorLockMode.Confined;
