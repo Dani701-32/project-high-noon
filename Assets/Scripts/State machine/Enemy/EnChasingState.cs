@@ -17,7 +17,6 @@ public class EnChasingState : State
     [SerializeField] bool switchStateWhenClose;
     [SerializeField] bool relentless;
     [SerializeField] float targetDistanceForStateSwitch;
-    [SerializeField] float turnSpeed;
     [SerializeField] float maxChaseSpeed = 1;
     [SerializeField] float speedGainMultiplier = 1;
     [SerializeField] LayerMask obstacleMask;
@@ -53,8 +52,8 @@ public class EnChasingState : State
         if (switchStateWhenClose && playerDistance <= targetDistanceForStateSwitch)
             return followupState;
 
-        Quaternion lookOnLook = Quaternion.LookRotation(tpos - pos);
-        mainBody.rotation = Quaternion.Slerp(mainBody.rotation, lookOnLook, turnSpeed * Time.deltaTime);
+        Vector3 targetPostition = new Vector3(tpos.x, pos.y, tpos.z);
+        mainBody.LookAt(targetPostition);
         
         rb.AddForce(mainBody.forward * currSpeed, ForceMode.Acceleration);
 
