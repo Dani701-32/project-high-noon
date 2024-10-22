@@ -35,6 +35,7 @@ public class PlayerOnline : NetworkBehaviour
     [ReadOnly] public float focusInterp;
     [ReadOnly] public bool isFocused;
     [ReadOnly] public bool isGrounded;
+    [ReadOnly] public bool scopeGun; 
 
     [Header("Player UI")]
     [SerializeField, ReadOnly] private string playerName = ""; 

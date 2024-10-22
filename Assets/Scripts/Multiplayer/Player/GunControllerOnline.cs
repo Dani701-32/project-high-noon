@@ -8,6 +8,7 @@ public class GunControllerOnline : NetworkBehaviour
     [SerializeField, ReadOnly] private MultiplayerManager multiplayerManager;
     [SerializeField] private GameObject gunSpot; //Local da Arma
     [SerializeField] private GunOnline currentGun; //Script da Arma online
+    [SerializeField] private GameObject currentGunModel; //Modelo atual do player
     private bool auto;
 
     // Start is called before the first frame update

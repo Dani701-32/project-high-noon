@@ -72,7 +72,7 @@ public class MovementOnline : NetworkBehaviour
         if (transform.position.y < -1 && !fixer)
         {
             fixer = true;
-            transform.position = spawnPoint.position;
+            // transform.position = spawnPoint.position;
             return;
         }
 

@@ -763,6 +763,7 @@ GameObject:
   - component: {fileID: 968475619}
   - component: {fileID: 968475620}
   - component: {fileID: 968475621}
+  - component: {fileID: 968475622}
   m_Layer: 0
   m_Name: MultiplayerManager
   m_TagString: Untagged
@@ -845,6 +846,24 @@ MonoBehaviour:
     m_InternalValue: 0
   m_SpawnMethod: 0
   m_SpawnPositions: []
+--- !u!114 &968475622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968475617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fe323e053209e449eb330ef04f494e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guns:
+  - {fileID: 8854352151374844054, guid: bfbb077db6c11a442b7de1f3562da0ae, type: 3}
+  - {fileID: 5395695140838354982, guid: cc5f03672ec61794bb2b28911337db12, type: 3}
+  - {fileID: 5419158025155348727, guid: 4f501dc2682c20f44b72a5cf1038881e, type: 3}
+  - {fileID: 1241954644454153725, guid: c1cac78b922eeeb40be9332663a5e981, type: 3}
+  - {fileID: 1787913151748893083, guid: ebe7ade98f9b47e4db647b0b78f2799b, type: 3}
 --- !u!1 &1012515013
 GameObject:
   m_ObjectHideFlags: 0

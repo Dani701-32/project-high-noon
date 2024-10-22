@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Random = UnityEngine.Random;
 using TMPro;
-using Unity.VisualScripting;
 
 public class GunOnline : NetworkBehaviour
 {
@@ -13,11 +14,16 @@ public class GunOnline : NetworkBehaviour
     [SerializeField] private GameObject accuracySprite;
     [SerializeField] private Camera cam;
     [SerializeField] private AudioSource shotSound;
+    [SerializeField] private GunSwapperOnline swapperOnline;
     [SerializeField] private PlayerOnline player;
 
     //Aim
     private Ray center;
     private float spread;
+    private float focusSpread;
+    private float focusCooldown;
+    [SerializeField] private float aimLeftRightTweak;
+    private float tweak;
     private Vector3 aimPoint;
     private Vector3 deviation;
 
@@ -34,11 +40,9 @@ public class GunOnline : NetworkBehaviour
     private bool[] isReloaing;
     private bool oneSound;
 
-
-
-
     public override void OnNetworkSpawn()
     {
+        tweak = aimLeftRightTweak;
         bulletsLoaded = new int[guns.Length];
         currentAmmo = new int[guns.Length];
         inCoolDown = new bool[guns.Length];
@@ -63,15 +67,22 @@ public class GunOnline : NetworkBehaviour
         center = new Ray(cam.transform.position, cam.transform.forward);
         aimPoint = center.GetPoint(100);
         transform.parent.LookAt(aimPoint + Vector3.up * 3, Vector3.up);
-        aimSprite.transform.position = center.GetPoint(8);
+
+        aimLeftRightTweak = player.scopeGun && player.isFocused ? 0 : tweak;
+        aimSprite.transform.position = center.GetPoint(8) + aimSprite.transform.right * aimLeftRightTweak;
+
         accuracySprite.transform.localScale = Vector3.one * (spread + 0.25f);
+
     }
     private void FixedUpdate()
     {
-        if (spread > guns[gunId].minSpread)
+        if (Math.Abs(spread - (guns[gunId].minSpread - focusSpread)) > 0.01f)
         {
-            spread = Mathf.Max(spread - guns[gunId].spreadRecovery / 20, guns[gunId].minSpread);
+            spread = Mathf.Max(spread - guns[gunId].spreadRecovery / 20, guns[gunId].minSpread - focusSpread);
         }
+        bool focused = player.isFocused;
+        focusCooldown = focused ? guns[gunId].focusShotCooldownExtra : 0;
+        focusSpread = focused ? guns[gunId].focusSpreadDecrease : 0;
     }
 
     public void AcquireWeapon(int slot, bool swap = false)
@@ -87,6 +98,7 @@ public class GunOnline : NetworkBehaviour
         {
             shotSound.clip = guns[slot].firingSounds[0];
         }
+        player.scopeGun = guns[slot].scopeView; 
     }
     [ServerRpc]
     private void UpdateAmmo_ServerRpc(bool updateReserve = true)
@@ -196,8 +208,11 @@ public class GunOnline : NetworkBehaviour
     }
     private IEnumerator Cooldown()
     {
-        yield return new WaitForSeconds(guns[gunId].shotCooldown);
+        yield return new WaitForSeconds(guns[gunId].shotCooldown + focusCooldown);
         inCoolDown[gunId] = false;
+        if(guns[gunId].autoReload){
+            Reload();
+        }
     }
 
     [ServerRpc]
@@ -226,12 +241,18 @@ public class GunOnline : NetworkBehaviour
         if (!guns[gunId]) return;
         SwapGun_ClientRpc(gunId);
         AcquireWeapon(gunId, true);
+        if(!swapperOnline.SwapToGun(guns[gunId].gunName)){
+            Debug.LogError("Tried to swap to a gun model that does not exist in the prefab's gun holder");
+        };
     }
     [ClientRpc]
     private void SwapGun_ClientRpc(int id)
     {
         gunId = id;
         AcquireWeapon(gunId, true);
+        if(!swapperOnline.SwapToGun(guns[gunId].gunName)){
+            Debug.LogError("Tried to swap to a gun model that does not exist in the prefab's gun holder");
+        };
     }
 
     public void Refill()

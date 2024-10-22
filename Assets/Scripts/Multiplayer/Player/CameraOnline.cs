@@ -12,7 +12,8 @@ public class CameraOnline : NetworkBehaviour
     IEnumerator waiting;
     [SerializeField] private GameObject camParent;
     [SerializeField] private Transform orientation;
-    [SerializeField] KeyCode key;
+    [SerializeField] KeyCode keyAim;
+
     [Header("Angles")]
     [Tooltip("Ângulo máximo antes do jogador começar a virar para acompanhar a câmera")]
     [SerializeField] private float maxTurnAngle;
@@ -34,6 +35,8 @@ public class CameraOnline : NetworkBehaviour
 
     [SerializeField] Transform nearCamPos;
     [SerializeField] Transform farCamPos;
+    [SerializeField] Transform scopeCamPos; 
+    private Transform zoomTarget;
     [SerializeField] float fovChangeSpeed;
     [SerializeField, ReadOnly] private PlayerOnline player;
     void Start()
@@ -67,8 +70,10 @@ public class CameraOnline : NetworkBehaviour
             transform.rotation = Quaternion.Euler(0, pitch, 0);
             // orientation.rotation = Quaternion.Euler(0, myCamera.transform.rotation.eulerAngles.y, 0);
 
-            player.isFocused = canFocus && player.isGrounded && Input.GetKey(key); 
+            player.isFocused = canFocus && player.isGrounded && Input.GetKey(keyAim); 
             player.focusInterp = Mathf.Clamp(player.focusInterp + (player.isFocused ? 1 : -1)*Time.deltaTime*fovChangeSpeed, 0, 1);
+
+            
             
             myCamera.transform.localPosition = Vector3.Lerp(farCamPos.localPosition, nearCamPos.localPosition, player.focusInterp);
 
