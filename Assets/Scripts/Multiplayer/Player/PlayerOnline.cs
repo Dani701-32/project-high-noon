@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Collections;
 
 public class PlayerOnline : NetworkBehaviour
 {
@@ -35,13 +36,15 @@ public class PlayerOnline : NetworkBehaviour
     [ReadOnly] public float focusInterp;
     [ReadOnly] public bool isFocused;
     [ReadOnly] public bool isGrounded;
-    [ReadOnly] public bool scopeGun; 
+    [ReadOnly] public bool scopeGun;
 
     [Header("Player UI")]
-    [SerializeField, ReadOnly] private string playerName = ""; 
-    [SerializeField] private TMP_Text playerNameText; 
+    private NetworkVariable<NetworkString> playerName = new NetworkVariable<NetworkString>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [SerializeField, ReadOnly] private string playName;
+    [SerializeField, ReadOnly] private bool overlaySet = false;
+    [SerializeField] private TMP_Text playerNameText;
     [SerializeField] private GameObject bgPlayerName;
-    
+
     public override void OnNetworkSpawn()
     {
         gunController = GetComponent<GunControllerOnline>();
@@ -50,39 +53,33 @@ public class PlayerOnline : NetworkBehaviour
         health = maxHealth;
         sliderHealth.maxValue = maxHealth;
         sliderHealth.value = health;
+        bgPlayerName.SetActive(true);
         model.GetComponent<SkinnedMeshRenderer>().material.color = teamData.teamColor;
         if (!IsOwner)
             return;
         playerCanvas.SetActive(true);
-        _camera.enabled = true;
-        if(IsOwner){
-            bgPlayerName.SetActive(false);
-            playerName = LobbyManager.Instance.GetPlayerName();
-            UpdatePlayerNameServerRpc(playerName);
-        }
 
+        _camera.enabled = true;
+        bgPlayerName.SetActive(false);
         _camera.gameObject.GetComponent<AudioListener>().enabled = true;
+        playerName.Value = LobbyManager.Instance.GetPlayerName();
+
+
         base.OnNetworkSpawn();
     }
 
     private void Start()
     {
-        if (IsOwner)
-        {
-            playerCanvas.SetActive(true);
-            
-        }
+
     }
 
     private void Update()
     {
-        if (IsOwner && playerName == "")
+        if (!overlaySet && !string.IsNullOrEmpty(playerName.Value))
         {
-            bgPlayerName.SetActive(false);
-            playerName = LobbyManager.Instance.GetPlayerName();
-            UpdatePlayerNameServerRpc(playerName);
+            SetOverlay();
+            overlaySet = true;
         }
-
     }
 
     public bool hasFlag
@@ -109,6 +106,12 @@ public class PlayerOnline : NetworkBehaviour
     //     transform.position = sp.position;
     //     movementOnline.SetSpawn(sp);
     // }
+
+    public void SetOverlay()
+    {
+        playerNameText.text = playerName.Value;
+        playName = playerName.Value.ToString();
+    }
 
     private void FlagUpdate()
     {
@@ -172,7 +175,8 @@ public class PlayerOnline : NetworkBehaviour
 
         Debug.Log("Morreu");
         model.SetActive(false);
-        if(IsOwner){
+        if (IsOwner)
+        {
             movementOnline.enabled = false;
         }
     }
@@ -189,7 +193,7 @@ public class PlayerOnline : NetworkBehaviour
                 // transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
                 // transform.rotation = spawnPoint.rotation;
                 movementOnline.enabled = true;
-                gunController.RefillWeapons(); 
+                gunController.RefillWeapons();
             }
 
             model.SetActive(true);
@@ -207,20 +211,8 @@ public class PlayerOnline : NetworkBehaviour
             // transform.rotation = spawnPoint.rotation;
             sliderHealth.value = health;
             movementOnline.enabled = true;
-            gunController.RefillWeapons(); 
+            gunController.RefillWeapons();
         }
         model.SetActive(true);
-    }
-    [ServerRpc]
-    private void UpdatePlayerNameServerRpc(string pName){
-        Debug.Log("Nome do jogador recebido no cliente: " + pName);
-        UpdatePlayerNameClientRpc(pName);
-    }
-    [ClientRpc]
-    private void UpdatePlayerNameClientRpc(string pName)
-    {
-        playerName = pName;
-        playerNameText.text = pName;
-        bgPlayerName.SetActive(!IsOwner);
     }
 }

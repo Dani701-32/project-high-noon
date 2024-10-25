@@ -53,7 +53,8 @@ public class LobbyManager : MonoBehaviour
         lobbyUiManager = LobbyUiManager.Instance;
         isMenu = true; 
         //Iniciando a parte asincrona da Unity
-        await UnityServices.InitializeAsync();
+        var options = new InitializationOptions(); 
+        await UnityServices.InitializeAsync(options);
         
         AuthenticationService.Instance.SignedIn += () =>
         {
