@@ -99,7 +99,6 @@ public class LobbyUiManager : MonoBehaviour
             lobbyTimer -= Time.deltaTime;
             if (lobbyTimer < 0f)
             {
-                Debug.Log("rtwes");
                 lobbyTimer = lobbyMaxTimer;
                 RefreshList(); 
             }
@@ -138,7 +137,6 @@ public class LobbyUiManager : MonoBehaviour
     {
         if (listLobbies.Count > 0)
         {
-            Debug.Log("Refressing...");
             foreach (LobbyItem listItem in listLobbies)
             {
                 Destroy(listItem.gameObject);
@@ -205,6 +203,7 @@ public class LobbyUiManager : MonoBehaviour
     //Abrir Lobby
     public void OpenLobby(string nameLobby, int numPlayers, int maxPlayers, string gameMode)
     {
+        CloseListLobbies();
         textNameLobbyOpen.text = $"{nameLobby}: {gameMode}";
         textLobbyOpenPlayers.text = $"{numPlayers}/{maxPlayers}";
         RefreshPlayer();
@@ -227,7 +226,6 @@ public class LobbyUiManager : MonoBehaviour
     {
         if (listPlayers.Count > 0)
         {
-            Debug.Log("Refressing Players...");
             foreach (PlayerItem playerItem in listPlayers)
             {
                 if (playerItem != null)
