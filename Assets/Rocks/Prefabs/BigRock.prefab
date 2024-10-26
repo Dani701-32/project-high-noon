@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2273102519665196619}
   - component: {fileID: 4315064709968364795}
   - component: {fileID: 1639836898954225741}
+  - component: {fileID: 3550848815123435943}
   m_Layer: 0
   m_Name: BigRock
   m_TagString: Untagged
@@ -26,13 +27,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2460371047051791289}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.15487856, z: -0, w: 0.9879335}
-  m_LocalPosition: {x: 137.77747, y: 22, z: 2.1598792}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -17.82, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4315064709968364795
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8748892135801146194, guid: 668b3b8c4d596f14184b93b2b7b45b60, type: 3}
+  - {fileID: -8017855412511451680, guid: ba252f02d8d0316429a30636e488ca0a, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3550848815123435943
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2460371047051791289}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 29.278904, y: 22.622404, z: 25.257498}
+  m_Center: {x: 0.13562918, y: 11.1899, z: -2.0556688}
