@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnInstaLookState : State
+public class EnSphereLookState : State
 {
     [SerializeField] EnemyStateMachine stateMachine;
     [SerializeField] float searchRange;

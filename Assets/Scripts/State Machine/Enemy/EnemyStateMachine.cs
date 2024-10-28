@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class EnemyStateMachine : MonoBehaviour
@@ -8,9 +7,11 @@ public class EnemyStateMachine : MonoBehaviour
     public State previousState;
     [SerializeField] State stunnedState;
     [SerializeField] State chasingState;
+    [SerializeField] State waitingState;
     
     [Header("Enemy stats")]
     public GameObject trackingObject;
+    public bool invulnerable;
     [SerializeField] bool hyperArmor;
     [SerializeField] int startingHealth = 10;
     [SerializeField, ReadOnly] int HP;
@@ -25,6 +26,8 @@ public class EnemyStateMachine : MonoBehaviour
     {
         HP = startingHealth;
         enemyCollider = GetComponent<Collider>();
+        if(currentState)
+            currentState.SwitchIntoState();
     }
 
     void FixedUpdate()
@@ -59,7 +62,7 @@ public class EnemyStateMachine : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         // Se não colidimos com uma bala ou estamos morrendo pare a execução
-        if (dying) return;
+        if (dying || invulnerable) return;
         if (other.gameObject.layer != playerBulletMask) return;
 
         // Fomos atingidos por uma bala válida? Caso sim, reduza nosso HP, procure seu dono e faça ele nosso alvo
@@ -85,4 +88,11 @@ public class EnemyStateMachine : MonoBehaviour
     }
 
     public bool IsDying() { return dying; }
+
+    public void SetWaitingTime(float newTime)
+    {
+        if (!waitingState) return;
+        var waiting = (EnWaitingState)waitingState;
+        waiting.waitTime = newTime;
+    }
 }

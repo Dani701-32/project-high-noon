@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -16,20 +13,24 @@ public class EnChasingState : State
     [Header("State data")]
     [SerializeField] bool switchStateWhenClose;
     [SerializeField] bool relentless;
-    [SerializeField] float targetDistanceForStateSwitch;
+    [SerializeField] float targetDistanceForStateSwitch = 3;
+    [SerializeField] float angleDifferenceForStateSwitch = 20;
     [SerializeField] float maxChaseSpeed = 1;
     [SerializeField] float speedGainMultiplier = 1;
     [SerializeField] LayerMask obstacleMask;
+    [SerializeField] float rotationSpeed = 5.5f;
     
     [Header("Changing stats")]
     [SerializeField, ReadOnly] float playerDistance;
     [SerializeField, ReadOnly] float currSpeed;
     
     Transform mainBody;
+    Transform rotationLerp;
     Rigidbody rb;
 
     void Start()
     {
+        rotationLerp = transform;
         mainBody = stateMachine.transform;
         rb = stateMachine.GetComponent<Rigidbody>();
     }
@@ -48,12 +49,16 @@ public class EnChasingState : State
         Vector3 pos = transform.position;
         Vector3 tpos = target.transform.position;
         playerDistance = Vector3.Distance(pos, tpos);
+        
+        print(GetAngle(tpos));
 
-        if (switchStateWhenClose && playerDistance <= targetDistanceForStateSwitch)
+        if (switchStateWhenClose && playerDistance <= targetDistanceForStateSwitch && GetAngle(tpos) < angleDifferenceForStateSwitch)
             return followupState;
 
         Vector3 targetPostition = new Vector3(tpos.x, pos.y, tpos.z);
-        mainBody.LookAt(targetPostition);
+        rotationLerp.LookAt(targetPostition);
+        mainBody.rotation = Quaternion.Slerp(mainBody.rotation, rotationLerp.rotation, Time.deltaTime * rotationSpeed);
+        print(Quaternion.Angle(target.transform.rotation, mainBody.rotation));
         
         rb.AddForce(mainBody.forward * currSpeed, ForceMode.Acceleration);
 
@@ -67,5 +72,12 @@ public class EnChasingState : State
         }
         
         return this;
+    }
+
+    float GetAngle(Vector3 target)
+    {
+        Vector3 targetDir = target - transform.position;
+        Vector3 forward = mainBody.forward;
+        return Mathf.Abs(Vector3.SignedAngle(targetDir, forward, Vector3.up));
     }
 }

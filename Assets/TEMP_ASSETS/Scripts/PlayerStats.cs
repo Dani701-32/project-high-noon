@@ -76,6 +76,8 @@ public class PlayerStats : MonoBehaviour
 
     void Death()
     {
-        Debug.LogWarning("stub: death");
+        GameManager manager = GameManager.Instance;
+        if (manager.GetStatus().Equals("Survival"))
+            manager.SetSurvivalTimer(false);
     }
 }

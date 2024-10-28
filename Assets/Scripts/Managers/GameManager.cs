@@ -107,20 +107,42 @@ public class GameManager : MonoBehaviour
         StartCoroutine("ReturnMenu");
     }
 
+    public void SurvivalOver()
+    {
+        int finalTime = Mathf.FloorToInt(timer);
+        survivalTimer.transform.parent.gameObject.SetActive(false);
+
+        if (finalTime >= goldSeconds)
+        {
+            gameEndMedal.sprite = goldMedal;
+        } else if (finalTime >= silverSeconds)
+        {
+            gameEndMedal.sprite = silverMedal;
+        }else if (finalTime >= bronzeSeconds)
+        {
+            gameEndMedal.sprite = bronzeMedal;
+        }
+        finalTime /= 60;
+        int seconds = Mathf.FloorToInt(timer - finalTime * 60);
+        gameEndTime.text = $"{finalTime:00}:{seconds:00}";
+        gameEndScore.SetActive(true);
+        timer = 0;
+        EventManager events = EventManager.Instance;
+        events.ToggleGreaterLock(true);
+        events.ToggleCamera(false);
+        events.ToggleMovement(false);
+        events.ForceReleaseMouse();
+    }
+
     public string GetStatus()
     {
+        if (timerOn)
+            return "Survival";
         if (currentPointRed == maxPoints || currentPointRed > currentPointBlue)
-        {
             return "Red Team";
-        }
-        else if (currentPointBlue == maxPoints || currentPointRed < currentPointBlue)
-        {
+        if (currentPointBlue == maxPoints || currentPointRed < currentPointBlue)
             return "Blue Team";
-        }
-        else
-        {
-            return "Tie";
-        }
+        return "Tie";
     }
 
     IEnumerator ReturnMenu()
@@ -137,7 +159,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartSurvivalTimer() { timerOn = true; }
+    public void SetSurvivalTimer(bool set) { timerOn = set; }
     void Update()
     {
         if (timerOn)
@@ -151,30 +173,7 @@ public class GameManager : MonoBehaviour
 
         if (timer > 0 && !timerOn)
         {
-            int finalTime = Mathf.FloorToInt(timer);
-            survivalTimer.transform.parent.gameObject.SetActive(false);
-
-            if (finalTime >= goldSeconds)
-            {
-                gameEndMedal.sprite = goldMedal;
-            } else if (finalTime >= silverSeconds)
-            {
-                gameEndMedal.sprite = silverMedal;
-            }else if (finalTime >= bronzeSeconds)
-            {
-                gameEndMedal.sprite = bronzeMedal;
-            }
-            finalTime /= 60;
-            int seconds = Mathf.FloorToInt(timer - finalTime * 60);
-            gameEndTime.text = $"{finalTime:00}:{seconds:00}";
-            gameEndScore.SetActive(true);
-            timer = 0;
-            EventManager events = EventManager.Instance;
-            events.ToggleGreaterLock(true);
-            events.ToggleCamera(false);
-            events.ToggleMovement(false);
-            events.ForceReleaseMouse();
-            
+            SurvivalOver();
         }
     }
 }
