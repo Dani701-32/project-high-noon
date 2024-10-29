@@ -6,7 +6,7 @@ public class GenericEnemySpawner : MonoBehaviour
 {
     [Space]
     public bool spawning;
-    public GameObject enemyToSpawn;
+    public GameObject[] enemiesToSpawn;
     public Transform spawnPosition;
     [Header("Timing")]
     [SerializeField] bool immediateSpawnOnCreation;
@@ -20,9 +20,9 @@ public class GenericEnemySpawner : MonoBehaviour
         if (!spawnPosition)
             spawnPosition = transform;
         spawnTimeRandomizationRange = Mathf.Max(0, spawnTimeRandomizationRange);
-        if (!enemyToSpawn)
+        if (enemiesToSpawn.Length == 0)
         {
-            Debug.LogError("Spawner de nome " + gameObject.name + " não tem objeto definido a ser criado!");
+            Debug.LogError("Spawner de nome " + gameObject.name + " não tem objetos a serem criados!");
             enabled = false;
         }
     }
@@ -48,7 +48,8 @@ public class GenericEnemySpawner : MonoBehaviour
                 : 0;
             yield return new WaitForSeconds(initialSpawnWaitTime + randomness);   
         }
-        Instantiate(enemyToSpawn, spawnPosition.position, spawnPosition.rotation, gameObject.transform);
+        int rand = Random.Range(0, enemiesToSpawn.Length);
+        Instantiate(enemiesToSpawn[rand], spawnPosition.position, spawnPosition.rotation, gameObject.transform);
         waiting = false;
     }
 }

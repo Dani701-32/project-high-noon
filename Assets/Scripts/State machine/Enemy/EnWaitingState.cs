@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnWaitingState : State
@@ -15,8 +16,9 @@ public class EnWaitingState : State
     bool waiting = true;
     static readonly int DoneSpawning = Animator.StringToHash("DoneSpawning"); // Nome de animação para spawn
 
-    void EndWaiting()
+    IEnumerator EndWaiting()
     {
+        yield return new WaitForSeconds(waitTime);
         stateMachine.invulnerable = invulnerableOnExit;
         if (animator)
             animator.SetTrigger(DoneSpawning);
@@ -25,8 +27,9 @@ public class EnWaitingState : State
 
     public override void SwitchIntoState()
     {
+        waiting = true;
         stateMachine.invulnerable = invulnerableOnEntry;
-        Invoke(nameof(EndWaiting), waitTime);
+        StartCoroutine(EndWaiting());
     }
 
     public override State RunCurrentState()

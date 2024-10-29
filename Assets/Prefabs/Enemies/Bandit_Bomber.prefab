@@ -100,6 +100,37 @@ MonoBehaviour:
   LookingState: {fileID: 3270401809919708672}
   stunTime: 1
   stunned: 0
+--- !u!1 &2379251255544042748
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1950742423071755949}
+  m_Layer: 0
+  m_Name: BombLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1950742423071755949
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2379251255544042748}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.721, y: 1.325, z: -0.051}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1149765238731354128}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3061842185229716344
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +180,7 @@ MonoBehaviour:
   animator: {fileID: 7558352285432862553}
   invulnerableOnEntry: 0
   invulnerableOnExit: 0
-  waitTime: 0.5
+  waitTime: 1.4
 --- !u!1 &3142497203865139435
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,10 +190,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1149765238731354128}
-  - component: {fileID: 5597262337535710836}
-  - component: {fileID: 7080212830827203263}
+  - component: {fileID: 7013093987947050834}
   m_Layer: 0
-  m_Name: MeleeAttacking
+  m_Name: BombAttacking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,10 +210,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1950742423071755949}
   m_Father: {fileID: 2696633591061424441}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5597262337535710836
+--- !u!114 &7013093987947050834
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -192,38 +223,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 3142497203865139435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5c53a697fb20a940aaae8d5db6eb1d8, type: 3}
+  m_Script: {fileID: 11500000, guid: 02fd7b8fe2daad24a89de20e4aaf52b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 4053330207082216589}
-  followupState: {fileID: 7971721303167928123}
-  attackHitbox: {fileID: 7080212830827203263}
-  attackDuration: 0.5
-  attackInitialThrustForward: 15
-  attackConstantThrust: 0
+  followupState: {fileID: 7652432612910683999}
+  bomb: {fileID: 4315072883650600495, guid: 9bb46d857b491b2489f20a764fba6440, type: 3}
+  bombSpawnLocation: {fileID: 1950742423071755949}
+  bombCollisionMask:
+    serializedVersion: 2
+    m_Bits: 9
+  attackDuration: 0.4
+  bombTossStartup: 0.1
   setNewWaitTimeOnEnd: 0
   newWaitTime: 0
---- !u!65 &7080212830827203263
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3142497203865139435}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.32, y: 0.7858176, z: 0.7597856}
-  m_Center: {x: 0, y: 1.012466, z: 0.43989268}
+  firingAngle: 45
+  gravity: 9.8
 --- !u!1 &4641267853779402770
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,7 +302,7 @@ GameObject:
   - component: {fileID: 4053330207082216589}
   - component: {fileID: 8172655018065260258}
   m_Layer: 8
-  m_Name: Zombie_Relentless
+  m_Name: Bandit_Bomber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -428,14 +443,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 4053330207082216589}
-  followupState: {fileID: 5597262337535710836}
+  followupState: {fileID: 7013093987947050834}
   lookingState: {fileID: 3270401809919708672}
   statesWithAHeadStart:
   - {fileID: 7971721303167928123}
   raycastOrigin: {fileID: 0}
   switchStateWhenClose: 1
   relentless: 1
-  targetDistanceForStateSwitch: 3
+  targetDistanceForStateSwitch: 8
+  angleDifferenceForStateSwitch: 20
   maxChaseSpeed: 40
   speedGainMultiplier: 1
   obstacleMask:
@@ -539,6 +555,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3794476490482102589, guid: 6ab23043a218e5e46a418e866a4563ff,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2190c2b3e6cd3034aa682fce62333bdb, type: 2}
     - target: {fileID: 919132149155446097, guid: 6ab23043a218e5e46a418e866a4563ff,
         type: 3}
       propertyPath: m_Name
@@ -554,6 +575,11 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8997262446171810114, guid: 6ab23043a218e5e46a418e866a4563ff,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d39d5ba93f23474b91fb0c5ced3264b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

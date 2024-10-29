@@ -49,8 +49,6 @@ public class EnChasingState : State
         Vector3 pos = transform.position;
         Vector3 tpos = target.transform.position;
         playerDistance = Vector3.Distance(pos, tpos);
-        
-        print(GetAngle(tpos));
 
         if (switchStateWhenClose && playerDistance <= targetDistanceForStateSwitch && GetAngle(tpos) < angleDifferenceForStateSwitch)
             return followupState;
@@ -58,7 +56,6 @@ public class EnChasingState : State
         Vector3 targetPostition = new Vector3(tpos.x, pos.y, tpos.z);
         rotationLerp.LookAt(targetPostition);
         mainBody.rotation = Quaternion.Slerp(mainBody.rotation, rotationLerp.rotation, Time.deltaTime * rotationSpeed);
-        print(Quaternion.Angle(target.transform.rotation, mainBody.rotation));
         
         rb.AddForce(mainBody.forward * currSpeed, ForceMode.Acceleration);
 
