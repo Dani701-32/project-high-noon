@@ -3837,7 +3837,7 @@ Terrain:
   m_HeightmapMaximumLOD: 0
   m_ShadowCastingMode: 2
   m_DrawHeightmap: 1
-  m_DrawInstanced: 0
+  m_DrawInstanced: 1
   m_DrawTreesAndFoliage: 1
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
@@ -20979,6 +20979,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Terrain_MapA
       objectReference: {fileID: 0}
+    - target: {fileID: 1683210511405977213, guid: 2e88bad6cbe74dd4fa17a1d9739c6191,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4599098763682964655, guid: 2e88bad6cbe74dd4fa17a1d9739c6191,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -22401,7 +22406,7 @@ PrefabInstance:
     - target: {fileID: 7543114175314169908, guid: 6f5ceb220af1d644fa41fdcc83b5fec6,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.75
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 7543114175314169908, guid: 6f5ceb220af1d644fa41fdcc83b5fec6,
         type: 3}
@@ -22416,7 +22421,7 @@ PrefabInstance:
     - target: {fileID: 7543114175314169908, guid: 6f5ceb220af1d644fa41fdcc83b5fec6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 50.16
+      value: 51.9
       objectReference: {fileID: 0}
     - target: {fileID: 7543114175314169908, guid: 6f5ceb220af1d644fa41fdcc83b5fec6,
         type: 3}
