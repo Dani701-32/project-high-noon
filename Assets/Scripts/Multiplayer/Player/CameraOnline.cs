@@ -5,7 +5,7 @@ using Unity.Netcode;
 public class CameraOnline : NetworkBehaviour
 {
     float pitch;
-    float yaw;
+    [SerializeField, ReadOnly] float yaw;
     float angleDiff;
     Transform camTrans;
     Camera myCamera;
@@ -22,7 +22,7 @@ public class CameraOnline : NetworkBehaviour
     [SerializeField] private float maxLookUpAngle = -55;
 
     [Tooltip("Ângulo máximo que o jogador pode olhar abaixo de si")]
-    [SerializeField]private float maxLookDownAngle = 50;
+    [SerializeField] private float maxLookDownAngle = 50;
 
     [Tooltip("Velocidade de rotação da câmera")]
     public float sensitivity = 1;
@@ -35,10 +35,15 @@ public class CameraOnline : NetworkBehaviour
 
     [SerializeField] Transform nearCamPos;
     [SerializeField] Transform farCamPos;
-    [SerializeField] Transform scopeCamPos; 
+    [SerializeField] Transform scopeCamPos;
     private Transform zoomTarget;
     [SerializeField] float fovChangeSpeed;
     [SerializeField, ReadOnly] private PlayerOnline player;
+
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    [SerializeField, ReadOnly] private int inputAimHash = Animator.StringToHash("aim");
+    [SerializeField, ReadOnly] private float yCam = 0f;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -64,17 +69,20 @@ public class CameraOnline : NetworkBehaviour
             yaw += -Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
             pitch += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
             yaw = Mathf.Clamp(yaw, maxLookUpAngle, maxLookDownAngle);
+            yCam = (yaw - maxLookDownAngle) / (maxLookUpAngle - maxLookDownAngle) * 2f - 1f;
+
+            animator.SetFloat(inputAimHash, yCam);
             // pitch = Mathf.Clamp(pitch, -maxTurnAngle - 0.5f, maxTurnAngle + 0.5f);
 
             camParent.transform.localRotation = Quaternion.Euler(yaw, 0, 0);
             transform.rotation = Quaternion.Euler(0, pitch, 0);
             // orientation.rotation = Quaternion.Euler(0, myCamera.transform.rotation.eulerAngles.y, 0);
 
-            player.isFocused = canFocus && player.isGrounded && Input.GetKey(keyAim); 
-            player.focusInterp = Mathf.Clamp(player.focusInterp + (player.isFocused ? 1 : -1)*Time.deltaTime*fovChangeSpeed, 0, 1);
+            player.isFocused = canFocus && player.isGrounded && Input.GetKey(keyAim);
+            player.focusInterp = Mathf.Clamp(player.focusInterp + (player.isFocused ? 1 : -1) * Time.deltaTime * fovChangeSpeed, 0, 1);
 
-            
-            
+
+
             myCamera.transform.localPosition = Vector3.Lerp(farCamPos.localPosition, nearCamPos.localPosition, player.focusInterp);
 
             // transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivity * 0.011f, 0);
