@@ -10,11 +10,10 @@ public class MovementOnline : NetworkBehaviour
     Vector3 moveDir;
     Rigidbody rb;
 
-    [SerializeField]
-    Transform orientation;
+    [SerializeField] Transform orientation;
     Transform spawnPoint;
 
-     [Header("Movement")]
+    [Header("Movement")]
     public float maxSpeed;
     public float speed;
     public float groundDrag;
@@ -23,7 +22,7 @@ public class MovementOnline : NetworkBehaviour
     public float airMultiplier;
     public float extraGravityForce;
     public float focusSpeedDiv = 1;
-    public float focusInterp;
+    [ReadOnly] public float focusInterp;
     bool canJump;
     public bool focused;
 
@@ -52,8 +51,8 @@ public class MovementOnline : NetworkBehaviour
             player = GetComponent<PlayerOnline>();
             animator = GetComponent<Animator>();
             canJump = true;
-            transform.position = MultiplayerManager.Instance.defaultPos.position; 
-            speed = maxSpeed; 
+            transform.position = MultiplayerManager.Instance.defaultPos.position;
+            speed = maxSpeed;
         }
 
         base.OnNetworkSpawn();
@@ -64,7 +63,7 @@ public class MovementOnline : NetworkBehaviour
         //Apenas o dono pode movimentar o player
         if (!IsOwner) return;
 
-        CheckGround(); 
+        CheckGround();
 
         speed = Mathf.Lerp(maxSpeed, maxSpeed / focusSpeedDiv, player.focusInterp);
         SpeedClamp();
@@ -82,7 +81,7 @@ public class MovementOnline : NetworkBehaviour
             animator.SetFloat(inputYHash, 0);
             return;
         }
-        
+
         InputUpdate();
     }
 
@@ -93,7 +92,7 @@ public class MovementOnline : NetworkBehaviour
             matchOver = MultiplayerManager.Instance.MatchOver;
 
             if (!player.isGrounded)
-            rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
+                rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
 
             if (!canMove || MultiplayerManager.Instance.MatchOver)
                 return;
@@ -174,6 +173,6 @@ public class MovementOnline : NetworkBehaviour
     }
     void OnDrawGizmos()
     {
-         Gizmos.DrawCube(groundCheckPos.position, boxCastDimensions);
+        Gizmos.DrawCube(groundCheckPos.position, boxCastDimensions);
     }
 }

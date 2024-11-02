@@ -55,6 +55,7 @@ public class PlayerOnline : NetworkBehaviour
         sliderHealth.value = health;
         bgPlayerName.SetActive(true);
         model.GetComponent<SkinnedMeshRenderer>().material.color = teamData.teamColor;
+        flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
         if (!IsOwner)
             return;
         playerCanvas.SetActive(true);
@@ -119,7 +120,7 @@ public class PlayerOnline : NetworkBehaviour
             flagCarryObject.SetActive(!hasFlag);
         if (flagCarryEffects != null)
             flagCarryEffects.SetActive(!hasFlag);
-        flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
+        
     }
     public void Damage(float damage)
     {
@@ -166,6 +167,7 @@ public class PlayerOnline : NetworkBehaviour
             movementOnline.enabled = false;
         }
         Die_ClientRpc();
+        ReturnBanner();
         StartCoroutine("delaySpawn");
     }
 
@@ -175,6 +177,7 @@ public class PlayerOnline : NetworkBehaviour
 
         Debug.Log("Morreu");
         model.SetActive(false);
+        ReturnBanner();
         if (IsOwner)
         {
             movementOnline.enabled = false;
@@ -214,5 +217,14 @@ public class PlayerOnline : NetworkBehaviour
             gunController.RefillWeapons();
         }
         model.SetActive(true);
+    }
+
+    private void ReturnBanner(){
+        hasFlag = false; 
+        MultiplayerManager.Instance.ActivateFlag(); 
+        if (flagCarryObject != null)
+            flagCarryObject.SetActive(false);
+        if (flagCarryEffects != null)
+            flagCarryEffects.SetActive(false);
     }
 }
