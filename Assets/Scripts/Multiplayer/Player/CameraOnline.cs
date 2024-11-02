@@ -2,21 +2,21 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
 public class CameraOnline : NetworkBehaviour
 {
     float pitch;
-    [SerializeField, ReadOnly] float yaw;
-    float angleDiff;
-    Transform camTrans;
+    float yaw;
     Camera myCamera;
     IEnumerator waiting;
+    bool fullFocus;
+    [SerializeField, ReadOnly] Vignette vignette;
     [SerializeField] private GameObject camParent;
-    [SerializeField] private Transform orientation;
+    [SerializeField] private GameObject gunHolder;
     [SerializeField] KeyCode keyAim;
 
     [Header("Angles")]
-    [Tooltip("Ângulo máximo antes do jogador começar a virar para acompanhar a câmera")]
-    [SerializeField] private float maxTurnAngle;
 
     [Tooltip("Ângulo máximo que o jogador pode olhar acima de si")]
     [SerializeField] private float maxLookUpAngle = -55;
@@ -38,12 +38,12 @@ public class CameraOnline : NetworkBehaviour
     [SerializeField] Transform scopeCamPos;
     private Transform zoomTarget;
     [SerializeField] float fovChangeSpeed;
-    [SerializeField, ReadOnly] private PlayerOnline player;
+    private PlayerOnline player;
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
-    [SerializeField, ReadOnly] private int inputAimHash = Animator.StringToHash("aim");
-    [SerializeField, ReadOnly] private float yCam = 0f;
+    private int inputAimHash = Animator.StringToHash("aim");
+    private float yCam = 0f;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -56,6 +56,15 @@ public class CameraOnline : NetworkBehaviour
 
         player = GetComponent<PlayerOnline>();
         myCamera = camParent.GetComponentInChildren<Camera>();
+
+        if (!vignette)
+        {
+            Volume vol = GameObject.Find("Global Volume").GetComponent<Volume>();
+            if(vol)
+                vol.profile.TryGet(out vignette);
+            else
+                Debug.LogError("Componente de nome 'Global Volume' não pode ser encontrado na cena!");
+        }
     }
 
     void Update()
@@ -72,65 +81,37 @@ public class CameraOnline : NetworkBehaviour
             yCam = (yaw - maxLookDownAngle) / (maxLookUpAngle - maxLookDownAngle) * 2f - 1f;
 
             animator.SetFloat(inputAimHash, yCam);
-            // pitch = Mathf.Clamp(pitch, -maxTurnAngle - 0.5f, maxTurnAngle + 0.5f);
 
             camParent.transform.localRotation = Quaternion.Euler(yaw, 0, 0);
             transform.rotation = Quaternion.Euler(0, pitch, 0);
-            // orientation.rotation = Quaternion.Euler(0, myCamera.transform.rotation.eulerAngles.y, 0);
 
             player.isFocused = canFocus && player.isGrounded && Input.GetKey(keyAim);
             player.focusInterp = Mathf.Clamp(player.focusInterp + (player.isFocused ? 1 : -1) * Time.deltaTime * fovChangeSpeed, 0, 1);
 
+            zoomTarget = player.scopeGun ? scopeCamPos : nearCamPos;
 
-
-            myCamera.transform.localPosition = Vector3.Lerp(farCamPos.localPosition, nearCamPos.localPosition, player.focusInterp);
-
-            // transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivity * 0.011f, 0);
+            myCamera.transform.localPosition = Vector3.Lerp(farCamPos.localPosition, zoomTarget.localPosition, player.focusInterp);
+            
         }
     }
-
-#if UNITY_EDITOR
-    void OnDrawGizmos()
+    private void FixedUpdate()
     {
-        float gizmoDist = 1;
-        float gizmoThickness = 8;
+        if (!IsOwner) return;
 
-        Transform[] transforms = { transform, orientation };
-        int i = 1;
-        foreach (Transform trans in transforms)
+        if (player.focusInterp >= 0.9f && !fullFocus && player.scopeGun)
         {
-            Vector3 pos = trans.position + Vector3.up;
-            Handles.DrawBezier(
-                pos,
-                pos + trans.forward * gizmoDist,
-                pos,
-                pos + trans.forward * gizmoDist,
-                Color.blue * i,
-                null,
-                gizmoThickness
-            );
-            Handles.DrawBezier(
-                pos,
-                pos + trans.up * gizmoDist,
-                pos,
-                pos + trans.up * gizmoDist,
-                Color.green * i,
-                null,
-                gizmoThickness
-            );
-            Handles.DrawBezier(
-                pos,
-                pos + trans.right * gizmoDist,
-                pos,
-                pos + trans.right * gizmoDist,
-                Color.red * i,
-                null,
-                gizmoThickness
-            );
-            i++;
+            fullFocus = true;
+            vignette.intensity.value = 0.4f;
+            gunHolder.SetActive(false);
+        }
+
+        if (fullFocus && (!player.scopeGun || player.focusInterp < 0.9f))
+        {
+            fullFocus = false;
+            vignette.intensity.value = 0.2f;
+            gunHolder.SetActive(true);
         }
     }
-#endif
 
     private IEnumerator WaitForStart()
     {

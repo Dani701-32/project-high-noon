@@ -51,6 +51,7 @@ public class GunOnline : NetworkBehaviour
         {
             AcquireWeapon(i);
         }
+        AcquireWeapon(0);
         if (IsOwner)
         {
             aimSprite.SetActive(true);
@@ -94,11 +95,11 @@ public class GunOnline : NetworkBehaviour
         }
         spread = guns[slot].minSpread;
         oneSound = guns[slot].firingSounds.Length == 1;
-        if (oneSound)
+        if (oneSound && slot == gunId)
         {
             shotSound.clip = guns[slot].firingSounds[0];
         }
-        player.scopeGun = guns[slot].scopeView; 
+        player.scopeGun = guns[slot].scopeView;
     }
     [ServerRpc]
     private void UpdateAmmo_ServerRpc(bool updateReserve = true)
@@ -168,30 +169,33 @@ public class GunOnline : NetworkBehaviour
             inCoolDown[gunId] = true;
             StartCoroutine("Cooldown");
         }
+        for (int i = 0; i < guns[gunId].bulletPerShot; i++)
+        {
+            //Criar Bala
+            Bullet bullet = Instantiate(guns[gunId].bulletPrefab, bulletPoint.position, bulletPoint.rotation);
+            //Spawna a bala nos clientes
+            NetworkObject netBullet = bullet.GetComponent<NetworkObject>();
+            netBullet.Spawn();
+            bullet.teamId.Value = player.GetTeam().teamId;
 
-        //Criar Bala
-        Bullet bullet = Instantiate(guns[gunId].bulletPrefab, bulletPoint.position, bulletPoint.rotation);
-        //Spawna a bala nos clientes
-        NetworkObject netBullet = bullet.GetComponent<NetworkObject>();
-        netBullet.Spawn();
-        bullet.teamId.Value = player.GetTeam().teamId;
+            bullet.owner = player.gameObject;
 
-        bullet.owner = player.gameObject;
+            deviation.x = Random.Range(-spread, spread) / 10;
+            deviation.y = Random.Range(-spread, spread) / 10;
+            bullet.rb.AddForce(
+                        (bulletPoint.transform.forward +
+                        bulletPoint.transform.right * deviation.x +
+                        bulletPoint.transform.up * deviation.y)
+                        * guns[gunId].bulletSpeed,
+                        ForceMode.VelocityChange
+                    );
 
-        deviation.x = Random.Range(-spread, spread) / 10;
-        deviation.y = Random.Range(-spread, spread) / 10;
-        bullet.rb.AddForce(
-                    (bulletPoint.transform.forward +
-                     bulletPoint.transform.right * deviation.x +
-                     bulletPoint.transform.up * deviation.y)
-                    * guns[gunId].bulletSpeed,
-                    ForceMode.VelocityChange
-                );
+            Rigidbody rbBullet = bullet.GetComponent<Rigidbody>();
+            rbBullet.isKinematic = false;
 
-        Rigidbody rbBullet = bullet.GetComponent<Rigidbody>();
-        rbBullet.isKinematic = false;
+            Destroy(bullet.gameObject, 5);
+        }
 
-        Destroy(bullet.gameObject, 5);
 
         spread = Mathf.Min(spread + guns[gunId].spreadIncrease, guns[gunId].maxSpread);
 
@@ -210,7 +214,8 @@ public class GunOnline : NetworkBehaviour
     {
         yield return new WaitForSeconds(guns[gunId].shotCooldown + focusCooldown);
         inCoolDown[gunId] = false;
-        if(guns[gunId].autoReload){
+        if (guns[gunId].autoReload)
+        {
             Reload();
         }
     }
@@ -241,7 +246,8 @@ public class GunOnline : NetworkBehaviour
         if (!guns[gunId]) return;
         SwapGun_ClientRpc(gunId);
         AcquireWeapon(gunId, true);
-        if(!swapperOnline.SwapToGun(guns[gunId].gunName)){
+        if (!swapperOnline.SwapToGun(guns[gunId].gunName))
+        {
             Debug.LogError("Tried to swap to a gun model that does not exist in the prefab's gun holder");
         };
     }
@@ -250,7 +256,8 @@ public class GunOnline : NetworkBehaviour
     {
         gunId = id;
         AcquireWeapon(gunId, true);
-        if(!swapperOnline.SwapToGun(guns[gunId].gunName)){
+        if (!swapperOnline.SwapToGun(guns[gunId].gunName))
+        {
             Debug.LogError("Tried to swap to a gun model that does not exist in the prefab's gun holder");
         };
     }
