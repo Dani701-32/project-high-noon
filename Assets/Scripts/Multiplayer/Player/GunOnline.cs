@@ -11,7 +11,7 @@ public class GunOnline : NetworkBehaviour
     [Header("References")]
     [SerializeField] private Transform bulletPoint;
     [SerializeField] private GameObject aimSprite;
-    [SerializeField] private GameObject accuracySprite;
+    [SerializeField] private SpriteRenderer accuracySprite;
     [SerializeField] private Camera cam;
     [SerializeField] private AudioSource shotSound;
     [SerializeField] private GunSwapperOnline swapperOnline;
@@ -72,7 +72,7 @@ public class GunOnline : NetworkBehaviour
         aimLeftRightTweak = player.scopeGun && player.isFocused ? 0 : tweak;
         aimSprite.transform.position = center.GetPoint(8) + aimSprite.transform.right * aimLeftRightTweak;
 
-        accuracySprite.transform.localScale = Vector3.one * (spread + 0.25f);
+        accuracySprite.size = Vector2.one * Mathf.Max(0.25f, spread);
 
     }
     private void FixedUpdate()

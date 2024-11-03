@@ -28,7 +28,6 @@ public class GunSwapperOnline : MonoBehaviour
         gunName = gunName.ToLower();
         GameObject prev = currentGun;
         gunsDictionary.TryGetValue(gunName, out currentGun);
-        Debug.Log(currentGun.name);
         if (currentGun)
         {
             prev.SetActive(false);

@@ -21,7 +21,7 @@ public class PlayerOnline : NetworkBehaviour
 
     [SerializeField]
     GameObject model,
-        playerCanvas;
+        playerCanvas, hat;
 
     [SerializeField, ReadOnly] private MovementOnline movementOnline;
     [SerializeField, ReadOnly] private GunControllerOnline gunController;
@@ -45,6 +45,9 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField] private TMP_Text playerNameText;
     [SerializeField] private GameObject bgPlayerName;
 
+    private int countSpawnPoints = 0;
+
+
     public override void OnNetworkSpawn()
     {
         gunController = GetComponent<GunControllerOnline>();
@@ -54,12 +57,11 @@ public class PlayerOnline : NetworkBehaviour
         sliderHealth.maxValue = maxHealth;
         sliderHealth.value = health;
         bgPlayerName.SetActive(true);
-        model.GetComponent<SkinnedMeshRenderer>().material.color = teamData.teamColor;
+        hat.GetComponent<SkinnedMeshRenderer>().material.color = teamData.teamColor;
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
         if (!IsOwner)
             return;
         playerCanvas.SetActive(true);
-
         _camera.enabled = true;
         bgPlayerName.SetActive(false);
         _camera.gameObject.GetComponent<AudioListener>().enabled = true;
@@ -71,7 +73,10 @@ public class PlayerOnline : NetworkBehaviour
 
     private void Start()
     {
-
+        if (IsOwner)
+        {
+            GetSpawn(teamData);
+        }
     }
 
     private void Update()
@@ -120,7 +125,7 @@ public class PlayerOnline : NetworkBehaviour
             flagCarryObject.SetActive(!hasFlag);
         if (flagCarryEffects != null)
             flagCarryEffects.SetActive(!hasFlag);
-        
+
     }
     public void Damage(float damage)
     {
@@ -193,8 +198,7 @@ public class PlayerOnline : NetworkBehaviour
             if (IsOwner)
             {
                 sliderHealth.value = health;
-                // transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
-                // transform.rotation = spawnPoint.rotation;
+                GetSpawn(teamData);
                 movementOnline.enabled = true;
                 gunController.RefillWeapons();
             }
@@ -212,6 +216,7 @@ public class PlayerOnline : NetworkBehaviour
         {
             // transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
             // transform.rotation = spawnPoint.rotation;
+            GetSpawn(teamData);
             sliderHealth.value = health;
             movementOnline.enabled = true;
             gunController.RefillWeapons();
@@ -219,12 +224,32 @@ public class PlayerOnline : NetworkBehaviour
         model.SetActive(true);
     }
 
-    private void ReturnBanner(){
-        hasFlag = false; 
-        MultiplayerManager.Instance.ActivateFlag(); 
+    private void ReturnBanner()
+    {
+        hasFlag = false;
+        MultiplayerManager.Instance.ActivateFlag();
         if (flagCarryObject != null)
             flagCarryObject.SetActive(false);
         if (flagCarryEffects != null)
             flagCarryEffects.SetActive(false);
+    }
+
+    private void GetSpawn(TeamData teamData)
+    {
+        int index;
+        if (teamData.teamId == 1)
+        {
+            countSpawnPoints = MultiplayerManager.Instance.spawnPointsBlue.Length;
+            index = Random.Range(0, countSpawnPoints);
+            
+            transform.position = MultiplayerManager.Instance.spawnPointsBlue[index].position;
+            transform.rotation = MultiplayerManager.Instance.spawnPointsBlue[index].rotation;
+            return;
+        }
+        countSpawnPoints = MultiplayerManager.Instance.spawnPointsBlue.Length;
+        index = Random.Range(0, countSpawnPoints);
+
+        transform.position = MultiplayerManager.Instance.spawnPointsRed[index].position;
+        transform.rotation = MultiplayerManager.Instance.spawnPointsRed[index].rotation;
     }
 }
