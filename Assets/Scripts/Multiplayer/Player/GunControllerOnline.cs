@@ -5,6 +5,7 @@ using Unity.Netcode;
 
 public class GunControllerOnline : NetworkBehaviour
 {
+    [SerializeField ] private PlayerOnline player;
     [SerializeField, ReadOnly] private MultiplayerManager multiplayerManager;
     [SerializeField] private GameObject gunSpot; //Local da Arma
     [SerializeField] private GunOnline currentGun; //Script da Arma online
@@ -26,7 +27,7 @@ public class GunControllerOnline : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsOwner || multiplayerManager.MatchOver) return;
+        if (!IsOwner || multiplayerManager.MatchOver || player.isPaused) return;
         if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
         {
             currentGun.Shoot();

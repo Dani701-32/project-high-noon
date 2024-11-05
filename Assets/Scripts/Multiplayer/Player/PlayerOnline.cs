@@ -5,6 +5,7 @@ using Unity.Netcode;
 using UnityEngine.UI;
 using TMPro;
 using Unity.Collections;
+using System.Data.Common;
 
 public class PlayerOnline : NetworkBehaviour
 {
@@ -44,6 +45,9 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField, ReadOnly] private bool overlaySet = false;
     [SerializeField] private TMP_Text playerNameText;
     [SerializeField] private GameObject bgPlayerName;
+    [SerializeField] private GameObject playerHUD;
+    [SerializeField] private GameObject pauseScreen;
+    public bool isPaused = false;
 
     private int countSpawnPoints = 0;
 
@@ -85,6 +89,14 @@ public class PlayerOnline : NetworkBehaviour
         {
             SetOverlay();
             overlaySet = true;
+        }
+        if (IsOwner)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                isPaused = !isPaused;
+                PauseGame(isPaused);
+            }
         }
     }
 
@@ -241,7 +253,7 @@ public class PlayerOnline : NetworkBehaviour
         {
             countSpawnPoints = MultiplayerManager.Instance.spawnPointsBlue.Length;
             index = Random.Range(0, countSpawnPoints);
-            
+
             transform.position = MultiplayerManager.Instance.spawnPointsBlue[index].position;
             transform.rotation = MultiplayerManager.Instance.spawnPointsBlue[index].rotation;
             return;
@@ -251,5 +263,21 @@ public class PlayerOnline : NetworkBehaviour
 
         transform.position = MultiplayerManager.Instance.spawnPointsRed[index].position;
         transform.rotation = MultiplayerManager.Instance.spawnPointsRed[index].rotation;
+    }
+    public void PauseGame(bool status)
+    {
+        movementOnline.enabled = !status;
+        playerHUD.SetActive(!status);
+        pauseScreen.SetActive(status);
+        Cursor.visible = status;
+        Cursor.lockState = status ? CursorLockMode.None : CursorLockMode.Locked;
+    }
+
+    public void LeaveLobby()
+    {
+        if (IsOwner)
+        {
+            LobbyManager.Instance.LeaveLobby();
+        }
     }
 }

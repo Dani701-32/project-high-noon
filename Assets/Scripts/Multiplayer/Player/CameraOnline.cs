@@ -73,7 +73,7 @@ public class CameraOnline : NetworkBehaviour
         matchIsOver = MultiplayerManager.Instance.MatchOver;
         if (matchIsOver)
             return;
-        if (canMove)
+        if (canMove && !player.isPaused)
         {
             yaw += -Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
             pitch += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;

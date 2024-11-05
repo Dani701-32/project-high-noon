@@ -316,9 +316,10 @@ public class LobbyManager : MonoBehaviour
         try
         {
             await LobbyService.Instance.RemovePlayerAsync(
-                joinedLobby.Id,
+                currentLobby.Id,
                 AuthenticationService.Instance.PlayerId
             );
+            SceneManager.LoadSceneAsync("Menu");
         }
         catch (LobbyServiceException error)
         {
@@ -390,4 +391,5 @@ public class LobbyManager : MonoBehaviour
         }
         return namePlayer;
     }
+
 }
