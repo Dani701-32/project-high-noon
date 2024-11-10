@@ -1,5 +1,84 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7573695245580394959
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdc307fae128e9f4ea27bb55d1bd0984, type: 3}
+  m_Name: SketchSettings
+  m_EditorClassIdentifier: 
+  active: 1
+  sketchTexture:
+    m_OverrideState: 1
+    m_Value: {fileID: 2800000, guid: e2acf73f5d7c40e44b9cf80fb4350eb5, type: 3}
+    dimension: 1
+  sketchColor:
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
+  sketchTiling:
+    m_OverrideState: 1
+    m_Value: {x: 1.5, y: 1.5}
+  sketchThresholds:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 0.1}
+  crossHatching:
+    m_OverrideState: 1
+    m_Value: 1
+  blurAmount:
+    m_OverrideState: 1
+    m_Value: 4
+  blurStepSize:
+    m_OverrideState: 1
+    m_Value: 3
+  extendDepthSensitivity:
+    m_OverrideState: 1
+    m_Value: 0.002
+--- !u!114 &-4680649509089343916
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe929c6275e6b144493237e21808c6e6, type: 3}
+  m_Name: StylizedBloomEffectComponent
+  m_EditorClassIdentifier: 
+  active: 0
+  threshold:
+    m_OverrideState: 1
+    m_Value: 0.7
+  intensity:
+    m_OverrideState: 1
+    m_Value: 2.69
+  scatter:
+    m_OverrideState: 1
+    m_Value: 0.7
+  clamp:
+    m_OverrideState: 1
+    m_Value: 65472
+  maxIterations:
+    m_OverrideState: 0
+    m_Value: 6
+  tint:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    hdr: 0
+  dotsDensity:
+    m_OverrideState: 1
+    m_Value: 26
+  dotsCutoff:
+    m_OverrideState: 1
+    m_Value: 0.503
+  scrollDirection:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,8 +92,51 @@ MonoBehaviour:
   m_Name: PostProcessing
   m_EditorClassIdentifier: 
   components:
+  - {fileID: 2854522620272124423}
   - {fileID: 8658102858006576529}
   - {fileID: 6294945356380862593}
+  - {fileID: -4680649509089343916}
+  - {fileID: -7573695245580394959}
+--- !u!114 &2854522620272124423
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
+  m_Name: Tonemapping
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 2
+  neutralHDRRangeReductionMode:
+    m_OverrideState: 0
+    m_Value: 2
+  acesPreset:
+    m_OverrideState: 1
+    m_Value: 3
+  hueShiftAmount:
+    m_OverrideState: 1
+    m_Value: 0
+  detectPaperWhite:
+    m_OverrideState: 1
+    m_Value: 0
+  paperWhite:
+    m_OverrideState: 1
+    m_Value: 300
+  detectBrightnessLimits:
+    m_OverrideState: 1
+    m_Value: 1
+  minNits:
+    m_OverrideState: 1
+    m_Value: 0.005
+  maxNits:
+    m_OverrideState: 1
+    m_Value: 1000
 --- !u!114 &6294945356380862593
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -36,7 +158,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.257
+    m_Value: 0.35
   smoothness:
     m_OverrideState: 1
     m_Value: 0.2
