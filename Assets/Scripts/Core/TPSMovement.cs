@@ -34,6 +34,8 @@ public class TPSMovement : MonoBehaviour
     [SerializeField, ReadOnly] private Animator animator;
     private int inputxHash = Animator.StringToHash("X");
     private int inputYHash = Animator.StringToHash("Y");
+    private int boolGround= Animator.StringToHash("isGround");
+    private int inputJump= Animator.StringToHash("jump");
 
     void Start()
     {
@@ -69,6 +71,7 @@ public class TPSMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        animator.SetBool(boolGround, stats.grounded); 
         if (!stats.grounded)
             rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
 
@@ -89,6 +92,7 @@ public class TPSMovement : MonoBehaviour
         {
             canJump = false;
             Jump();
+            animator.SetTrigger(inputJump); 
             Invoke(nameof(ResetJump), jumpCooldown);
         }
     }

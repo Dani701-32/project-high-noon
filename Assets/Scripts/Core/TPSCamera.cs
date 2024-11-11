@@ -51,6 +51,9 @@ public class TPSCamera : MonoBehaviour
     [SerializeField] Transform scopeCamPos;
     Transform zoomTarget;
     [SerializeField] float fovChangeSpeed;
+    [SerializeField] private Animator animator;
+    private int inputAimHash = Animator.StringToHash("aim");
+    private float yCam = 0f;
 
     void Awake()
     {
@@ -92,6 +95,9 @@ public class TPSCamera : MonoBehaviour
             yaw += -Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
             pitch += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
             yaw = Mathf.Clamp(yaw, maxLookUpAngle, maxLookDownAngle);
+            yCam = (yaw - maxLookDownAngle) / (maxLookUpAngle - maxLookDownAngle) * 2f - 1f;
+
+            animator.SetFloat(inputAimHash, yCam);
 
             camParent.transform.localRotation = Quaternion.Euler(yaw, 0, 0);
             transform.rotation = Quaternion.Euler(0, pitch, 0);
