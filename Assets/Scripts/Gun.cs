@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using Unity.Netcode;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Gun : MonoBehaviour
@@ -16,6 +13,7 @@ public class Gun : MonoBehaviour
     [SerializeField] Camera cam;
     [SerializeField] PlayerStats playerStats;
     [SerializeField] AudioSource shotSound;
+    [SerializeField] AudioSource reloadSound;
     [SerializeField] GunSwapper swapper;
 
     [SerializeField]
@@ -98,6 +96,7 @@ public class Gun : MonoBehaviour
         if (oneSound && slot == gunID)
             shotSound.clip = guns[slot].firingSounds[0];
         playerStats.carryingScopedGun = guns[slot].scopeView;
+        reloadSound.clip = guns[slot].reloadSound;
     }
 
     public void AddAmmo(int amount)
@@ -120,8 +119,8 @@ public class Gun : MonoBehaviour
         yield return new WaitForSeconds(guns[gunID].shotCooldown + focusCooldown);
         gunLocked = !events || events.greaterGunLock;
         inCooldown[gunID] = false;
-        if(guns[gunID].autoReload)
-            Reload();
+        if(guns[gunID].autoReload && !isReloading[gunID])
+            StartCoroutine(Reload());
     }
 
     public void Shoot()
@@ -179,15 +178,19 @@ public class Gun : MonoBehaviour
         }
     }
 
-    public void Reload()
+    public IEnumerator Reload()
     {
-        if (bulletsLoaded[gunID] == guns[gunID].clip || gunLocked)
-            return;
+        if (bulletsLoaded[gunID] == guns[gunID].clip || gunLocked || isReloading[gunID])
+            yield break;
         if (currentAmmo[gunID] <= 0)
         {
             currentAmmo[gunID] = 0;
-            return;
+            yield break;
         }
+        reloadSound.Play();
+        isReloading[gunID] = true;
+        yield return new WaitForSeconds(guns[gunID].reloadTime);
+        isReloading[gunID] = false;
 
         int ammoAdded = bulletsLoaded[gunID];
         bulletsLoaded[gunID] =

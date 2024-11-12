@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Unity.Netcode;
 
 public class GunController : MonoBehaviour
 {
@@ -29,7 +25,7 @@ public class GunController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            currentWeapon.Reload();
+            StartCoroutine(currentWeapon.Reload());
         }
 
         if (Input.GetKeyDown(KeyCode.Q))

@@ -5,9 +5,9 @@ public class GunSwapper : MonoBehaviour
 {
     [SerializeField] List<GameObject> guns;
     Dictionary<string, GameObject> gunDictionary;
-    GameObject currGun;
+    [SerializeField] GameObject currGun;
 
-    void Awake()
+    void Start()
     {
         gunDictionary = new Dictionary<string, GameObject>();
         foreach (GameObject gun in guns)
