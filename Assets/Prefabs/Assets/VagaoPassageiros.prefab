@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &832563546946655759
+--- !u!1 &1936019748534664658
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 55745849917017269}
-  - component: {fileID: 3992959057082090256}
-  - component: {fileID: 1192645015870797786}
-  - component: {fileID: 3588041735032001388}
+  - component: {fileID: 4770324594729737353}
+  - component: {fileID: 4532127588122825252}
+  - component: {fileID: 2947034330773303581}
+  - component: {fileID: 7916458437738487213}
   m_Layer: 0
-  m_Name: Catavento
+  m_Name: VagaoPassageiros
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!4 &55745849917017269
+--- !u!4 &4770324594729737353
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832563546946655759}
+  m_GameObject: {fileID: 1936019748534664658}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3993465815641558642}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3992959057082090256
+--- !u!33 &4532127588122825252
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832563546946655759}
-  m_Mesh: {fileID: -6929813547271312574, guid: 1ffbeaca95606154d8a3b256f28412e9, type: 3}
---- !u!23 &1192645015870797786
+  m_GameObject: {fileID: 1936019748534664658}
+  m_Mesh: {fileID: 6333616131994994436, guid: 64b788a8c881f344289cc4563a4fa2e2, type: 3}
+--- !u!23 &2947034330773303581
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832563546946655759}
+  m_GameObject: {fileID: 1936019748534664658}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -62,7 +62,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2255778029187812962, guid: 1ffbeaca95606154d8a3b256f28412e9, type: 3}
+  - {fileID: 2463030886834163195, guid: 64b788a8c881f344289cc4563a4fa2e2, type: 3}
+  - {fileID: 3258723571915696304, guid: 64b788a8c881f344289cc4563a4fa2e2, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,13 +85,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3588041735032001388
+--- !u!65 &7916458437738487213
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832563546946655759}
+  m_GameObject: {fileID: 1936019748534664658}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -103,37 +104,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.2165694, y: 8.809248, z: 2.563396}
-  m_Center: {x: -0.0086993575, y: 1.4571433, z: -0.17693031}
---- !u!1 &2235820621435520521
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3993465815641558642}
-  m_Layer: 0
-  m_Name: Catavento
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &3993465815641558642
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2235820621435520521}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 55745849917017269}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Size: {x: 15.473495, y: 5.401684, z: 3.6362526}
+  m_Center: {x: 0.0049853325, y: -0.6001781, z: 0}
