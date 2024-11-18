@@ -37,8 +37,9 @@ public class MovementOnline : NetworkBehaviour
     [SerializeField, ReadOnly] private Animator animator;
     private int inputxHash = Animator.StringToHash("X");
     private int inputYHash = Animator.StringToHash("Y");
-    private int boolGround= Animator.StringToHash("isGround");
-    private int inputJump= Animator.StringToHash("jump");
+    private int boolGround = Animator.StringToHash("isGround");
+    private int inputJump = Animator.StringToHash("jump");
+    private int inputWeapon = Animator.StringToHash("Weapon");
 
     [Header("Debug")]
     public bool canMove = true;
@@ -92,7 +93,7 @@ public class MovementOnline : NetworkBehaviour
         if (IsOwner)
         {
             matchOver = MultiplayerManager.Instance.MatchOver;
-            animator.SetBool(boolGround, player.isGrounded); 
+            animator.SetBool(boolGround, player.isGrounded);
             if (!player.isGrounded)
                 rb.AddForce(-transform.up * extraGravityForce, ForceMode.Force);
 
@@ -119,7 +120,7 @@ public class MovementOnline : NetworkBehaviour
             {
                 canJump = false;
                 Jump();
-                animator.SetTrigger(inputJump); 
+                animator.SetTrigger(inputJump);
                 Invoke(nameof(ResetJump), jumpCooldown);
             }
         }
@@ -177,5 +178,8 @@ public class MovementOnline : NetworkBehaviour
     void OnDrawGizmos()
     {
         Gizmos.DrawCube(groundCheckPos.position, boxCastDimensions);
+    }
+    public void ChangeWeapon(int idWeapon){
+        animator.SetInteger(inputWeapon, idWeapon);
     }
 }

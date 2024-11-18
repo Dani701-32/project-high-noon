@@ -48,8 +48,8 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField] private GameObject playerHUD;
     [SerializeField] private GameObject pauseScreen;
     public bool isPaused = false;
-
     private int countSpawnPoints = 0;
+
 
 
     public override void OnNetworkSpawn()
@@ -279,5 +279,8 @@ public class PlayerOnline : NetworkBehaviour
         {
             LobbyManager.Instance.LeaveLobby();
         }
+    }
+    public void ChangeWeapon(int id){
+        movementOnline.ChangeWeapon(id);
     }
 }

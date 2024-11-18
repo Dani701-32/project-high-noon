@@ -244,6 +244,7 @@ public class GunOnline : NetworkBehaviour
             if (!guns[gunId]) return;
         }
         if (!guns[gunId]) return;
+        player.ChangeWeapon(guns[gunId].animId);
         SwapGun_ClientRpc(gunId);
         AcquireWeapon(gunId, true);
         if (!swapperOnline.SwapToGun(guns[gunId].gunName))
