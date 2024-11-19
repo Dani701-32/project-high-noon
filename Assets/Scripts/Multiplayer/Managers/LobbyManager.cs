@@ -70,6 +70,7 @@ public class LobbyManager : MonoBehaviour
         isMenu = SceneManager.GetActiveScene().name == "Menu";
         if(isMenu && lobbyUiManager == null){
             lobbyUiManager = LobbyUiManager.Instance;
+            
         }
         HandleLobbyHeartbeat();
         if (lobbyUiManager.lobbyIsOpen)
@@ -319,6 +320,11 @@ public class LobbyManager : MonoBehaviour
                 currentLobby.Id,
                 AuthenticationService.Instance.PlayerId
             );
+
+            if(ConectionType.type == "host" && NetworkManager.Singleton.IsHost){
+                NetworkManager.Singleton.Shutdown();
+            }
+            
             SceneManager.LoadSceneAsync("Menu");
         }
         catch (LobbyServiceException error)

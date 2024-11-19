@@ -68,7 +68,7 @@ public class MultiplayerManager : NetworkBehaviour
     private void Awake()
     {
         _instance = this;
-        NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalWithRandomSpawnPos;
+        // NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalWithRandomSpawnPos;
     }
 
     // Start is called before the first frame update
@@ -229,14 +229,14 @@ public class MultiplayerManager : NetworkBehaviour
                 throw new NotImplementedException(); 
         }
     }
-    void ConnectionApprovalWithRandomSpawnPos(ConnectionApprovalRequest request, ConnectionApprovalResponse response)
-    {
-        // Here we are only using ConnectionApproval to set the player's spawn position. Connections are always approved.
-        response.CreatePlayerObject = true;
-        response.Position = GetNextSpawnPosition();
-        response.Rotation = Quaternion.identity;
-        response.Approved = true;
-    }
+    // void ConnectionApprovalWithRandomSpawnPos(ConnectionApprovalRequest request, ConnectionApprovalResponse response)
+    // {
+    //     // Here we are only using ConnectionApproval to set the player's spawn position. Connections are always approved.
+    //     response.CreatePlayerObject = true;
+    //     response.Position = GetNextSpawnPosition();
+    //     response.Rotation = Quaternion.identity;
+    //     response.Approved = true;
+    // }
 }
 
 enum SpawnMethod
