@@ -5,7 +5,7 @@ using Unity.Netcode;
 
 public class GunControllerOnline : NetworkBehaviour
 {
-    [SerializeField ] private PlayerOnline player;
+    [SerializeField] private PlayerOnline player;
     [SerializeField, ReadOnly] private MultiplayerManager multiplayerManager;
     [SerializeField] private GameObject gunSpot; //Local da Arma
     [SerializeField] private GunOnline currentGun; //Script da Arma online
@@ -48,8 +48,16 @@ public class GunControllerOnline : NetworkBehaviour
     {
         auto = currentGun.IsAuto();
     }
-    
-    public void RefillWeapons(){
-        currentGun.Refill(); 
+
+    public void RefillWeapons()
+    {
+        currentGun.Refill();
+    }
+    public void AddAmmo(int ammo)
+    {
+        if (IsOwner)
+        {
+            currentGun.AddAmmo_ServerRpc(ammo);
+        }
     }
 }

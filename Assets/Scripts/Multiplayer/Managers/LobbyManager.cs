@@ -30,7 +30,7 @@ public class LobbyManager : MonoBehaviour
     private string playerId = "";
     public static LobbyManager Instance { get; private set; }
     [SerializeField, ReadOnly]
-    private bool isMenu = true; 
+    private bool isMenu = true;
 
 
     private void Awake()
@@ -51,11 +51,11 @@ public class LobbyManager : MonoBehaviour
     async void Start()
     {
         lobbyUiManager = LobbyUiManager.Instance;
-        isMenu = true; 
+        isMenu = true;
         //Iniciando a parte asincrona da Unity
-        var options = new InitializationOptions(); 
+        var options = new InitializationOptions();
         await UnityServices.InitializeAsync(options);
-        
+
         AuthenticationService.Instance.SignedIn += () =>
         {
             Debug.Log($"Player Id {AuthenticationService.Instance.PlayerId}");
@@ -68,9 +68,10 @@ public class LobbyManager : MonoBehaviour
     void Update()
     {
         isMenu = SceneManager.GetActiveScene().name == "Menu";
-        if(isMenu && lobbyUiManager == null){
+        if (isMenu && lobbyUiManager == null)
+        {
             lobbyUiManager = LobbyUiManager.Instance;
-            
+
         }
         HandleLobbyHeartbeat();
         if (lobbyUiManager.lobbyIsOpen)
@@ -89,10 +90,10 @@ public class LobbyManager : MonoBehaviour
                 joinedLobby.Id,
                 new UpdateLobbyOptions
                 {
-            
+
                     Data = new Dictionary<string, DataObject>
                     {
-                        
+
                         {
                             KEY_START_GAME,
                             new DataObject(DataObject.VisibilityOptions.Member, relayCode)
@@ -114,9 +115,10 @@ public class LobbyManager : MonoBehaviour
             Debug.Log(error);
         }
     }
-    IEnumerator LoadMatchAsync(){ 
+    IEnumerator LoadMatchAsync()
+    {
         Debug.Log("LoadMatch");
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MultiplayerCTF"); 
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MultiplayerCTF");
         // SceneManager.LoadScene("TesteMultiplayer");
 
         while (!asyncLoad.isDone)
@@ -316,16 +318,20 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
-            await LobbyService.Instance.RemovePlayerAsync(
-                currentLobby.Id,
-                AuthenticationService.Instance.PlayerId
-            );
-
-            if(ConectionType.type == "host" && NetworkManager.Singleton.IsHost){
-                NetworkManager.Singleton.Shutdown();
+            if (NetworkManager.Singleton.IsHost)
+            {
+                MultiplayerManager.Instance.EndGame();
             }
-            
-            SceneManager.LoadSceneAsync("Menu");
+            else
+            {
+                await LobbyService.Instance.RemovePlayerAsync(
+                    currentLobby.Id,
+                    AuthenticationService.Instance.PlayerId
+                );
+                NetworkManager.Singleton.Shutdown();
+
+                SceneManager.LoadScene("Menu");
+            }
         }
         catch (LobbyServiceException error)
         {
@@ -342,12 +348,13 @@ public class LobbyManager : MonoBehaviour
             lobbyUiManager.AddPlayer(player.Id, player.Data["PlayerName"].Value);
         }
     }
-    private void DebugPlayer(Lobby lobby){
+    private void DebugPlayer(Lobby lobby)
+    {
 
         Debug.Log(lobby.Players.Count);
         foreach (Player player in lobby.Players)
         {
-             Debug.Log(player.Id+ "--" + player.Data["PlayerName"].Value);
+            Debug.Log(player.Id + "--" + player.Data["PlayerName"].Value);
         }
     }
 
@@ -371,11 +378,11 @@ public class LobbyManager : MonoBehaviour
         string playerName = "";
         foreach (Player player in lobby.Players)
         {
-            
+
             if (player.Id == playerId)
             {
                 playerName = player.Data["PlayerName"].Value;
-                
+
                 break;
             }
         }

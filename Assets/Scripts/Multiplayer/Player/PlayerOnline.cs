@@ -280,7 +280,12 @@ public class PlayerOnline : NetworkBehaviour
             LobbyManager.Instance.LeaveLobby();
         }
     }
-    public void ChangeWeapon(int id){
+    public void ChangeWeapon(int id)
+    {
         movementOnline.ChangeWeapon(id);
+    }
+    public void AddAmmo(int ammo)
+    {
+        gunController.AddAmmo(ammo);
     }
 }

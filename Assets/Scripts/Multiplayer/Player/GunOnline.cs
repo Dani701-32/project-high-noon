@@ -279,4 +279,18 @@ public class GunOnline : NetworkBehaviour
             UpdateAmmo_ServerRpc();
         }
     }
+
+    [ServerRpc]
+    public void AddAmmo_ServerRpc(int ammo)
+    {
+        currentAmmo[gunId] += ammo * guns[gunId].bulletsInAmmoBox;
+        currentAmmo[gunId] = Mathf.Min(currentAmmo[gunId], guns[gunId].maxAmmo);
+        UpdateAmmo_ServerRpc();
+        AddAmmo_ClientRpc(currentAmmo[gunId]);
+    }
+    [ClientRpc]
+    private void AddAmmo_ClientRpc(int ammo)
+    {
+        currentAmmo[gunId] = ammo;
+    }
 }
