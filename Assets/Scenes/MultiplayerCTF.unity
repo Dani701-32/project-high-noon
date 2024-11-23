@@ -27,7 +27,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.35686275, g: 0.24705884, b: 0.2509804, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 23216e16f659fd14fa740a4fcba4a6cf, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 27b578e8dcf173849af7d42e4cdbfa06, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,8 +38,8 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 0.8
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 1203999485}
-  m_IndirectSpecularColor: {r: 0.2764715, g: 0.1445967, b: 0.10849388, a: 0.8}
+  m_Sun: {fileID: 3791530104227462762}
+  m_IndirectSpecularColor: {r: 0.15080577, g: 0.2557456, b: 0.33835477, a: 0.8}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2139,7 +2139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1203999484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3695,6 +3695,80 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9c7a279044129341bc432a0c1c74a32, type: 3}
+--- !u!108 &3791530104227462762 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 7860988689815207450, guid: fd48aefaee72b0d46bb72dd2e6c4f64c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5508204918859373011}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5508204918859373011
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 862119795258793309, guid: fd48aefaee72b0d46bb72dd2e6c4f64c,
+        type: 3}
+      propertyPath: m_Name
+      value: SunAndSky
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303787942392044841, guid: fd48aefaee72b0d46bb72dd2e6c4f64c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303787942392044841, guid: fd48aefaee72b0d46bb72dd2e6c4f64c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303787942392044841, guid: fd48aefaee72b0d46bb72dd2e6c4f64c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303787942392044841, guid: fd48aefaee72b0d46bb72dd2e6c4f64c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.78641206
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303787942392044841, guid: fd48aefaee72b0d46bb72dd2e6c4f64c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.17337042
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303787942392044841, guid: fd48aefaee72b0d46bb72dd2e6c4f64c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5753034
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303787942392044841, guid: fd48aefaee72b0d46bb72dd2e6c4f64c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.14326486
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303787942392044841, guid: fd48aefaee72b0d46bb72dd2e6c4f64c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 25.946
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303787942392044841, guid: fd48aefaee72b0d46bb72dd2e6c4f64c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 71.996
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303787942392044841, guid: fd48aefaee72b0d46bb72dd2e6c4f64c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -1.647
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fd48aefaee72b0d46bb72dd2e6c4f64c, type: 3}
 --- !u!4 &7717820464498546712 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6367378454041220781, guid: f9c7a279044129341bc432a0c1c74a32,
@@ -3723,3 +3797,4 @@ SceneRoots:
   - {fileID: 1203999486}
   - {fileID: 636797964}
   - {fileID: 24944249}
+  - {fileID: 5508204918859373011}
