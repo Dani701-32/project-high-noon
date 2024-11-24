@@ -92,7 +92,6 @@ public class MultiplayerManager : NetworkBehaviour
             case "client":
                 Instance.StartGame();
                 cameraArea.SetActive(false);
-                Debug.Log(unityTransport.ConnectionData.Address);
                 NetworkManager.Singleton.StartClient();
                 break;
         }
@@ -180,7 +179,7 @@ public class MultiplayerManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            currentTime = 15f;
+            currentTime = fromHost? 2f : 15f;
             networkCurrentTime.Value = currentTime;
         }
     }

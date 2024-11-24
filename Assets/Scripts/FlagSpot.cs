@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class FlagSpot : MonoBehaviour
+public class FlagSpot : NetworkBehaviour
 {
     [SerializeField]
     bool isActive = true;

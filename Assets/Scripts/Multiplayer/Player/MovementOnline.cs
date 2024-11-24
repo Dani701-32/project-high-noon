@@ -180,6 +180,7 @@ public class MovementOnline : NetworkBehaviour
         Gizmos.DrawCube(groundCheckPos.position, boxCastDimensions);
     }
     public void ChangeWeapon(int idWeapon){
+        Debug.Log("MovementOnline" + idWeapon);
         animator.SetInteger(inputWeapon, idWeapon);
     }
 }

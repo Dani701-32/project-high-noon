@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class BaseTeam : MonoBehaviour
+using Unity.Netcode;
+public class BaseTeam : NetworkBehaviour
 {
     [SerializeField]
     TeamData teamData;
@@ -20,7 +20,7 @@ public class BaseTeam : MonoBehaviour
         {
             var mainModule = particles.GetComponent<ParticleSystem>().main;
             mainModule.startColor = teamData.teamColor;
-            baseObj.GetComponent<MeshRenderer>().material = teamData.teamEquipMaterial;
+            baseObj.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
         }
     }
 
