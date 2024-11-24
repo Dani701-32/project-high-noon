@@ -180,7 +180,7 @@ public class MultiplayerManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            currentTime = 15f;
+            currentTime = fromHost? 2f : 15f;
             networkCurrentTime.Value = currentTime;
         }
     }
