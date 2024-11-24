@@ -39,6 +39,7 @@ public class GunControllerOnline : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            Debug.Log("GunController");
             currentGun.SwapGun();
             UpdateStats();
         }

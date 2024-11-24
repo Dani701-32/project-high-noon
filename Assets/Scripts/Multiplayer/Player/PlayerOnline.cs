@@ -22,7 +22,9 @@ public class PlayerOnline : NetworkBehaviour
 
     [SerializeField]
     GameObject model,
-        playerCanvas, hat;
+        playerCanvas;
+
+    [SerializeField] private List<SkinnedMeshRenderer> playerParts; 
 
     [SerializeField, ReadOnly] private MovementOnline movementOnline;
     [SerializeField, ReadOnly] private GunControllerOnline gunController;
@@ -61,7 +63,9 @@ public class PlayerOnline : NetworkBehaviour
         sliderHealth.maxValue = maxHealth;
         sliderHealth.value = health;
         bgPlayerName.SetActive(true);
-        hat.GetComponent<SkinnedMeshRenderer>().material.color = teamData.teamColor;
+        foreach(SkinnedMeshRenderer part in playerParts){
+            part.material = teamData.teamEquipMaterial; 
+        }
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
         if (!IsOwner)
             return;
@@ -142,7 +146,6 @@ public class PlayerOnline : NetworkBehaviour
     public void Damage(float damage)
     {
         if (!IsOwner) return;
-        Debug.Log("Teste");
         Damage_ServerRpc(damage);
     }
 
@@ -177,7 +180,6 @@ public class PlayerOnline : NetworkBehaviour
     [ServerRpc]
     public void Die_ServerRpc()
     {
-        Debug.Log("Morreu");
         model.SetActive(false);
         if (IsOwner)
         {
@@ -192,7 +194,6 @@ public class PlayerOnline : NetworkBehaviour
     private void Die_ClientRpc()
     {
 
-        Debug.Log("Morreu");
         model.SetActive(false);
         ReturnBanner();
         if (IsOwner)
@@ -267,7 +268,7 @@ public class PlayerOnline : NetworkBehaviour
     public void PauseGame(bool status)
     {
         movementOnline.enabled = !status;
-        playerHUD.SetActive(!status);
+        // playerHUD.SetActive(!status);
         pauseScreen.SetActive(status);
         Cursor.visible = status;
         Cursor.lockState = status ? CursorLockMode.None : CursorLockMode.Locked;
@@ -282,6 +283,7 @@ public class PlayerOnline : NetworkBehaviour
     }
     public void ChangeWeapon(int id)
     {
+        Debug.Log("PlayerOnline" + id);
         movementOnline.ChangeWeapon(id);
     }
     public void AddAmmo(int ammo)

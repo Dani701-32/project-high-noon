@@ -94,7 +94,9 @@ GameObject:
   - component: {fileID: 312894977714799196}
   - component: {fileID: 441095746462506908}
   - component: {fileID: 3907192693517362356}
+  - component: {fileID: 7031297104496191025}
   - component: {fileID: 6354103758789028900}
+  - component: {fileID: 6222538061115905844}
   m_Layer: 0
   m_Name: BaseTeam
   m_TagString: Untagged
@@ -161,6 +163,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.73, y: 2.52, z: 3.69}
   m_Center: {x: 0, y: 1.17, z: 0}
+--- !u!114 &7031297104496191025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7961461749970125563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2273730897
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &6354103758789028900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +199,20 @@ MonoBehaviour:
   teamData: {fileID: 0}
   particles: {fileID: 8731068547880122839}
   baseObj: {fileID: 5245280349541791125}
+--- !u!114 &6222538061115905844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7961461749970125563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 441095746462506908}
 --- !u!1 &8731068547880122839
 GameObject:
   m_ObjectHideFlags: 0

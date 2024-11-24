@@ -151,6 +151,7 @@ public class GunOnline : NetworkBehaviour
     {
         if (IsOwner)
         {
+            Debug.Log("GunOnline");
             SwapGun_ServerRpc();
             UpdateAmmo_ServerRpc();
         }
@@ -244,7 +245,9 @@ public class GunOnline : NetworkBehaviour
             if (!guns[gunId]) return;
         }
         if (!guns[gunId]) return;
-        player.ChangeWeapon(guns[gunId].animId);
+        Debug.Log("GunOnline - Server");
+        // player.ChangeWeapon(guns[gunId].animId);
+
         SwapGun_ClientRpc(gunId);
         AcquireWeapon(gunId, true);
         if (!swapperOnline.SwapToGun(guns[gunId].gunName))
@@ -256,6 +259,8 @@ public class GunOnline : NetworkBehaviour
     private void SwapGun_ClientRpc(int id)
     {
         gunId = id;
+        Debug.Log("GunOnline - Client");
+        player.ChangeWeapon(guns[gunId].animId);
         AcquireWeapon(gunId, true);
         if (!swapperOnline.SwapToGun(guns[gunId].gunName))
         {

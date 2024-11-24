@@ -55,11 +55,6 @@ public class LobbyManager : MonoBehaviour
         //Iniciando a parte asincrona da Unity
         var options = new InitializationOptions();
         await UnityServices.InitializeAsync(options);
-
-        AuthenticationService.Instance.SignedIn += () =>
-        {
-            Debug.Log($"Player Id {AuthenticationService.Instance.PlayerId}");
-        };
         playerId = AuthenticationService.Instance.PlayerId;
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
@@ -117,7 +112,6 @@ public class LobbyManager : MonoBehaviour
     }
     IEnumerator LoadMatchAsync()
     {
-        Debug.Log("LoadMatch");
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MultiplayerCTF");
         // SceneManager.LoadScene("TesteMultiplayer");
 
@@ -267,7 +261,6 @@ public class LobbyManager : MonoBehaviour
         try
         {
             QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync();
-            Debug.Log($"Lobby Encontrados:{queryResponse.Results.Count} results");
             if (queryResponse.Results.Count == 0)
             {
                 Debug.Log("Nenhum Lobby encontrado");
@@ -320,7 +313,7 @@ public class LobbyManager : MonoBehaviour
         {
             if (NetworkManager.Singleton.IsHost)
             {
-                MultiplayerManager.Instance.EndGame();
+                MultiplayerManager.Instance.EndGame(true);
             }
             else
             {
@@ -341,20 +334,9 @@ public class LobbyManager : MonoBehaviour
 
     private void PrintPlayers(Lobby lobby)
     {
-        Debug.Log(lobby.Players.Count);
-        DebugPlayer(lobby);
         foreach (Player player in lobby.Players)
         {
             lobbyUiManager.AddPlayer(player.Id, player.Data["PlayerName"].Value);
-        }
-    }
-    private void DebugPlayer(Lobby lobby)
-    {
-
-        Debug.Log(lobby.Players.Count);
-        foreach (Player player in lobby.Players)
-        {
-            Debug.Log(player.Id + "--" + player.Data["PlayerName"].Value);
         }
     }
 
@@ -395,12 +377,10 @@ public class LobbyManager : MonoBehaviour
         if (currentLobby != null)
         {
             namePlayer = GetPlayerName(currentLobby);
-            DebugPlayer(currentLobby);
         }
         else
         {
             namePlayer = GetPlayerName(hostLobby);
-            DebugPlayer(hostLobby);
         }
         return namePlayer;
     }

@@ -92,7 +92,6 @@ public class MultiplayerManager : NetworkBehaviour
             case "client":
                 Instance.StartGame();
                 cameraArea.SetActive(false);
-                Debug.Log(unityTransport.ConnectionData.Address);
                 NetworkManager.Singleton.StartClient();
                 break;
         }
