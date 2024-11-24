@@ -11296,7 +11296,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1139676759
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11312,9 +11312,9 @@ RectTransform:
   - {fileID: 247553752}
   m_Father: {fileID: 2128196629}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 500, y: -590}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1139676760
@@ -21658,6 +21658,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 258044468328990489, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3153846792
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401986792782647234, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1948686173
+      objectReference: {fileID: 0}
     - target: {fileID: 1451167925953436810, guid: 747a3a2fdbc2dd543aebf420d6652090,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -21708,10 +21718,65 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1536415938780967069, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2266404449
+      objectReference: {fileID: 0}
     - target: {fileID: 2632840408624491055, guid: 747a3a2fdbc2dd543aebf420d6652090,
         type: 3}
       propertyPath: m_Name
       value: Mapa
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591628289427840430, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 795969992
+      objectReference: {fileID: 0}
+    - target: {fileID: 3983471812039644780, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3745614323
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669926851238423577, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2558204527
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131411618450937706, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1779381828
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664670596207672066, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 963104966
+      objectReference: {fileID: 0}
+    - target: {fileID: 6278543202464544004, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1513248945
+      objectReference: {fileID: 0}
+    - target: {fileID: 7064355685484329255, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 371669698
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092860617656869216, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3380788491
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320621249018565057, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 4173162669
+      objectReference: {fileID: 0}
+    - target: {fileID: 7792525213069761865, guid: 747a3a2fdbc2dd543aebf420d6652090,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

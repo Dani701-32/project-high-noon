@@ -20,7 +20,7 @@ public class MultiplayerManager : NetworkBehaviour
     private TeamData[] teamDatas;
 
     [SerializeField]
-    private List<PlayerOnline> playersRed,
+    public List<PlayerOnline> playersRed,
         playersBlue;
     public Transform defaultPos;
 
@@ -102,6 +102,7 @@ public class MultiplayerManager : NetworkBehaviour
     void Update()
     {
         UpdateTimerUi();
+        
     }
 
     public void StartGame()
@@ -175,7 +176,7 @@ public class MultiplayerManager : NetworkBehaviour
         flagSpot.ActiveFlag();
     }
 
-    public void EndGame()
+    public void EndGame(bool fromHost = false)
     {
         if (IsServer)
         {
@@ -229,14 +230,7 @@ public class MultiplayerManager : NetworkBehaviour
                 throw new NotImplementedException(); 
         }
     }
-    // void ConnectionApprovalWithRandomSpawnPos(ConnectionApprovalRequest request, ConnectionApprovalResponse response)
-    // {
-    //     // Here we are only using ConnectionApproval to set the player's spawn position. Connections are always approved.
-    //     response.CreatePlayerObject = true;
-    //     response.Position = GetNextSpawnPosition();
-    //     response.Rotation = Quaternion.identity;
-    //     response.Approved = true;
-    // }
+    
 }
 
 enum SpawnMethod
