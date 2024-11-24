@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3035952626649107021
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BlueTeam
+  m_Shader: {fileID: -6465566751694194690, guid: f5da7266d680c6b4aab7c1958c0507d9,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Albedo_Texture:
+        m_Texture: {fileID: 2800000, guid: 677a4f2e9c7ccf446827f886812f205d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _DissolveScale: 40
+    - _DissolveWidth: 0.02
+    - _Glossiness: 14
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _RimAmount: 0.516
+    - _RimThreshold: 0.139
+    m_Colors:
+    - _AmbientColor: {r: 1.4142135, g: 0.7965277, b: 0.7137776, a: 1}
+    - _DissolveColor: {r: 0, g: 2, b: 0.4313726, a: 1}
+    - _MainColor: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 0}
+    - _RimColor: {r: 7.184314, g: 7.184314, b: 7.184314, a: 0}
+    - _SpecularColor: {r: 0.8962264, g: 0.8962264, b: 0.8962264, a: 0}
+  m_BuildTextureStacks: []

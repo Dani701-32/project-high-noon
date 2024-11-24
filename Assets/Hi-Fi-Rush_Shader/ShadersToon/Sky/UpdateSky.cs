@@ -1,22 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class UpdateSky : MonoBehaviour
 {
     public Light sunLight;
 
-    [SerializeField] private Material skyboxMat;
+    public Vector3 teste;
 
-    void Start()
-    {
-        skyboxMat.SetVector(name = "_MainLightDirection", sunLight.transform.forward);
-    }
 
-    void Update()
-    {
-        
+    //public override void OnNetworkSpawn()
+    //{
+    //    if(IsOwner)
+    //    {
+            
+    //    }
+    //    teste = sunLight.transform.forward;
 
-    }
+    //    RenderSettings.skybox.SetVector("_MainLightDirection", teste);
+
+    //    Debug.Log(teste);
+
+    //    base.OnNetworkSpawn();
+    //}
+    //private void Start()
+    //{
+    //    teste = sunLight.transform.forward;
+
+    //    RenderSettings.skybox.SetVector("_MainLightDirection", teste);
+    //}
 }

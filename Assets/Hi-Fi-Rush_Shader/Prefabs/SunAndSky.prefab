@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1303787942392044841}
   - component: {fileID: 7860988689815207450}
   - component: {fileID: 5374959219267183296}
+  - component: {fileID: 6831544252286894365}
   - component: {fileID: 8203669918552544988}
   m_Layer: 0
   m_Name: SunAndSky
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862119795258793309}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.17337042, y: -0.5753034, z: 0.14326486, w: -0.78641206}
+  m_LocalRotation: {x: 0.17337172, y: 0.57530636, z: -0.14326401, w: 0.7864098}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -119,6 +120,27 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 2
+--- !u!114 &6831544252286894365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862119795258793309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3779453553
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &8203669918552544988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,4 +154,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sunLight: {fileID: 7860988689815207450}
-  skyboxMat: {fileID: 2100000, guid: 27b578e8dcf173849af7d42e4cdbfa06, type: 2}
+  teste: {x: 0, y: 0, z: 0}
