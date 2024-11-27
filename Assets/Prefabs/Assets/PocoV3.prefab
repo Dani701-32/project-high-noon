@@ -11,12 +11,14 @@ GameObject:
   - component: {fileID: 424271793535296203}
   - component: {fileID: 3624425076837625198}
   - component: {fileID: 1560633809672362404}
+  - component: {fileID: 5993662462850977229}
+  - component: {fileID: 1363953764054757791}
   m_Layer: 0
   m_Name: WellCap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &424271793535296203
 Transform:
@@ -83,6 +85,48 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5993662462850977229
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056235255433001073}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.8866324, y: 0.21863641, z: 2.7589176}
+  m_Center: {x: 0.019523859, y: 0.0093100965, z: 1.3794587}
+--- !u!65 &1363953764054757791
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056235255433001073}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.103452, y: 1.9433342, z: 0.9553764}
+  m_Center: {x: 0.088511944, y: -0.005472958, z: 2.2812295}
 --- !u!1 &7104875663636079041
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,12 +138,13 @@ GameObject:
   - component: {fileID: 7625234536999746427}
   - component: {fileID: 6808771917393687774}
   - component: {fileID: 8762151879656800276}
+  - component: {fileID: 1765199508700216430}
   m_Layer: 0
   m_Name: WaterWell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7625234536999746427
 Transform:
@@ -166,6 +211,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &1765199508700216430
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7104875663636079041}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.8551074
+  m_Height: 1.7125539
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0.0001880825, z: 0.42936397}
 --- !u!1 &8580078364868129152
 GameObject:
   m_ObjectHideFlags: 0
