@@ -139,13 +139,11 @@ public class MultiplayerManager : NetworkBehaviour
     {
         if (playersRed.Count == playersBlue.Count)
         {
-            // newPlayer.SpawnPoint(spawnPointsBlue[0]);
             playersBlue.Add(newPlayer);
-            return teamDatas[2];
+            return teamDatas[newPlayer.gender == 'M'?  2: 0];
         }
-        // newPlayer.SpawnPoint(spawnPointsRed[0]);
         playersRed.Add(newPlayer);
-        return teamDatas[3];
+        return teamDatas[newPlayer.gender == 'M'?  3: 1];
     }
 
     public void AddPoint(TeamData team)

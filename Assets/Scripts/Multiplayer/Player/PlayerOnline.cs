@@ -37,6 +37,7 @@ public class PlayerOnline : NetworkBehaviour
     [ReadOnly] public bool isFocused;
     [ReadOnly] public bool isGrounded;
     [ReadOnly] public bool scopeGun;
+    public char gender;
 
     [Header("Player UI")]
     private NetworkVariable<NetworkString> playerName = new NetworkVariable<NetworkString>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);

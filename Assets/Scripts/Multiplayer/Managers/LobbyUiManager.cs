@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
 public class LobbyUiManager : MonoBehaviour
 {
     static LobbyUiManager _instance;
     [SerializeField] private LobbyManager lobbyManager;
-
     [Header("Listar Lobbies")]
     [SerializeField]
     GameObject listLobbyScreen;
@@ -22,61 +22,48 @@ public class LobbyUiManager : MonoBehaviour
     List<LobbyItem> listLobbies;
 
     [Header("Criar Lobby")]
-    [SerializeField]
-    GameObject createLobbyPopUp;
+    [SerializeField] GameObject createLobbyPopUp;
 
-    [SerializeField]
-    TMP_InputField inputLobbyName;
+    [SerializeField] TMP_InputField inputLobbyName;
 
-    [SerializeField]
-    TMP_InputField inputPlayerName;
+    [SerializeField] TMP_InputField inputPlayerName;
 
-    [SerializeField]
-    TMP_InputField inputLobbPlayerCap;
+    [SerializeField] TMP_InputField inputLobbPlayerCap;
 
     [Header("Abri Lobby")]
-    [SerializeField]
-    GameObject openLobbyPopUp;
+    [SerializeField] GameObject openLobbyPopUp;
 
-    [SerializeField]
-    GameObject prefabPlayerItem;
+    [SerializeField] GameObject prefabPlayerItem;
 
-    [SerializeField]
-    Transform bodyListPlayers;
+    [SerializeField] Transform bodyListPlayers;
 
-    [SerializeField, ReadOnly]
-    List<PlayerItem> listPlayers;
+    [SerializeField, ReadOnly] List<PlayerItem> listPlayers;
 
-    [SerializeField]
-    TMP_Text textNameLobbyOpen;
+    [SerializeField] TMP_Text textNameLobbyOpen;
 
-    [SerializeField]
-    TMP_Text textLobbyOpenPlayers;
+    [SerializeField] TMP_Text textLobbyOpenPlayers;
 
     [Header("Abri Lobby")]
-    [SerializeField]
-    GameObject joinLobbyScreen;
+    [SerializeField] GameObject joinLobbyScreen;
 
-    [SerializeField]
-    TMP_InputField inputLobbyJoinName;
+    [SerializeField] TMP_InputField inputLobbyJoinName;
 
-    [SerializeField]
-    private GameObject btnStartGame;
+    [SerializeField] private GameObject btnStartGame;
 
-    [SerializeField, ReadOnly]
-    private string joinLobbyId;
+    [SerializeField, ReadOnly] private string joinLobbyId;
 
-    [SerializeField, ReadOnly]
-    private string relayCode;
+    [SerializeField, ReadOnly] private string relayCode;
 
-    [SerializeField, ReadOnly]
-    public bool lobbyIsOpen = false;
+    [SerializeField, ReadOnly] public bool lobbyIsOpen = false;
 
-    [SerializeField, ReadOnly]
-    private bool isLobbyHost = false;
-    [SerializeField, ReadOnly ] private bool isLobbyList = false; 
-    private float lobbyTimer = 1f; 
-    private float lobbyMaxTimer = 5f; 
+    [SerializeField, ReadOnly] private bool isLobbyHost = false;
+    [SerializeField, ReadOnly] private bool isLobbyList = false;
+    private float lobbyTimer = 1f;
+    private float lobbyMaxTimer = 5f;
+
+    [Header("Characters")]
+    public GameObject malePrefabPlayer;
+    public GameObject femalePrefabPlayer;
 
     public static LobbyUiManager Instance
     {
@@ -91,16 +78,17 @@ public class LobbyUiManager : MonoBehaviour
     void Awake()
     {
         _instance = this;
-        
+
     }
     void Update()
     {
-        if(isLobbyList){
+        if (isLobbyList)
+        {
             lobbyTimer -= Time.deltaTime;
             if (lobbyTimer < 0f)
             {
                 lobbyTimer = lobbyMaxTimer;
-                RefreshList(); 
+                RefreshList();
             }
         }
     }
@@ -123,14 +111,14 @@ public class LobbyUiManager : MonoBehaviour
     public void OpenListLobbies()
     {
         RefreshList();
-        isLobbyList = true; 
+        isLobbyList = true;
         listLobbyScreen.SetActive(true);
     }
 
     public void CloseListLobbies()
     {
         listLobbyScreen.SetActive(false);
-        isLobbyList = false; 
+        isLobbyList = false;
     }
 
     public void RefreshList()
@@ -192,9 +180,10 @@ public class LobbyUiManager : MonoBehaviour
     {
         string playerName = inputPlayerName.text ?? "player" + Random.Range(10, 100);
         string lobbyName = inputLobbyName.text ?? "lobby" + Random.Range(1, 100);
-        int lobbyPlayerCap = int.Parse(inputLobbPlayerCap.text == ""? "4" : inputLobbPlayerCap.text);
+        int lobbyPlayerCap = int.Parse(inputLobbPlayerCap.text == "" ? "4" : inputLobbPlayerCap.text);
         isLobbyHost = true;
-        if(lobbyPlayerCap > 8){
+        if (lobbyPlayerCap > 8)
+        {
             lobbyPlayerCap = 8;
         }
         lobbyManager.CreateLobby(lobbyName, lobbyPlayerCap, playerName);
@@ -274,4 +263,11 @@ public class LobbyUiManager : MonoBehaviour
         get { return isLobbyHost; }
         private set { isLobbyHost = value; }
     }
+
+    public void ChangePlayerPrefab(string gender)
+    {
+        GameObject prefab = (gender == "male") ? malePrefabPlayer : femalePrefabPlayer;
+        NetworkManager.Singleton.NetworkConfig.PlayerPrefab = prefab;
+    }
+
 }
