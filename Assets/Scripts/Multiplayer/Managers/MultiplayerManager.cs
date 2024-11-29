@@ -141,11 +141,11 @@ public class MultiplayerManager : NetworkBehaviour
         {
             // newPlayer.SpawnPoint(spawnPointsBlue[0]);
             playersBlue.Add(newPlayer);
-            return teamDatas[0];
+            return teamDatas[2];
         }
         // newPlayer.SpawnPoint(spawnPointsRed[0]);
         playersRed.Add(newPlayer);
-        return teamDatas[1];
+        return teamDatas[3];
     }
 
     public void AddPoint(TeamData team)

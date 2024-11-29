@@ -4,9 +4,6 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
 using TMPro;
-using Unity.Collections;
-using System.Data.Common;
-
 public class PlayerOnline : NetworkBehaviour
 {
     [Header("Team data")]
