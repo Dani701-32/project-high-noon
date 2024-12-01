@@ -213,14 +213,14 @@ public class LobbyManager : MonoBehaviour
     }
 
     //Cria um Lobby
-    public async void CreateLobby(string nameLobby, int playerCount, string playerName)
+    public async void CreateLobby(string nameLobby, int playerCount, string playerName, string gender)
     {
         try
         {
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
             {
                 IsPrivate = false,
-                Player = GetPlayer(playerName),
+                Player = GetPlayer(playerName, gender),
                 Data = new Dictionary<string, DataObject>
                 {
                     {
@@ -285,13 +285,13 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    public async void JoinLobby(string id, string playerName)
+    public async void JoinLobby(string id, string playerName, string gender)
     {
         try
         {
             JoinLobbyByIdOptions joinLobbyByIdOptions = new JoinLobbyByIdOptions
             {
-                Player = GetPlayer(playerName)
+                Player = GetPlayer(playerName, gender)
             };
             Lobby lobby = await Lobbies.Instance.JoinLobbyByIdAsync(id, joinLobbyByIdOptions);
             joinedLobby = lobby;
@@ -342,7 +342,7 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    private Player GetPlayer(string playerName)
+    private Player GetPlayer(string playerName, string gender)
     {
         Player player = new Player
         {
@@ -351,6 +351,10 @@ public class LobbyManager : MonoBehaviour
                 {
                     "PlayerName",
                     new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, playerName)
+                },
+                {
+                    KEY_CHARACTER  ,
+                    new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, gender)
                 }
             }
         };

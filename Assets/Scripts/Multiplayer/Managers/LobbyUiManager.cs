@@ -62,8 +62,7 @@ public class LobbyUiManager : MonoBehaviour
     private float lobbyMaxTimer = 5f;
 
     [Header("Characters")]
-    public GameObject malePrefabPlayer;
-    public GameObject femalePrefabPlayer;
+    [SerializeField, ReadOnly] private string gender = "male";
 
     public static LobbyUiManager Instance
     {
@@ -160,7 +159,7 @@ public class LobbyUiManager : MonoBehaviour
     {
         joinLobbyScreen.SetActive(false);
         string namePlayer = inputLobbyJoinName.text;
-        lobbyManager.JoinLobby(joinLobbyId, namePlayer);
+        lobbyManager.JoinLobby(joinLobbyId, namePlayer, gender);
     }
 
     //Create Lobby
@@ -186,7 +185,7 @@ public class LobbyUiManager : MonoBehaviour
         {
             lobbyPlayerCap = 8;
         }
-        lobbyManager.CreateLobby(lobbyName, lobbyPlayerCap, playerName);
+        lobbyManager.CreateLobby(lobbyName, lobbyPlayerCap, playerName, gender);
     }
 
     //Abrir Lobby
@@ -266,6 +265,7 @@ public class LobbyUiManager : MonoBehaviour
 
     public void ChangePlayerPrefab(string gender)
     {
+        this.gender = gender;
     }
 
 }
