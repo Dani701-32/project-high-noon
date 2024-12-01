@@ -74,6 +74,7 @@ public class MultiplayerManager : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         UnityTransport unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
         switch (ConectionType.type)
         {
@@ -227,7 +228,6 @@ public class MultiplayerManager : NetworkBehaviour
                 throw new NotImplementedException(); 
         }
     }
-    
 }
 
 enum SpawnMethod

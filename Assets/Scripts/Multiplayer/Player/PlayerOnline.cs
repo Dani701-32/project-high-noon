@@ -11,23 +11,20 @@ public class PlayerOnline : NetworkBehaviour
     private TeamData teamData;
 
     [Header("Toggleable objects")]
-    [SerializeField]
-    GameObject flagCarryObject;
+    [SerializeField] GameObject flagCarryObject;
+    [SerializeField] GameObject flagCarryEffects;
 
-    [SerializeField]
-    GameObject flagCarryEffects;
-
-    [SerializeField]
-    GameObject model,
+    [SerializeField] GameObject model,
         playerCanvas;
-
     [SerializeField] private List<SkinnedMeshRenderer> playerParts; 
-
     [SerializeField, ReadOnly] private MovementOnline movementOnline;
     [SerializeField, ReadOnly] private GunControllerOnline gunController;
+    public GunSwapperOnline swapperOnline;
+    public Animator animator;
     [SerializeField] private Camera _camera;
     Transform spawnPoint;
     [SerializeField, ReadOnly] bool _hasFlag;
+    public GameObject gunHolder; 
 
     [Header("PlayerStatus")]
     [SerializeField] private float health = 3f;
@@ -55,7 +52,7 @@ public class PlayerOnline : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         gunController = GetComponent<GunControllerOnline>();
-        movementOnline = GetComponent<MovementOnline>();
+        movementOnline = gameObject.GetComponentInParent<MovementOnline>();
         teamData = MultiplayerManager.Instance.GetTeamData(this);
         health = maxHealth;
         sliderHealth.maxValue = maxHealth;
@@ -253,15 +250,15 @@ public class PlayerOnline : NetworkBehaviour
             countSpawnPoints = MultiplayerManager.Instance.spawnPointsBlue.Length;
             index = Random.Range(0, countSpawnPoints);
 
-            transform.position = MultiplayerManager.Instance.spawnPointsBlue[index].position;
-            transform.rotation = MultiplayerManager.Instance.spawnPointsBlue[index].rotation;
+            movementOnline.transform.position = MultiplayerManager.Instance.spawnPointsBlue[index].position;
+            movementOnline.transform.rotation = MultiplayerManager.Instance.spawnPointsBlue[index].rotation;
             return;
         }
         countSpawnPoints = MultiplayerManager.Instance.spawnPointsBlue.Length;
         index = Random.Range(0, countSpawnPoints);
 
-        transform.position = MultiplayerManager.Instance.spawnPointsRed[index].position;
-        transform.rotation = MultiplayerManager.Instance.spawnPointsRed[index].rotation;
+        movementOnline.transform.position = MultiplayerManager.Instance.spawnPointsRed[index].position;
+        movementOnline.transform.rotation = MultiplayerManager.Instance.spawnPointsRed[index].rotation;
     }
     public void PauseGame(bool status)
     {

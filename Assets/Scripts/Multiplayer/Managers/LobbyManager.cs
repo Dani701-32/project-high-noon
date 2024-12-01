@@ -26,6 +26,8 @@ public class LobbyManager : MonoBehaviour
     private float lobbyUpdateTimerMax = 1.1f;
     private string KEY_GAME_MODE = "GameMode";
     private string KEY_START_GAME = "GameStarted";
+    private string KEY_CHARACTER = "Character";
+
     [SerializeField, ReadOnly]
     private string playerId = "";
     public static LobbyManager Instance { get; private set; }

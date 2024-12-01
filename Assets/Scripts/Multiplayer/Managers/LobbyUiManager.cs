@@ -266,8 +266,6 @@ public class LobbyUiManager : MonoBehaviour
 
     public void ChangePlayerPrefab(string gender)
     {
-        GameObject prefab = (gender == "male") ? malePrefabPlayer : femalePrefabPlayer;
-        NetworkManager.Singleton.NetworkConfig.PlayerPrefab = prefab;
     }
 
 }

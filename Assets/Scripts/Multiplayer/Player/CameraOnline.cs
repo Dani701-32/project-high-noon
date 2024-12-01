@@ -13,7 +13,7 @@ public class CameraOnline : NetworkBehaviour
     bool fullFocus;
     [SerializeField, ReadOnly] Vignette vignette;
     [SerializeField] private GameObject camParent;
-    [SerializeField] private GameObject gunHolder;
+    [SerializeField, ReadOnly] private GameObject gunHolder;
     [SerializeField] KeyCode keyAim;
 
     [Header("Angles")]
@@ -38,11 +38,10 @@ public class CameraOnline : NetworkBehaviour
     [SerializeField] Transform scopeCamPos;
     private Transform zoomTarget;
     [SerializeField] float fovChangeSpeed;
+    [SerializeField] private MovementOnline playerMovement;
     private PlayerOnline player;
-
-    [Header("Animation")]
-    [SerializeField] private Animator animator;
-    private int inputAimHash = Animator.StringToHash("aim");
+    private Animator animator;
+    private int inputAimHash;
     private float yCam = 0f;
     void Start()
     {
@@ -54,8 +53,11 @@ public class CameraOnline : NetworkBehaviour
         waiting = WaitForStart();
         StartCoroutine(waiting);
 
-        player = GetComponent<PlayerOnline>();
+        player = playerMovement.player;
+        animator = player.animator; 
         myCamera = camParent.GetComponentInChildren<Camera>();
+        inputAimHash = Animator.StringToHash("aim");
+        gunHolder = player.gunHolder;
 
         if (!vignette)
         {

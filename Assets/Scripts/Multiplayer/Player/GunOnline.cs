@@ -15,7 +15,8 @@ public class GunOnline : NetworkBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private AudioSource shotSound;
     [SerializeField] private GunSwapperOnline swapperOnline;
-    [SerializeField] private PlayerOnline player;
+    [SerializeField] private MovementOnline playerMovement;
+    [SerializeField, ReadOnly] private PlayerOnline player;
 
     //Aim
     private Ray center;
@@ -42,6 +43,9 @@ public class GunOnline : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        player = playerMovement.player;
+        swapperOnline = player.swapperOnline; 
+        
         tweak = aimLeftRightTweak;
         bulletsLoaded = new int[guns.Length];
         currentAmmo = new int[guns.Length];

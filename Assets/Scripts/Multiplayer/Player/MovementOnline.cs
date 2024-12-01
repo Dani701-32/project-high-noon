@@ -32,7 +32,10 @@ public class MovementOnline : NetworkBehaviour
     [SerializeField] Vector3 boxCastDimensions = Vector3.zero;
     [SerializeField] Transform groundCheckPos;
     Collider[] gCol = new Collider[10];
-    [SerializeField, ReadOnly] private PlayerOnline player;
+    [Header("Players")]
+    [SerializeField] private PlayerOnline malePlayer;
+    [SerializeField] private PlayerOnline femalePlayer;
+    public PlayerOnline player;
     [Header("Animator")]
     [SerializeField, ReadOnly] private Animator animator;
     private int inputxHash = Animator.StringToHash("X");
@@ -51,8 +54,9 @@ public class MovementOnline : NetworkBehaviour
         if (IsOwner)
         {
             rb = GetComponent<Rigidbody>();
-            player = GetComponent<PlayerOnline>();
-            animator = GetComponent<Animator>();
+            femalePlayer.gameObject.SetActive(false);
+            player = malePlayer;
+            animator = player.animator;
             canJump = true;
             transform.position = MultiplayerManager.Instance.defaultPos.position;
             speed = maxSpeed;
