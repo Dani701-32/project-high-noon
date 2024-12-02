@@ -24,6 +24,7 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField] private List<SkinnedMeshRenderer> femalePlayerParts;
     [SerializeField] private GameObject maleGunHolder;
     [SerializeField] private GameObject femaleGunHolder;
+    [Header("Controllers")]
     [SerializeField, ReadOnly] private MovementOnline movementOnline;
     [SerializeField, ReadOnly] private GunControllerOnline gunController;
     public GunSwapperOnline swapperOnline;
@@ -70,17 +71,19 @@ public class PlayerOnline : NetworkBehaviour
         movementOnline = gameObject.GetComponentInParent<MovementOnline>();
         bgPlayerName.SetActive(true);
 
-        if (!IsOwner){
-            RequestData_ServerRpc();
+        if (IsOwner)
+        {
+            gender = LobbyManager.Instance.GetGender();
+            SetCharacter_ServerRpc(gender);
+            playerCanvas.SetActive(true);
+            _camera.enabled = true;
+            bgPlayerName.SetActive(false);
+            _camera.gameObject.GetComponent<AudioListener>().enabled = true;
+            playerName.Value = LobbyManager.Instance.GetPlayerName();
             return;
         }
-        gender = LobbyManager.Instance.GetGender();
-        SetCharacter_ServerRpc(gender);
-        playerCanvas.SetActive(true);
-        _camera.enabled = true;
-        bgPlayerName.SetActive(false);
-        _camera.gameObject.GetComponent<AudioListener>().enabled = true;
-        playerName.Value = LobbyManager.Instance.GetPlayerName();
+
+        RequestData_ServerRpc();
 
 
         base.OnNetworkSpawn();
@@ -330,6 +333,7 @@ public class PlayerOnline : NetworkBehaviour
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
         swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
         SetCharacter_ClientRpc(gender, teamData.teamTag);
+        gunController.currentGun.SetSwapper(swapperOnline);
     }
     [ClientRpc]
     private void SetCharacter_ClientRpc(string gender, char teamTag)
@@ -342,6 +346,7 @@ public class PlayerOnline : NetworkBehaviour
             animator.avatar = maleAvatar;
             animator.runtimeAnimatorController = maleAnimController;
             malePlayer.SetActive(true);
+            model = malePlayer;
             femalePlayer.SetActive(false);
             gunHolder = maleGunHolder;
             foreach (SkinnedMeshRenderer part in malePlayerParts)
@@ -354,6 +359,7 @@ public class PlayerOnline : NetworkBehaviour
             animator.avatar = femaleAvatar;
             animator.runtimeAnimatorController = femaleAnimController;
             femalePlayer.SetActive(true);
+            model = femalePlayer;
             malePlayer.SetActive(false);
             gunHolder = femaleGunHolder;
             foreach (SkinnedMeshRenderer part in femalePlayerParts)
@@ -364,18 +370,16 @@ public class PlayerOnline : NetworkBehaviour
 
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
         swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
+        gunController.currentGun.SetSwapper(swapperOnline);
     }
-    [ServerRpc (RequireOwnership = false)]
-    private void RequestData_ServerRpc(ServerRpcParams rpcParams = default)
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestData_ServerRpc()
     {
-        SendData_ClientRpc(gender, teamData.teamTag, rpcParams.Receive.SenderClientId);
+        SendData_ClientRpc(gender, teamData.teamTag);
     }
     [ClientRpc]
-    private void SendData_ClientRpc(string gender, char teamTag, ulong targetClientId)
+    private void SendData_ClientRpc(string gender, char teamTag)
     {
-        Debug.Log("Testete");
-        if (NetworkManager.Singleton.LocalClient.ClientId != targetClientId) return;
-
         // Atualize o personagem com os dados recebidos
         this.teamData = MultiplayerManager.Instance.GetTeamData(teamTag, gender);
         this.gender = gender;
@@ -385,6 +389,7 @@ public class PlayerOnline : NetworkBehaviour
             animator.avatar = maleAvatar;
             animator.runtimeAnimatorController = maleAnimController;
             malePlayer.SetActive(true);
+            model = malePlayer;
             femalePlayer.SetActive(false);
             gunHolder = maleGunHolder;
             foreach (SkinnedMeshRenderer part in malePlayerParts)
@@ -397,6 +402,7 @@ public class PlayerOnline : NetworkBehaviour
             animator.avatar = femaleAvatar;
             animator.runtimeAnimatorController = femaleAnimController;
             femalePlayer.SetActive(true);
+            model = femalePlayer;
             malePlayer.SetActive(false);
             gunHolder = femaleGunHolder;
             foreach (SkinnedMeshRenderer part in femalePlayerParts)
@@ -407,5 +413,7 @@ public class PlayerOnline : NetworkBehaviour
 
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
         swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
+        gunController.currentGun.SetSwapper(swapperOnline);
+        
     }
 }

@@ -248,7 +248,6 @@ public class GunOnline : NetworkBehaviour
             if (!guns[gunId]) return;
         }
         if (!guns[gunId]) return;
-        Debug.Log("GunOnline - Server");
         // player.ChangeWeapon(guns[gunId].animId);
 
         SwapGun_ClientRpc(gunId);
@@ -262,7 +261,6 @@ public class GunOnline : NetworkBehaviour
     private void SwapGun_ClientRpc(int id)
     {
         gunId = id;
-        Debug.Log("GunOnline - Client");
         player.ChangeWeapon(guns[gunId].animId);
         AcquireWeapon(gunId, true);
         if (!swapperOnline.SwapToGun(guns[gunId].gunName))
@@ -300,5 +298,9 @@ public class GunOnline : NetworkBehaviour
     private void AddAmmo_ClientRpc(int ammo)
     {
         currentAmmo[gunId] = ammo;
+    }
+
+    public void SetSwapper(GunSwapperOnline swapperOnline){
+        this.swapperOnline = swapperOnline;
     }
 }

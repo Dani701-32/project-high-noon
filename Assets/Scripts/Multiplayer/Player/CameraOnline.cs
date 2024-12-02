@@ -99,7 +99,7 @@ public class CameraOnline : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!IsOwner) return;
-
+        if(gunHolder == null) gunHolder = player.gunHolder;
         if (player.focusInterp >= 0.9f && !fullFocus && player.scopeGun)
         {
             fullFocus = true;
