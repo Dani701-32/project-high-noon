@@ -391,4 +391,19 @@ public class LobbyManager : MonoBehaviour
         return namePlayer;
     }
 
+    public string GetGender(){
+        string gender = "";
+        foreach (Player player in currentLobby.Players)
+        {
+
+            if (player.Id == playerId)
+            {
+                gender = player.Data[KEY_CHARACTER].Value;
+
+                break;
+            }
+        }
+        return gender;
+    }
+
 }

@@ -14,17 +14,30 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField] GameObject flagCarryObject;
     [SerializeField] GameObject flagCarryEffects;
 
-    [SerializeField] GameObject model,
+    [SerializeField]
+    GameObject model,
         playerCanvas;
-    [SerializeField] private List<SkinnedMeshRenderer> playerParts; 
+    [Header("Player Model")]
+    [SerializeField] private GameObject malePlayer;
+    [SerializeField] private GameObject femalePlayer;
+    [SerializeField] private List<SkinnedMeshRenderer> malePlayerParts;
+    [SerializeField] private List<SkinnedMeshRenderer> femalePlayerParts;
+    [SerializeField] private GameObject maleGunHolder;
+    [SerializeField] private GameObject femaleGunHolder;
+    [Header("Controllers")]
     [SerializeField, ReadOnly] private MovementOnline movementOnline;
     [SerializeField, ReadOnly] private GunControllerOnline gunController;
     public GunSwapperOnline swapperOnline;
+    [Header("Animator")]
+    [SerializeField] private RuntimeAnimatorController maleAnimController;
+    [SerializeField] private RuntimeAnimatorController femaleAnimController;
+    [SerializeField] private Avatar maleAvatar;
+    [SerializeField] private Avatar femaleAvatar;
     public Animator animator;
     [SerializeField] private Camera _camera;
     Transform spawnPoint;
     [SerializeField, ReadOnly] bool _hasFlag;
-    public GameObject gunHolder; 
+    public GameObject gunHolder;
 
     [Header("PlayerStatus")]
     [SerializeField] private float health = 3f;
@@ -34,7 +47,7 @@ public class PlayerOnline : NetworkBehaviour
     [ReadOnly] public bool isFocused;
     [ReadOnly] public bool isGrounded;
     [ReadOnly] public bool scopeGun;
-    public char gender;
+    public string gender;
 
     [Header("Player UI")]
     private NetworkVariable<NetworkString> playerName = new NetworkVariable<NetworkString>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -52,23 +65,25 @@ public class PlayerOnline : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         gunController = GetComponent<GunControllerOnline>();
-        movementOnline = gameObject.GetComponentInParent<MovementOnline>();
-        teamData = MultiplayerManager.Instance.GetTeamData(this);
         health = maxHealth;
         sliderHealth.maxValue = maxHealth;
         sliderHealth.value = health;
+        movementOnline = gameObject.GetComponentInParent<MovementOnline>();
         bgPlayerName.SetActive(true);
-        foreach(SkinnedMeshRenderer part in playerParts){
-            part.material = teamData.teamEquipMaterial; 
-        }
-        flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
-        if (!IsOwner)
+
+        if (IsOwner)
+        {
+            gender = LobbyManager.Instance.GetGender();
+            SetCharacter_ServerRpc(gender);
+            playerCanvas.SetActive(true);
+            _camera.enabled = true;
+            bgPlayerName.SetActive(false);
+            _camera.gameObject.GetComponent<AudioListener>().enabled = true;
+            playerName.Value = LobbyManager.Instance.GetPlayerName();
             return;
-        playerCanvas.SetActive(true);
-        _camera.enabled = true;
-        bgPlayerName.SetActive(false);
-        _camera.gameObject.GetComponent<AudioListener>().enabled = true;
-        playerName.Value = LobbyManager.Instance.GetPlayerName();
+        }
+
+        RequestData_ServerRpc();
 
 
         base.OnNetworkSpawn();
@@ -284,5 +299,121 @@ public class PlayerOnline : NetworkBehaviour
     public void AddAmmo(int ammo)
     {
         gunController.AddAmmo(ammo);
+    }
+    [ServerRpc]
+    private void SetCharacter_ServerRpc(string gender)
+    {
+
+        teamData = MultiplayerManager.Instance.GetTeamData(this);
+        if (gender == "male")
+        {
+            animator.avatar = maleAvatar;
+            animator.runtimeAnimatorController = maleAnimController;
+            malePlayer.SetActive(true);
+            femalePlayer.SetActive(false);
+            gunHolder = maleGunHolder;
+            foreach (SkinnedMeshRenderer part in malePlayerParts)
+            {
+                part.material = teamData.teamEquipMaterial;
+            }
+        }
+        else
+        {
+            animator.avatar = femaleAvatar;
+            animator.runtimeAnimatorController = femaleAnimController;
+            femalePlayer.SetActive(true);
+            malePlayer.SetActive(false);
+            gunHolder = femaleGunHolder;
+            foreach (SkinnedMeshRenderer part in femalePlayerParts)
+            {
+                part.material = teamData.teamEquipMaterial;
+            }
+        }
+
+        flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
+        swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
+        SetCharacter_ClientRpc(gender, teamData.teamTag);
+        gunController.currentGun.SetSwapper(swapperOnline);
+    }
+    [ClientRpc]
+    private void SetCharacter_ClientRpc(string gender, char teamTag)
+    {
+        this.teamData = MultiplayerManager.Instance.GetTeamData(teamTag, gender);
+
+        this.gender = gender;
+        if (gender == "male")
+        {
+            animator.avatar = maleAvatar;
+            animator.runtimeAnimatorController = maleAnimController;
+            malePlayer.SetActive(true);
+            model = malePlayer;
+            femalePlayer.SetActive(false);
+            gunHolder = maleGunHolder;
+            foreach (SkinnedMeshRenderer part in malePlayerParts)
+            {
+                part.material = teamData.teamEquipMaterial;
+            }
+        }
+        else
+        {
+            animator.avatar = femaleAvatar;
+            animator.runtimeAnimatorController = femaleAnimController;
+            femalePlayer.SetActive(true);
+            model = femalePlayer;
+            malePlayer.SetActive(false);
+            gunHolder = femaleGunHolder;
+            foreach (SkinnedMeshRenderer part in femalePlayerParts)
+            {
+                part.material = teamData.teamEquipMaterial;
+            }
+        }
+
+        flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
+        swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
+        gunController.currentGun.SetSwapper(swapperOnline);
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestData_ServerRpc()
+    {
+        SendData_ClientRpc(gender, teamData.teamTag);
+    }
+    [ClientRpc]
+    private void SendData_ClientRpc(string gender, char teamTag)
+    {
+        // Atualize o personagem com os dados recebidos
+        this.teamData = MultiplayerManager.Instance.GetTeamData(teamTag, gender);
+        this.gender = gender;
+
+        if (gender == "male")
+        {
+            animator.avatar = maleAvatar;
+            animator.runtimeAnimatorController = maleAnimController;
+            malePlayer.SetActive(true);
+            model = malePlayer;
+            femalePlayer.SetActive(false);
+            gunHolder = maleGunHolder;
+            foreach (SkinnedMeshRenderer part in malePlayerParts)
+            {
+                part.material = teamData.teamEquipMaterial;
+            }
+        }
+        else
+        {
+            animator.avatar = femaleAvatar;
+            animator.runtimeAnimatorController = femaleAnimController;
+            femalePlayer.SetActive(true);
+            model = femalePlayer;
+            malePlayer.SetActive(false);
+            gunHolder = femaleGunHolder;
+            foreach (SkinnedMeshRenderer part in femalePlayerParts)
+            {
+                part.material = teamData.teamEquipMaterial;
+            }
+        }
+
+        flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
+        swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
+        gunController.currentGun.SetSwapper(swapperOnline);
+        
     }
 }

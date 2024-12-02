@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
+using Unity.Services.Lobbies.Models;
 public class CameraOnline : NetworkBehaviour
 {
     float pitch;
@@ -38,9 +39,8 @@ public class CameraOnline : NetworkBehaviour
     [SerializeField] Transform scopeCamPos;
     private Transform zoomTarget;
     [SerializeField] float fovChangeSpeed;
-    [SerializeField] private MovementOnline playerMovement;
-    private PlayerOnline player;
-    private Animator animator;
+    [SerializeField, ReadOnly] private PlayerOnline player;
+    [SerializeField, ReadOnly] private Animator animator;
     private int inputAimHash;
     private float yCam = 0f;
     void Start()
@@ -53,7 +53,7 @@ public class CameraOnline : NetworkBehaviour
         waiting = WaitForStart();
         StartCoroutine(waiting);
 
-        player = playerMovement.player;
+        player = GetComponent<PlayerOnline>();
         animator = player.animator; 
         myCamera = camParent.GetComponentInChildren<Camera>();
         inputAimHash = Animator.StringToHash("aim");
@@ -99,7 +99,7 @@ public class CameraOnline : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!IsOwner) return;
-
+        if(gunHolder == null) gunHolder = player.gunHolder;
         if (player.focusInterp >= 0.9f && !fullFocus && player.scopeGun)
         {
             fullFocus = true;

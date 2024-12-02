@@ -8,7 +8,7 @@ public class GunControllerOnline : NetworkBehaviour
     [SerializeField] private PlayerOnline player;
     [SerializeField, ReadOnly] private MultiplayerManager multiplayerManager;
     [SerializeField] private GameObject gunSpot; //Local da Arma
-    [SerializeField] private GunOnline currentGun; //Script da Arma online
+    public GunOnline currentGun; //Script da Arma online
     [SerializeField] private GameObject currentGunModel; //Modelo atual do player
     private bool auto;
 
