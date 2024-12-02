@@ -33,16 +33,14 @@ public class MovementOnline : NetworkBehaviour
     [SerializeField] Transform groundCheckPos;
     Collider[] gCol = new Collider[10];
     [Header("Players")]
-    [SerializeField] private PlayerOnline malePlayer;
-    [SerializeField] private PlayerOnline femalePlayer;
     public PlayerOnline player;
     [Header("Animator")]
     [SerializeField, ReadOnly] private Animator animator;
-    private int inputxHash = Animator.StringToHash("X");
-    private int inputYHash = Animator.StringToHash("Y");
-    private int boolGround = Animator.StringToHash("isGround");
-    private int inputJump = Animator.StringToHash("jump");
-    private int inputWeapon = Animator.StringToHash("Weapon");
+    private int inputxHash;
+    private int inputYHash;
+    private int boolGround;
+    private int inputJump;
+    private int inputWeapon;
 
     [Header("Debug")]
     public bool canMove = true;
@@ -54,15 +52,21 @@ public class MovementOnline : NetworkBehaviour
         if (IsOwner)
         {
             rb = GetComponent<Rigidbody>();
-            femalePlayer.gameObject.SetActive(false);
-            player = malePlayer;
-            animator = player.animator;
             canJump = true;
             transform.position = MultiplayerManager.Instance.defaultPos.position;
             speed = maxSpeed;
         }
 
         base.OnNetworkSpawn();
+    }
+    private void Start()
+    {
+        animator = player.animator;
+        inputxHash = Animator.StringToHash("X");
+        inputYHash = Animator.StringToHash("Y");
+        boolGround = Animator.StringToHash("isGround");
+        inputJump = Animator.StringToHash("jump");
+        inputWeapon = Animator.StringToHash("Weapon");
     }
 
     void Update()
@@ -183,7 +187,8 @@ public class MovementOnline : NetworkBehaviour
     {
         Gizmos.DrawCube(groundCheckPos.position, boxCastDimensions);
     }
-    public void ChangeWeapon(int idWeapon){
+    public void ChangeWeapon(int idWeapon)
+    {
         Debug.Log("MovementOnline" + idWeapon);
         animator.SetInteger(inputWeapon, idWeapon);
     }

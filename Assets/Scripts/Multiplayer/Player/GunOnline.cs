@@ -15,8 +15,7 @@ public class GunOnline : NetworkBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private AudioSource shotSound;
     [SerializeField] private GunSwapperOnline swapperOnline;
-    [SerializeField] private MovementOnline playerMovement;
-    [SerializeField, ReadOnly] private PlayerOnline player;
+    [SerializeField] private PlayerOnline player;
 
     //Aim
     private Ray center;
@@ -43,7 +42,9 @@ public class GunOnline : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        player = playerMovement.player;
+        base.OnNetworkSpawn();
+    }
+    private void Start() {
         swapperOnline = player.swapperOnline; 
         
         tweak = aimLeftRightTweak;
@@ -61,8 +62,6 @@ public class GunOnline : NetworkBehaviour
             aimSprite.SetActive(true);
             UpdateAmmo_ServerRpc();
         }
-
-        base.OnNetworkSpawn();
     }
 
     // Update is called once per frame

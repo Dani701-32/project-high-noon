@@ -141,12 +141,18 @@ public class MultiplayerManager : NetworkBehaviour
         if (playersRed.Count == playersBlue.Count)
         {
             playersBlue.Add(newPlayer);
-            return teamDatas[newPlayer.gender == 'M'?  2: 0];
+            return teamDatas[newPlayer.gender == "male"?  2: 0];
         }
         playersRed.Add(newPlayer);
-        return teamDatas[newPlayer.gender == 'M'?  3: 1];
+        return teamDatas[newPlayer.gender == "male"?  3: 1];
     }
-
+    public TeamData GetTeamData(char teamTag, string gender){
+        if(teamTag == 'B'){
+            return teamDatas[gender == "male"?  2: 0];
+        }else{
+             return teamDatas[gender == "male"?  3: 1];
+        }
+    }
     public void AddPoint(TeamData team)
     {
         switch (team.teamName)
