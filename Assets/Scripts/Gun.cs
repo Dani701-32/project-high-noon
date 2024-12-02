@@ -149,8 +149,8 @@ public class Gun : MonoBehaviour
                     source.transform.rotation
                 );
                 // Defina o spread com números aleatórios e acelere a bala com seu rigidbody. Destrua a bala após 2 segundos.
-                deviation.x = Random.Range(-spread, spread) / 10;
-                deviation.y = Random.Range(-spread, spread) / 10;
+                deviation.x = Random.Range(-spread, spread) / 30;
+                deviation.y = Random.Range(-spread, spread) / 30;
                 bullet.rb.isKinematic = false;
                 bullet.rb.AddForce(
                     (source.transform.forward +
@@ -205,12 +205,19 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        center = new Ray(cam.transform.position, cam.transform.forward);
-        aimPoint = center.GetPoint(100);
-        transform.parent.LookAt(aimPoint + Vector3.up * 3, Vector3.up);
+        center = new Ray(bulletPoint.transform.position, cam.transform.forward);
+        if (Physics.Raycast(center, out hit))
+            aimPoint = hit.point;
+        else
+            aimPoint = center.GetPoint(100);
+        float dist = Vector3.Distance(bulletPoint.transform.position, aimPoint);
+        transform.parent.LookAt(aimPoint, Vector3.up);
 
-        aimLeftRightTweak = playerStats.carryingScopedGun && playerStats.focused ? 0 : tweak;
-        aimSprite.transform.position = center.GetPoint(8) + aimSprite.transform.right * aimLeftRightTweak;
+        aimSprite.transform.position = 
+            dist > Vector3.Distance(bulletPoint.transform.position, center.GetPoint(8)) ?
+                center.GetPoint(8) :
+                aimPoint;
+        aimSprite.transform.position -= Vector3.up / 5;
 
         //accuracySprite.transform.localScale = Vector3.one * spread;
         accuracySprite.size = Vector2.one * Mathf.Max(0.25f, spread);
