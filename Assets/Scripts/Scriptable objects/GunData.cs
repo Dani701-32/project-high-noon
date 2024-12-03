@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewGun", menuName = "ScriptableObjects/Gun data", order = 2)]
 public class GunData : ScriptableObject
 {
+    public int gunID; 
     public int animId; 
     public string gunName;
     

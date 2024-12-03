@@ -9,6 +9,8 @@ public class GunSwapperOnline : NetworkBehaviour
     [SerializeField] List<GameObject> guns;
     Dictionary<string, GameObject> gunsDictionary;
     [SerializeField] private GameObject currentGun;
+    [SerializeField] private string tagBulletPoint = "BulletPoint";
+    public GameObject bulletPoint;
 
     // Start is called before the first frame update
     private void Awake()
@@ -22,6 +24,7 @@ public class GunSwapperOnline : NetworkBehaviour
                 currentGun = gun;
             }
         }
+        bulletPoint = GetChildWithTag(currentGun, tagBulletPoint);
     }
 
     public bool SwapToGun(string gunName)
@@ -31,6 +34,7 @@ public class GunSwapperOnline : NetworkBehaviour
         gunsDictionary.TryGetValue(gunName, out currentGun);
         if (currentGun)
         {
+            bulletPoint = GetChildWithTag(currentGun, tagBulletPoint);
             prev.SetActive(false);
             currentGun.SetActive(true);
             return true;
@@ -38,5 +42,18 @@ public class GunSwapperOnline : NetworkBehaviour
         currentGun = prev;
         Debug.Log("Arma n encontrada");
         return false;
+    }
+
+    private GameObject GetChildWithTag(GameObject parent, string tag)
+    {
+        foreach (Transform child in parent.transform)
+        {
+            if (child.CompareTag(tag))
+            {
+                return child.gameObject;
+            }
+
+        }
+        return null;
     }
 }

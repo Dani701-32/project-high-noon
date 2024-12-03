@@ -5,6 +5,7 @@ using UnityEngine;
 using Unity.Netcode;
 using Random = UnityEngine.Random;
 using TMPro;
+using UnityEditor;
 
 public class GunOnline : NetworkBehaviour
 {
@@ -19,10 +20,12 @@ public class GunOnline : NetworkBehaviour
 
     //Aim
     private Ray center;
+    private RaycastHit hit;
     private float spread;
     private float focusSpread;
     private float focusCooldown;
     [SerializeField] private float aimLeftRightTweak;
+    [SerializeField] private float distanceUni = 8;
     private float tweak;
     private Vector3 aimPoint;
     private Vector3 deviation;
@@ -44,9 +47,10 @@ public class GunOnline : NetworkBehaviour
     {
         base.OnNetworkSpawn();
     }
-    private void Start() {
-        swapperOnline = player.swapperOnline; 
-        
+    private void Start()
+    {
+        swapperOnline = player.swapperOnline;
+
         tweak = aimLeftRightTweak;
         bulletsLoaded = new int[guns.Length];
         currentAmmo = new int[guns.Length];
@@ -68,13 +72,21 @@ public class GunOnline : NetworkBehaviour
     void Update()
     {
         // if (!IsOwner) return;
+        bulletPoint = swapperOnline.bulletPoint.transform;
         center = new Ray(cam.transform.position, cam.transform.forward);
-        aimPoint = center.GetPoint(100);
-        transform.parent.LookAt(aimPoint + Vector3.up * 3, Vector3.up);
+        if (Physics.Raycast(center, out hit))
+        {
+            aimPoint = hit.point;
+        }
+        else
+        {
+            aimPoint = center.GetPoint(100);
+        }
+        float dist = Vector3.Distance(bulletPoint.position, aimPoint);
+        bulletPoint.LookAt(aimPoint, Vector3.up);
 
-        aimLeftRightTweak = player.scopeGun && player.isFocused ? 0 : tweak;
-        aimSprite.transform.position = center.GetPoint(8) + aimSprite.transform.right * aimLeftRightTweak;
-
+        aimSprite.transform.position = dist > Vector3.Distance(bulletPoint.position, center.GetPoint(distanceUni)) ? center.GetPoint(distanceUni) : aimPoint;
+        aimSprite.transform.position -= Vector3.up / 5;
         accuracySprite.size = Vector2.one * Mathf.Max(0.25f, spread);
 
     }
@@ -184,8 +196,8 @@ public class GunOnline : NetworkBehaviour
 
             bullet.owner = player.gameObject;
 
-            deviation.x = Random.Range(-spread, spread) / 10;
-            deviation.y = Random.Range(-spread, spread) / 10;
+            deviation.x = Random.Range(-spread, spread) / 30;
+            deviation.y = Random.Range(-spread, spread) / 30;
             bullet.rb.AddForce(
                         (bulletPoint.transform.forward +
                         bulletPoint.transform.right * deviation.x +
@@ -196,7 +208,6 @@ public class GunOnline : NetworkBehaviour
 
             Rigidbody rbBullet = bullet.GetComponent<Rigidbody>();
             rbBullet.isKinematic = false;
-
             Destroy(bullet.gameObject, 5);
         }
 
@@ -300,7 +311,8 @@ public class GunOnline : NetworkBehaviour
         currentAmmo[gunId] = ammo;
     }
 
-    public void SetSwapper(GunSwapperOnline swapperOnline){
+    public void SetSwapper(GunSwapperOnline swapperOnline)
+    {
         this.swapperOnline = swapperOnline;
     }
 }
