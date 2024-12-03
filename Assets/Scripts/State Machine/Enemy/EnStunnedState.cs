@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnStunnedState : State
 {
     [SerializeField] EnemyStateMachine stateMachine;
     [SerializeField] State ChaseState;
     [SerializeField] State LookingState;
+    [SerializeField] AudioClip[] grunts;
+    [SerializeField] AudioSource gruntSource;
 
     [SerializeField] float stunTime;
     [SerializeField, ReadOnly] bool stunned = true;
@@ -14,6 +18,12 @@ public class EnStunnedState : State
     {
         stunned = true;
         StartCoroutine("StunTimer");
+        if (gruntSource && !gruntSource.isPlaying && grunts.Length > 0)
+        {
+            gruntSource.clip = grunts[Random.Range(0, grunts.Length)];
+            gruntSource.Play();
+        }
+            
     }
 
     public override State RunCurrentState()
