@@ -13,6 +13,15 @@ public class ShootableBomb : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
+        Bullet bull = other.gameObject.GetComponent<Bullet>();
+        if (bull)
+        {
+            bull.col.enabled = false;
+            bull.rb.velocity = bull.rb.angularVelocity = Vector3.zero;
+            bull.rb.isKinematic = true;
+            bull.StartCoroutine("TrailGone");
+            Destroy(bull.gameObject, 1);
+        }
         Explode();
     }
 

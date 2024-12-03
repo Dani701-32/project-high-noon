@@ -7,7 +7,7 @@ using Unity.Netcode;
 public class Bullet : NetworkBehaviour
 {
     [SerializeField]
-    Collider col;
+    public Collider col;
 
     [SerializeField]
     TrailRenderer trail;

@@ -72,7 +72,11 @@ public class EnemyStateMachine : MonoBehaviour
             if (bull.owner && bull.owner.activeInHierarchy && chasingState) 
                 trackingObject = bull.owner;
             HP -= bull.damage;
-            Destroy(bull.gameObject);
+            bull.col.enabled = false;
+            bull.rb.velocity = bull.rb.angularVelocity = Vector3.zero;
+            bull.rb.isKinematic = true;
+            bull.StartCoroutine("TrailGone");
+            Destroy(bull.gameObject, 1);
         }
         
         if (!hyperArmor) { SwitchToNewState(stunnedState); }
