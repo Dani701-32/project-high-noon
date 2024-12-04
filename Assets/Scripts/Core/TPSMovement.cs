@@ -36,6 +36,8 @@ public class TPSMovement : MonoBehaviour
     private int inputYHash = Animator.StringToHash("Y");
     private int boolGround= Animator.StringToHash("isGround");
     private int inputJump= Animator.StringToHash("jump");
+    private int inputReload = Animator.StringToHash("Reload");
+    private int inputGunId = Animator.StringToHash("GunID");
 
     void Start()
     {
@@ -147,5 +149,11 @@ public class TPSMovement : MonoBehaviour
     {
         //Gizmos.DrawSphere(groundCheckPos.position, sphereRadius/2);
         Gizmos.DrawCube(groundCheckPos.position, boxCastDimensions);
+    }
+    
+    public void ReloadWeapon(int idWeapon, bool reload)
+    {
+        animator.SetInteger(inputGunId, idWeapon);
+        animator.SetBool(inputReload, reload);
     }
 }

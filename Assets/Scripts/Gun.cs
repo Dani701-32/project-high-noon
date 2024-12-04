@@ -119,7 +119,7 @@ public class Gun : MonoBehaviour
         yield return new WaitForSeconds(guns[gunID].shotCooldown + focusCooldown);
         gunLocked = !events || events.greaterGunLock;
         inCooldown[gunID] = false;
-        if(guns[gunID].autoReload && !isReloading[gunID])
+        if(bulletsLoaded[gunID] <= 0 && !isReloading[gunID])
             StartCoroutine(Reload());
     }
 
@@ -189,6 +189,8 @@ public class Gun : MonoBehaviour
         }
         reloadSound.Play();
         isReloading[gunID] = true;
+        if(events && events.playerMove)
+            events.playerMove.ReloadWeapon(guns[gunID].gunID, isReloading[gunID]);
         yield return new WaitForSeconds(guns[gunID].reloadTime);
         isReloading[gunID] = false;
 
@@ -199,6 +201,8 @@ public class Gun : MonoBehaviour
                 : bulletsLoaded[gunID] + currentAmmo[gunID];
         ammoAdded = bulletsLoaded[gunID] - ammoAdded;
         currentAmmo[gunID] -= ammoAdded;
+        if(events && events.playerMove)
+            events.playerMove.ReloadWeapon(guns[gunID].gunID, isReloading[gunID]);
         UpdateAmmo();
     }
    
@@ -236,11 +240,8 @@ public class Gun : MonoBehaviour
     {
         if (guns[gunID])
             return guns[gunID].autoFire;
-        else
-        {
-            Debug.LogError("Gun has no stats object attached");
-            return false;
-        }
+        Debug.LogError("Gun has no stats object attached");
+        return false;
     }
 
     public void SwapGun()

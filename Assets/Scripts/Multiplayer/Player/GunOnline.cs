@@ -231,10 +231,8 @@ public class GunOnline : NetworkBehaviour
     {
         yield return new WaitForSeconds(guns[gunId].shotCooldown + focusCooldown);
         inCoolDown[gunId] = false;
-        if (guns[gunId].autoReload && bulletsLoaded[gunId] == 0 && !isReloaing[gunId])
-        {
+        if (bulletsLoaded[gunId] <= 0 && !isReloaing[gunId])
             Reload();
-        }
     }
 
     [ServerRpc]
