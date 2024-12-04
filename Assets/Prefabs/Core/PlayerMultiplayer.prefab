@@ -1508,7 +1508,7 @@ Transform:
   m_GameObject: {fileID: 959066919788444168}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071067, y: -0.000000030908616, z: 0.000000030908623, w: 0.7071068}
-  m_LocalPosition: {x: -2, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2325,7 +2325,7 @@ Transform:
   m_GameObject: {fileID: 1526769488351251283}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.386, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9231,7 +9231,7 @@ Transform:
   m_GameObject: {fileID: 2809138129656201159}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071067, y: -0.000000030908616, z: 0.000000030908623, w: 0.7071068}
-  m_LocalPosition: {x: -2, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10872,11 +10872,13 @@ MonoBehaviour:
   textAmmo: {fileID: 1381373662095104052}
   textReserve: {fileID: 6243894617412178276}
   guns:
+  - {fileID: 11400000, guid: bc957e01198ed3241a42e3918062c958, type: 2}
   - {fileID: 11400000, guid: a5481451cd2147f499a94dbe3a1a7dbd, type: 2}
-  - {fileID: 11400000, guid: 3e324436368950b499d38db77b0f186f, type: 2}
   gunId: 0
   bulletsLoaded: 
   currentAmmo: 
+  inCoolDown: 
+  isReloaing: 
 --- !u!1 &4229734008843405416
 GameObject:
   m_ObjectHideFlags: 0
@@ -11040,7 +11042,7 @@ Transform:
   m_GameObject: {fileID: 4296164499084896528}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071067, y: -0.000000030908616, z: 0.000000030908623, w: 0.7071068}
-  m_LocalPosition: {x: -2, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15480,7 +15482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3915972039
+  GlobalObjectIdHash: 1461972179
   InScenePlacedSourceGlobalObjectIdHash: 3946469069
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -15567,8 +15569,8 @@ MonoBehaviour:
   _camera: {fileID: 3571367267937191691}
   _hasFlag: 0
   gunHolder: {fileID: 0}
-  health: 3
-  maxHealth: 3
+  health: 60
+  maxHealth: 60
   sliderHealth: {fileID: 4114415068505537719}
   focusInterp: 0
   isFocused: 0
@@ -18355,7 +18357,7 @@ Transform:
   m_GameObject: {fileID: 8835944041517036378}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071067, y: -0.000000030908616, z: 0.000000030908623, w: 0.7071068}
-  m_LocalPosition: {x: -2, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18472,7 +18474,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 1950024476672285131}
   m_AABB:
-    m_Center: {x: -0.00000011920929, y: 0.22176799, z: -0.83209145}
+    m_Center: {x: 0, y: 0.22176799, z: -0.83209145}
     m_Extent: {x: 0.44549623, y: 0.24240872, z: 0.9363252}
   m_DirtyAABB: 0
 --- !u!1 &8858629048838438014
@@ -18869,6 +18871,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Revolver
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395695140838354982, guid: cc5f03672ec61794bb2b28911337db12,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19383,7 +19390,7 @@ PrefabInstance:
     - target: {fileID: 8854352151374844054, guid: bfbb077db6c11a442b7de1f3562da0ae,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19553,7 +19560,7 @@ PrefabInstance:
     - target: {fileID: 8854352151374844054, guid: bfbb077db6c11a442b7de1f3562da0ae,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19658,7 +19665,7 @@ PrefabInstance:
     - target: {fileID: 5395695140838354982, guid: cc5f03672ec61794bb2b28911337db12,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5395695140838354982, guid: cc5f03672ec61794bb2b28911337db12,
         type: 3}

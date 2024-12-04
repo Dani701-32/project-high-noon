@@ -98,6 +98,8 @@ MonoBehaviour:
   stateMachine: {fileID: 4053330207082216589}
   ChaseState: {fileID: 3154965225213566226}
   LookingState: {fileID: 3270401809919708672}
+  grunts: []
+  gruntSource: {fileID: 0}
   stunTime: 1
   stunned: 0
 --- !u!1 &2379251255544042748
@@ -372,7 +374,7 @@ MonoBehaviour:
   trackingObject: {fileID: 0}
   invulnerable: 0
   hyperArmor: 0
-  startingHealth: 5
+  startingHealth: 60
   HP: 0
   playerBulletMask: 7
 --- !u!136 &8172655018065260258

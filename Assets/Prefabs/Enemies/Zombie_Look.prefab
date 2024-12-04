@@ -47,6 +47,8 @@ MonoBehaviour:
   stateMachine: {fileID: 2209697498858312534}
   ChaseState: {fileID: 4975156474393969610}
   LookingState: {fileID: 5469173110025511368}
+  grunts: []
+  gruntSource: {fileID: 0}
   stunTime: 1
   stunned: 0
 --- !u!1 &1021347028913500638
@@ -103,11 +105,13 @@ MonoBehaviour:
   switchStateWhenClose: 0
   relentless: 0
   targetDistanceForStateSwitch: 0
+  angleDifferenceForStateSwitch: 20
   maxChaseSpeed: 40
   speedGainMultiplier: 1
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8
+  rotationSpeed: 5.5
   playerDistance: 0
   currSpeed: 0
 --- !u!1 &2511902014872144951
@@ -247,9 +251,11 @@ MonoBehaviour:
   previousState: {fileID: 0}
   stunnedState: {fileID: 7335838546356417444}
   chasingState: {fileID: 4975156474393969610}
+  waitingState: {fileID: 0}
   trackingObject: {fileID: 0}
+  invulnerable: 0
   hyperArmor: 0
-  startingHealth: 5
+  startingHealth: 60
   HP: 0
   playerBulletMask: 7
 --- !u!136 &1444119396763583056

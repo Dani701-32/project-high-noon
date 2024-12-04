@@ -62,6 +62,7 @@ public class GunOnline : NetworkBehaviour
             AcquireWeapon(i);
         }
         AcquireWeapon(0);
+        player.ChangeWeapon(guns[gunId].animId);
         if (IsOwner)
         {
             aimSprite.SetActive(true);
