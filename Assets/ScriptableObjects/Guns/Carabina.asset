@@ -12,28 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0990dbcb2353d94d88dd7001d48adc0, type: 3}
   m_Name: Carabina
   m_EditorClassIdentifier: 
-  gunID: 0
-  animId: 0
-  gunName: 
-  maxSpread: 0
-  minSpread: 0
-  spreadIncrease: 0
-  spreadRecovery: 0
-  focusSpreadDecrease: 0
-  focusRecoveryIncrease: 0
-  bulletPrefab: {fileID: 0}
-  bulletSpeed: 10000
-  bulletDamage: 1
+  gunID: 13
+  animId: 1
+  gunName: Carabina
+  maxSpread: 0.5
+  minSpread: 0.1
+  spreadIncrease: 0.2
+  spreadRecovery: 0.2
+  focusSpreadDecrease: 0.4
+  focusRecoveryIncrease: 0.1
+  bulletPrefab: {fileID: 2112666863910200106, guid: d7af4ae0587ebc547a181d360647a0d1,
+    type: 3}
+  bulletSpeed: 500
+  bulletDamage: 20
   bulletPerShot: 1
-  firingSounds: []
-  reloadSound: {fileID: 0}
-  shotCooldown: 0
-  focusShotCooldownExtra: 0
-  reloadTime: 0
-  maxAmmo: 0
-  startingAmmo: 0
-  clip: 0
-  bulletsInAmmoBox: 0
+  firingSounds:
+  - {fileID: 8300000, guid: 9453ae50b868cd44e8125de9f94a34af, type: 3}
+  reloadSound: {fileID: 8300000, guid: 2f99aecaccc664b47945438b334fb30b, type: 3}
+  shotCooldown: 0.3
+  focusShotCooldownExtra: 1
+  reloadTime: 1.25
+  maxAmmo: 49
+  startingAmmo: 21
+  clip: 7
+  bulletsInAmmoBox: 21
   autoFire: 0
-  autoReload: 0
+  autoReload: 1
   scopeView: 0
