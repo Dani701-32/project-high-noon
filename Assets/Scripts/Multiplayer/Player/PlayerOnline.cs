@@ -293,8 +293,11 @@ public class PlayerOnline : NetworkBehaviour
     }
     public void ChangeWeapon(int id)
     {
-        Debug.Log("PlayerOnline" + id);
         movementOnline.ChangeWeapon(id);
+    }
+    public void ReloadWeapon(int idWeapon, bool reload)
+    {
+        movementOnline.ReloadWeapon(idWeapon, reload);
     }
     public void AddAmmo(int ammo)
     {

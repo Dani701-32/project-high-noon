@@ -41,6 +41,8 @@ public class MovementOnline : NetworkBehaviour
     private int boolGround;
     private int inputJump;
     private int inputWeapon;
+    private int inputReload;
+    private int inputGunId;
 
     [Header("Debug")]
     public bool canMove = true;
@@ -67,6 +69,8 @@ public class MovementOnline : NetworkBehaviour
         boolGround = Animator.StringToHash("isGround");
         inputJump = Animator.StringToHash("jump");
         inputWeapon = Animator.StringToHash("Weapon");
+        inputReload = Animator.StringToHash("Reload");
+        inputGunId = Animator.StringToHash("GunID");
     }
 
     void Update()
@@ -189,7 +193,11 @@ public class MovementOnline : NetworkBehaviour
     }
     public void ChangeWeapon(int idWeapon)
     {
-        Debug.Log("MovementOnline" + idWeapon);
         animator.SetInteger(inputWeapon, idWeapon);
+    }
+    public void ReloadWeapon(int idWeapon, bool reload)
+    {
+        animator.SetInteger(inputGunId, idWeapon);
+        animator.SetBool(inputReload, reload);
     }
 }

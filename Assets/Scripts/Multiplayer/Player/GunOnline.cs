@@ -250,7 +250,8 @@ public class GunOnline : NetworkBehaviour
             yield break;
         }
         reloadSound.Play();
-        isReloaing[gunId] = true; 
+        isReloaing[gunId] = true;
+        player.ReloadWeapon(guns[gunId].gunID, isReloaing[gunId]); 
         yield return new WaitForSeconds(guns[gunId].reloadTime);
         isReloaing[gunId] = false;
 
@@ -261,6 +262,7 @@ public class GunOnline : NetworkBehaviour
                 : bulletsLoaded[gunId] + currentAmmo[gunId];
         ammoAdded = bulletsLoaded[gunId] - ammoAdded;
         currentAmmo[gunId] -= ammoAdded;
+        player.ReloadWeapon(guns[gunId].gunID, isReloaing[gunId]); 
 
         
         UpdateAmmo_ServerRpc();        
