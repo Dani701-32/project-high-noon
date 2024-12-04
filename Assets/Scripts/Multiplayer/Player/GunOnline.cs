@@ -15,6 +15,7 @@ public class GunOnline : NetworkBehaviour
     [SerializeField] private SpriteRenderer accuracySprite;
     [SerializeField] private Camera cam;
     [SerializeField] private AudioSource shotSound;
+    [SerializeField] private AudioSource reloadSound;
     [SerializeField] private GunSwapperOnline swapperOnline;
     [SerializeField] private PlayerOnline player;
 
@@ -39,8 +40,8 @@ public class GunOnline : NetworkBehaviour
     [SerializeField, ReadOnly] private int gunId = 0;
     [SerializeField, ReadOnly] private int[] bulletsLoaded;
     [SerializeField, ReadOnly] private int[] currentAmmo;
-    private bool[] inCoolDown;
-    private bool[] isReloaing;
+    [SerializeField, ReadOnly] private bool[] inCoolDown;
+    [SerializeField, ReadOnly] private bool[] isReloaing;
     private bool oneSound;
 
     public override void OnNetworkSpawn()
@@ -115,6 +116,7 @@ public class GunOnline : NetworkBehaviour
             shotSound.clip = guns[slot].firingSounds[0];
         }
         player.scopeGun = guns[slot].scopeView;
+        reloadSound.clip = guns[slot].reloadSound;
     }
     [ServerRpc]
     private void UpdateAmmo_ServerRpc(bool updateReserve = true)
@@ -158,7 +160,6 @@ public class GunOnline : NetworkBehaviour
         if (IsOwner)
         {
             Realod_ServerRpc();
-            UpdateAmmo_ServerRpc();
         }
     }
 
@@ -229,7 +230,7 @@ public class GunOnline : NetworkBehaviour
     {
         yield return new WaitForSeconds(guns[gunId].shotCooldown + focusCooldown);
         inCoolDown[gunId] = false;
-        if (guns[gunId].autoReload)
+        if (guns[gunId].autoReload && bulletsLoaded[gunId] == 0 && !isReloaing[gunId])
         {
             Reload();
         }
@@ -238,8 +239,19 @@ public class GunOnline : NetworkBehaviour
     [ServerRpc]
     private void Realod_ServerRpc()
     {
-        if (bulletsLoaded[gunId] == guns[gunId].clip) return;
-        if (currentAmmo[gunId] <= 0) currentAmmo[gunId] = 0;
+        StartCoroutine(ReloadTimer()); 
+    }
+
+    private IEnumerator ReloadTimer(){
+        if(bulletsLoaded[gunId] == guns[gunId].clip || isReloaing[gunId]) yield break;
+        if(currentAmmo[gunId] <= 0){
+            currentAmmo[gunId] = 0; 
+            yield break;
+        }
+        reloadSound.Play();
+        isReloaing[gunId] = true; 
+        yield return new WaitForSeconds(guns[gunId].reloadTime);
+        isReloaing[gunId] = false;
 
         int ammoAdded = bulletsLoaded[gunId];
         bulletsLoaded[gunId] =
@@ -248,10 +260,18 @@ public class GunOnline : NetworkBehaviour
                 : bulletsLoaded[gunId] + currentAmmo[gunId];
         ammoAdded = bulletsLoaded[gunId] - ammoAdded;
         currentAmmo[gunId] -= ammoAdded;
+
+        
+        UpdateAmmo_ServerRpc();        
     }
+
+
     [ServerRpc]
     private void SwapGun_ServerRpc()
     {
+        if(isReloaing[gunId] ){
+            return;
+        }
         gunId++;
         if (gunId == guns.Length)
         {
