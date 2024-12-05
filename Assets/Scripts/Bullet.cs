@@ -15,8 +15,9 @@ public class Bullet : NetworkBehaviour
     public LayerMask groundLayer;
     public LayerMask playerLayer;
     public GameObject owner;
-    public int damage = 1;
+    public int damage;
     public NetworkVariable<int> teamId = new NetworkVariable<int>();
+    public NetworkVariable<int> damageOn = new NetworkVariable<int>();
 
     private IEnumerator TrailGone()
     {
@@ -38,7 +39,7 @@ public class Bullet : NetworkBehaviour
             Debug.Log(playerHit.GetTeam().teamId);
             if (playerHit.GetTeam().teamId != teamId.Value )
             {
-                playerHit.Damage(damage);
+                playerHit.Damage(damageOn.Value);
             }
             if (IsServer)
             {

@@ -197,6 +197,7 @@ public class GunOnline : NetworkBehaviour
             NetworkObject netBullet = bullet.GetComponent<NetworkObject>();
             netBullet.Spawn();
             bullet.teamId.Value = player.GetTeam().teamId;
+            bullet.damageOn.Value = guns[gunId].bulletDamage;
 
             bullet.owner = player.gameObject;
 

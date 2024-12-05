@@ -161,4 +161,7 @@ public class UiManager : NetworkBehaviour
             key++;
         }
     }
+    private void GetPlayerList(){
+        
+    }
 }
