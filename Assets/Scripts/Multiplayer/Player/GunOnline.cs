@@ -189,8 +189,13 @@ public class GunOnline : NetworkBehaviour
         }
         for (int i = 0; i < guns[gunId].bulletPerShot; i++)
         {
+            GameObject sourc = player.scopeGun && player.isFocused ? cam.gameObject : bulletPoint.gameObject; 
             //Criar Bala
-            Bullet bullet = Instantiate(guns[gunId].bulletPrefab, bulletPoint.position, bulletPoint.rotation);
+            Bullet bullet = Instantiate(
+                guns[gunId].bulletPrefab, 
+                bulletPoint.position, 
+                bulletPoint.rotation
+            );
             //Spawna a bala nos clientes
             NetworkObject netBullet = bullet.GetComponent<NetworkObject>();
             netBullet.Spawn();
@@ -200,16 +205,15 @@ public class GunOnline : NetworkBehaviour
 
             deviation.x = Random.Range(-spread, spread) / 30;
             deviation.y = Random.Range(-spread, spread) / 30;
+            bullet.rb.isKinematic = false;
+
             bullet.rb.AddForce(
-                        (bulletPoint.transform.forward +
-                        bulletPoint.transform.right * deviation.x +
-                        bulletPoint.transform.up * deviation.y)
+                        (sourc.transform.forward +
+                        sourc.transform.right * deviation.x +
+                        sourc.transform.up * deviation.y)
                         * guns[gunId].bulletSpeed,
                         ForceMode.VelocityChange
                     );
-
-            Rigidbody rbBullet = bullet.GetComponent<Rigidbody>();
-            rbBullet.isKinematic = false;
             Destroy(bullet.gameObject, 5);
         }
 
