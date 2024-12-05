@@ -12,6 +12,7 @@ public class EventManager : MonoBehaviour
 
     public bool greaterGunLock;
     public bool infiniteAmmo;
+    public bool cameraLockOnStart;
 
     public static EventManager Instance
     {

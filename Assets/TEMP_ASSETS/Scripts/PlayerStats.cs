@@ -61,6 +61,9 @@ public class PlayerStats : MonoBehaviour
     public void Damage(int damage)
     {
         HP -= damage;
+        GameManager manager = GameManager.Instance;
+        if (manager && manager.HPSlider)
+            manager.HPSlider.value = HP;
         if (HP <= 0)
             Death();
     }
