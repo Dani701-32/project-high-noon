@@ -134,6 +134,7 @@ public class GameManager : MonoBehaviour
         events.ToggleCamera(false);
         events.ToggleMovement(false);
         events.ForceReleaseMouse();
+        Time.timeScale = 0;
     }
 
     public string GetStatus()
@@ -214,4 +215,6 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
         pauseScreen.SetActive(false);
     }
+    
+    public void ResumeTime() { Time.timeScale = 1; }
 }
