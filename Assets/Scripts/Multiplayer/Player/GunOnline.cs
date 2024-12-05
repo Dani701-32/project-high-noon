@@ -25,9 +25,7 @@ public class GunOnline : NetworkBehaviour
     private float spread;
     private float focusSpread;
     private float focusCooldown;
-    [SerializeField] private float aimLeftRightTweak;
     [SerializeField] private float distanceUni = 8;
-    private float tweak;
     private Vector3 aimPoint;
     private Vector3 deviation;
 
@@ -52,7 +50,6 @@ public class GunOnline : NetworkBehaviour
     {
         swapperOnline = player.swapperOnline;
 
-        tweak = aimLeftRightTweak;
         bulletsLoaded = new int[guns.Length];
         currentAmmo = new int[guns.Length];
         inCoolDown = new bool[guns.Length];
@@ -88,7 +85,7 @@ public class GunOnline : NetworkBehaviour
         bulletPoint.LookAt(aimPoint, Vector3.up);
 
         aimSprite.transform.position = dist > Vector3.Distance(bulletPoint.position, center.GetPoint(distanceUni)) ? center.GetPoint(distanceUni) : aimPoint;
-        aimSprite.transform.position -= Vector3.up / 5;
+        aimSprite.transform.position -= Vector3.up / 15;
         accuracySprite.size = Vector2.one * Mathf.Max(0.25f, spread);
 
     }

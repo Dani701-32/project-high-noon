@@ -35,9 +35,6 @@ ModelImporter:
       to improve retargeting quality.\n\t'finger.L' has translation animation that
       will be discarded.\n\t'middleFinger.L' has translation animation that will
       be discarded.\n\t'ringFinger.L' has translation animation that will be discarded.\n\t'pinky.L'
-      has translation animation that will be discarded.\n\nClip 'BakeMale_JumpRevolver_Landing'
-      has import animation warnings that might lower retargeting quality:\nNote:
-      Activate translation DOF on avatar to improve retargeting quality.\n\t'spine'
       has translation animation that will be discarded.\n\nClip 'BakeMale_ReloadRifle_Loop'
       has import animation warnings that might lower retargeting quality:\nNote:
       Activate translation DOF on avatar to improve retargeting quality.\n\t'finger.R'
@@ -55,7 +52,13 @@ ModelImporter:
       has translation animation that will be discarded.\n\t'middleFinger.R' has translation
       animation that will be discarded.\n\t'ringFinger.R' has translation animation
       that will be discarded.\n\t'pinky.R' has translation animation that will be
-      discarded.\n"
+      discarded.\n\nClip 'BakeMale_JumpRevolver' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'spine' has translation animation that will
+      be discarded.\n\nClip 'BakeMale_JumpRevolver_Landing' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'spine' has translation animation
+      that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -620,11 +623,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Male_Jump_Impulse
-      takeName: BakeMale_JumpRevolver_Impulse
+      name: BakeMale_JumpReolver_impulse
+      takeName: BakeMale_JumpReolver_impulse
       internalID: -6257187683458954564
       firstFrame: 0
-      lastFrame: 13
+      lastFrame: 17
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

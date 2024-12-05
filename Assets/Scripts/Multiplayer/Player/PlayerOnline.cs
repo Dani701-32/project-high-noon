@@ -50,12 +50,10 @@ public class PlayerOnline : NetworkBehaviour
     public string gender;
 
     [Header("Player UI")]
-    private NetworkVariable<NetworkString> playerName = new NetworkVariable<NetworkString>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    [SerializeField, ReadOnly] private string playName;
+    public string playerName;
     [SerializeField, ReadOnly] private bool overlaySet = false;
     [SerializeField] private TMP_Text playerNameText;
     [SerializeField] private GameObject bgPlayerName;
-    [SerializeField] private GameObject playerHUD;
     [SerializeField] private GameObject pauseScreen;
     public bool isPaused = false;
     private int countSpawnPoints = 0;
@@ -74,12 +72,12 @@ public class PlayerOnline : NetworkBehaviour
         if (IsOwner)
         {
             gender = LobbyManager.Instance.GetGender();
-            SetCharacter_ServerRpc(gender);
+            playerName = LobbyManager.Instance.GetPlayerName();
+            SetCharacter_ServerRpc(gender, playerName);
             playerCanvas.SetActive(true);
             _camera.enabled = true;
             bgPlayerName.SetActive(false);
             _camera.gameObject.GetComponent<AudioListener>().enabled = true;
-            playerName.Value = LobbyManager.Instance.GetPlayerName();
             return;
         }
 
@@ -91,7 +89,7 @@ public class PlayerOnline : NetworkBehaviour
 
     private void Start()
     {
-        if (IsOwner)
+        if (IsOwner && teamData != null)
         {
             GetSpawn(teamData);
         }
@@ -99,7 +97,7 @@ public class PlayerOnline : NetworkBehaviour
 
     private void Update()
     {
-        if (!overlaySet && !string.IsNullOrEmpty(playerName.Value))
+        if (!overlaySet && !string.IsNullOrEmpty(playerName))
         {
             SetOverlay();
             overlaySet = true;
@@ -141,8 +139,7 @@ public class PlayerOnline : NetworkBehaviour
 
     public void SetOverlay()
     {
-        playerNameText.text = playerName.Value;
-        playName = playerName.Value.ToString();
+        playerNameText.text = playerName;
     }
 
     private void FlagUpdate()
@@ -280,6 +277,9 @@ public class PlayerOnline : NetworkBehaviour
         movementOnline.enabled = !status;
         // playerHUD.SetActive(!status);
         pauseScreen.SetActive(status);
+        if(status){
+            UiManager.Instance.PauseGame();
+        }
         Cursor.visible = status;
         Cursor.lockState = status ? CursorLockMode.None : CursorLockMode.Locked;
     }
@@ -304,10 +304,11 @@ public class PlayerOnline : NetworkBehaviour
         gunController.AddAmmo(ammo);
     }
     [ServerRpc]
-    private void SetCharacter_ServerRpc(string gender)
+    private void SetCharacter_ServerRpc(string gender, string playerName)
     {
 
         teamData = MultiplayerManager.Instance.GetTeamData(this);
+        this.playerName = playerName; 
         if (gender == "male")
         {
             animator.avatar = maleAvatar;
@@ -335,14 +336,14 @@ public class PlayerOnline : NetworkBehaviour
 
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
         swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
-        SetCharacter_ClientRpc(gender, teamData.teamTag);
+        SetCharacter_ClientRpc(gender, teamData.teamTag, playerName);
         gunController.currentGun.SetSwapper(swapperOnline);
     }
     [ClientRpc]
-    private void SetCharacter_ClientRpc(string gender, char teamTag)
+    private void SetCharacter_ClientRpc(string gender, char teamTag, string playerName)
     {
         this.teamData = MultiplayerManager.Instance.GetTeamData(teamTag, gender);
-
+        this.playerName = playerName;
         this.gender = gender;
         if (gender == "male")
         {
@@ -378,12 +379,13 @@ public class PlayerOnline : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void RequestData_ServerRpc()
     {
-        SendData_ClientRpc(gender, teamData.teamTag);
+        SendData_ClientRpc(gender, teamData.teamTag, playerName);
     }
     [ClientRpc]
-    private void SendData_ClientRpc(string gender, char teamTag)
+    private void SendData_ClientRpc(string gender, char teamTag, string playerName)
     {
         // Atualize o personagem com os dados recebidos
+        this.playerName = playerName; 
         this.teamData = MultiplayerManager.Instance.GetTeamData(teamTag, gender);
         this.gender = gender;
 
