@@ -35,7 +35,7 @@ public class MovementOnline : NetworkBehaviour
     [Header("Players")]
     public PlayerOnline player;
     [Header("Animator")]
-    [SerializeField, ReadOnly] private Animator animator;
+    [SerializeField] private Animator animator;
     private int inputxHash;
     private int inputYHash;
     private int boolGround;
@@ -55,7 +55,7 @@ public class MovementOnline : NetworkBehaviour
         {
             rb = GetComponent<Rigidbody>();
             canJump = true;
-            transform.position = MultiplayerManager.Instance.defaultPos.position;
+            // transform.position = MultiplayerManager.Instance.defaultPos.position;
             speed = maxSpeed;
         }
 
@@ -63,14 +63,16 @@ public class MovementOnline : NetworkBehaviour
     }
     private void Start()
     {
-        animator = player.animator;
-        inputxHash = Animator.StringToHash("X");
-        inputYHash = Animator.StringToHash("Y");
-        boolGround = Animator.StringToHash("isGround");
-        inputJump = Animator.StringToHash("jump");
-        inputWeapon = Animator.StringToHash("Weapon");
-        inputReload = Animator.StringToHash("Reload");
-        inputGunId = Animator.StringToHash("GunID");
+        if(animator == null && player.animator  != null){
+            animator = player.animator;
+            inputxHash = Animator.StringToHash("X");
+            inputYHash = Animator.StringToHash("Y");
+            boolGround = Animator.StringToHash("isGround");
+            inputJump = Animator.StringToHash("jump");
+            inputWeapon = Animator.StringToHash("Weapon");
+            inputReload = Animator.StringToHash("Reload");
+            inputGunId = Animator.StringToHash("GunID");
+        }
     }
 
     void Update()
@@ -199,5 +201,16 @@ public class MovementOnline : NetworkBehaviour
     {
         animator.SetInteger(inputGunId, idWeapon);
         animator.SetBool(inputReload, reload);
+    }
+
+    public void LoadAnimator(Animator animator){
+        this.animator = animator;
+        inputxHash = Animator.StringToHash("X");
+        inputYHash = Animator.StringToHash("Y");
+        boolGround = Animator.StringToHash("isGround");
+        inputJump = Animator.StringToHash("jump");
+        inputWeapon = Animator.StringToHash("Weapon");
+        inputReload = Animator.StringToHash("Reload");
+        inputGunId = Animator.StringToHash("GunID");
     }
 }
