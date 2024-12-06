@@ -25,9 +25,7 @@ public class GunOnline : NetworkBehaviour
     private float spread;
     private float focusSpread;
     private float focusCooldown;
-    [SerializeField] private float aimLeftRightTweak;
     [SerializeField] private float distanceUni = 8;
-    private float tweak;
     private Vector3 aimPoint;
     private Vector3 deviation;
 
@@ -52,7 +50,6 @@ public class GunOnline : NetworkBehaviour
     {
         swapperOnline = player.swapperOnline;
 
-        tweak = aimLeftRightTweak;
         bulletsLoaded = new int[guns.Length];
         currentAmmo = new int[guns.Length];
         inCoolDown = new bool[guns.Length];
@@ -74,22 +71,25 @@ public class GunOnline : NetworkBehaviour
     void Update()
     {
         // if (!IsOwner) return;
-        bulletPoint = swapperOnline.bulletPoint.transform;
-        center = new Ray(cam.transform.position, cam.transform.forward);
-        if (Physics.Raycast(center, out hit))
+        if (swapperOnline != null)
         {
-            aimPoint = hit.point;
-        }
-        else
-        {
-            aimPoint = center.GetPoint(100);
-        }
-        float dist = Vector3.Distance(bulletPoint.position, aimPoint);
-        bulletPoint.LookAt(aimPoint, Vector3.up);
+            bulletPoint = swapperOnline.bulletPoint.transform;
+            center = new Ray(cam.transform.position, cam.transform.forward);
+            if (Physics.Raycast(center, out hit))
+            {
+                aimPoint = hit.point;
+            }
+            else
+            {
+                aimPoint = center.GetPoint(100);
+            }
+            float dist = Vector3.Distance(bulletPoint.position, aimPoint);
+            bulletPoint.LookAt(aimPoint, Vector3.up);
 
-        aimSprite.transform.position = dist > Vector3.Distance(bulletPoint.position, center.GetPoint(distanceUni)) ? center.GetPoint(distanceUni) : aimPoint;
-        aimSprite.transform.position -= Vector3.up / 5;
-        accuracySprite.size = Vector2.one * Mathf.Max(0.25f, spread);
+            aimSprite.transform.position = dist > Vector3.Distance(bulletPoint.position, center.GetPoint(distanceUni)) ? center.GetPoint(distanceUni) : aimPoint;
+            aimSprite.transform.position -= Vector3.up / 15;
+            accuracySprite.size = Vector2.one * Mathf.Max(0.25f, spread);
+        }
 
     }
     private void FixedUpdate()
@@ -182,34 +182,40 @@ public class GunOnline : NetworkBehaviour
 
         bulletsLoaded[gunId] -= 1;
         //Aplica cooldown se necessario
-        if (guns[gunId].shotCooldown > 0)
+        if (guns[gunId].shotCooldown > 0 && IsOwner)
         {
             inCoolDown[gunId] = true;
             StartCoroutine("Cooldown");
         }
         for (int i = 0; i < guns[gunId].bulletPerShot; i++)
         {
+            GameObject sourc = player.scopeGun && player.isFocused ? cam.gameObject : bulletPoint.gameObject;
             //Criar Bala
-            Bullet bullet = Instantiate(guns[gunId].bulletPrefab, bulletPoint.position, bulletPoint.rotation);
+            Bullet bullet = Instantiate(
+                guns[gunId].bulletPrefab,
+                bulletPoint.position,
+                bulletPoint.rotation
+            );
             //Spawna a bala nos clientes
             NetworkObject netBullet = bullet.GetComponent<NetworkObject>();
             netBullet.Spawn();
+
             bullet.teamId.Value = player.GetTeam().teamId;
+            bullet.damageOn.Value = guns[gunId].bulletDamage;
 
             bullet.owner = player.gameObject;
 
             deviation.x = Random.Range(-spread, spread) / 30;
             deviation.y = Random.Range(-spread, spread) / 30;
+            bullet.rb.isKinematic = false;
+
             bullet.rb.AddForce(
-                        (bulletPoint.transform.forward +
-                        bulletPoint.transform.right * deviation.x +
-                        bulletPoint.transform.up * deviation.y)
+                        (sourc.transform.forward +
+                        sourc.transform.right * deviation.x +
+                        sourc.transform.up * deviation.y)
                         * guns[gunId].bulletSpeed,
                         ForceMode.VelocityChange
                     );
-
-            Rigidbody rbBullet = bullet.GetComponent<Rigidbody>();
-            rbBullet.isKinematic = false;
             Destroy(bullet.gameObject, 5);
         }
 
@@ -226,30 +232,63 @@ public class GunOnline : NetworkBehaviour
             ];
             shotSound.Play();
         }
+        Shoot_ClientRpc(); 
     }
+
+    [ClientRpc]
+    private void Shoot_ClientRpc(){
+        if (!IsOwner) return;
+        //Aplica cooldown se necessario
+        if (guns[gunId].shotCooldown > 0)
+        {
+            inCoolDown[gunId] = true;
+            StartCoroutine("Cooldown");
+        }
+        spread = Mathf.Min(spread + guns[gunId].spreadIncrease, guns[gunId].maxSpread);
+
+        shotSound.pitch = Random.Range(0.9f, 1.1f);
+        if (oneSound)
+            shotSound.Play();
+        else if (guns[gunId].firingSounds.Length > 0)
+        {
+            shotSound.clip = guns[gunId].firingSounds[
+                Random.Range(0, guns[gunId].firingSounds.Length)
+            ];
+            shotSound.Play();
+        }
+    } 
     private IEnumerator Cooldown()
     {
         yield return new WaitForSeconds(guns[gunId].shotCooldown + focusCooldown);
         inCoolDown[gunId] = false;
-        if (bulletsLoaded[gunId] <= 0 && !isReloaing[gunId])
+        if (bulletsLoaded[gunId] <= 0 && !isReloaing[gunId] && IsOwner)
             Reload();
     }
 
     [ServerRpc]
     private void Realod_ServerRpc()
     {
-        StartCoroutine(ReloadTimer()); 
+        StartCoroutine(ReloadTimer());
+        Realod_ClientRpc(); 
+    }
+    [ClientRpc]
+    private void Realod_ClientRpc()
+    {
+        StartCoroutine(ReloadTimer());
     }
 
-    private IEnumerator ReloadTimer(){
-        if(bulletsLoaded[gunId] == guns[gunId].clip || isReloaing[gunId]) yield break;
-        if(currentAmmo[gunId] <= 0){
-            currentAmmo[gunId] = 0; 
+    private IEnumerator ReloadTimer()
+    {
+        if (bulletsLoaded[gunId] == guns[gunId].clip || isReloaing[gunId]) yield break;
+        if (currentAmmo[gunId] <= 0)
+        {
+            currentAmmo[gunId] = 0;
             yield break;
         }
         reloadSound.Play();
         isReloaing[gunId] = true;
-        player.ReloadWeapon(guns[gunId].gunID, isReloaing[gunId]); 
+        if (IsOwner)
+            player.ReloadWeapon(guns[gunId].gunID, isReloaing[gunId]);
         yield return new WaitForSeconds(guns[gunId].reloadTime);
         isReloaing[gunId] = false;
 
@@ -260,17 +299,19 @@ public class GunOnline : NetworkBehaviour
                 : bulletsLoaded[gunId] + currentAmmo[gunId];
         ammoAdded = bulletsLoaded[gunId] - ammoAdded;
         currentAmmo[gunId] -= ammoAdded;
-        player.ReloadWeapon(guns[gunId].gunID, isReloaing[gunId]); 
-
-        
-        UpdateAmmo_ServerRpc();        
+        if (IsOwner)
+        {
+            player.ReloadWeapon(guns[gunId].gunID, isReloaing[gunId]);
+            UpdateAmmo_ServerRpc();
+        }
     }
 
 
     [ServerRpc]
     private void SwapGun_ServerRpc()
     {
-        if(isReloaing[gunId] ){
+        if (isReloaing[gunId])
+        {
             return;
         }
         gunId++;

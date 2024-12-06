@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Unity.Netcode;
-using Unity.VisualScripting;
 
 public class UiManager : NetworkBehaviour
 {
@@ -31,6 +29,11 @@ public class UiManager : NetworkBehaviour
     MultiplayerManager multiplayerManager;
     bool matchIsOver = false;
 
+    [Header("Leaderboard")]
+    [SerializeField] private GameObject redTeamContainer;
+    [SerializeField] private GameObject blueTeamContainer;
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private List<PlayerItem> playerItems;
     public override void OnNetworkSpawn()
     {
         multiplayerManager = MultiplayerManager.Instance;
@@ -52,7 +55,6 @@ public class UiManager : NetworkBehaviour
         currentTime = matchDuration;
         EndMatchScreen.SetActive(false);
     }
-
     // Update is called once per frame
     void LateUpdate()
     {
@@ -81,7 +83,7 @@ public class UiManager : NetworkBehaviour
             currentTime = 0f;
             textTimer.text = "00:00";
 
-            string result =  gameManager == null ? multiplayerManager.GetStatus() : gameManager.GetStatus();
+            string result = gameManager == null ? multiplayerManager.GetStatus() : gameManager.GetStatus();
             if (result != "Tie")
             {
                 textStatus.text = "Victory";
@@ -89,11 +91,11 @@ public class UiManager : NetworkBehaviour
             }
             else
             {
-                textStatus.text = "result";
-                textTeam.text = "";
+                textStatus.text = "Result";
+                textTeam.text = "Tie";
             }
             EndMatchScreen.SetActive(true);
-            if (IsServer ||  gameManager == null)
+            if (IsServer || gameManager == null)
             {
                 multiplayerManager.GameOver();
             }
@@ -127,5 +129,39 @@ public class UiManager : NetworkBehaviour
     public void EndMatch()
     {
         currentTime = 15f;
+    }
+    public void PauseGame()
+    {
+        if (playerItems.Count > 0)
+        {
+            foreach (PlayerItem playerItem in playerItems)
+            {
+                if (playerItem != null)
+                    Destroy(playerItem.gameObject);
+            }
+            playerItems.Clear();
+        }
+        PlayersLeaderBord(MultiplayerManager.Instance.playersBlue, blueTeamContainer);
+        PlayersLeaderBord(MultiplayerManager.Instance.playersRed, redTeamContainer);
+    }
+    private void PlayersLeaderBord(List<PlayerOnline> players, GameObject body)
+    {
+
+        foreach (Transform child in body.transform)
+        {
+            Destroy(child);
+        }
+        int key = 0;
+        foreach (PlayerOnline player in players)
+        {
+            GameObject playerObject = Instantiate(playerPrefab, body.transform);
+            PlayerItem playerItem = playerObject.GetComponent<PlayerItem>();
+            playerItem.SetPlayer(key.ToString() , player.playerName);
+            playerItems.Add(playerItem);
+            key++;
+        }
+    }
+    private void GetPlayerList(){
+        
     }
 }

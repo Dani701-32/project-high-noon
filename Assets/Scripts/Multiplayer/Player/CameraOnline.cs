@@ -1,10 +1,8 @@
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
-using Unity.Services.Lobbies.Models;
 public class CameraOnline : NetworkBehaviour
 {
     float pitch;
@@ -33,7 +31,6 @@ public class CameraOnline : NetworkBehaviour
     public bool canMove;
     public bool canFocus = true;
     private bool matchIsOver = false;
-
     [SerializeField] Transform nearCamPos;
     [SerializeField] Transform farCamPos;
     [SerializeField] Transform scopeCamPos;
@@ -68,9 +65,7 @@ public class CameraOnline : NetworkBehaviour
                 Debug.LogError("Componente de nome 'Global Volume' não pode ser encontrado na cena!");
         }
     }
-
-    void Update()
-    {
+    private void LateUpdate() {
         if (!IsOwner) return;
         matchIsOver = MultiplayerManager.Instance.MatchOver;
         if (matchIsOver)

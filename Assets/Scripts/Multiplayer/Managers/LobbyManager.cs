@@ -406,4 +406,8 @@ public class LobbyManager : MonoBehaviour
         return gender;
     }
 
+    public string GetId(){
+        return playerId;
+    }
+
 }

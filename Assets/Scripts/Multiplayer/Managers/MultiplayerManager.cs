@@ -18,8 +18,6 @@ public class MultiplayerManager : NetworkBehaviour
 
     [SerializeField]
     private TeamData[] teamDatas;
-
-    [SerializeField]
     public List<PlayerOnline> playersRed,
         playersBlue;
     public Transform defaultPos;

@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Controles da partida [Survival]")]
     [SerializeField] TextMeshProUGUI survivalTimer;
+    [SerializeField] GameObject pauseScreen;
+    public Slider HPSlider;
     [SerializeField] bool timerOn;
     public int goldSeconds;
     public Sprite goldMedal;
@@ -132,6 +134,7 @@ public class GameManager : MonoBehaviour
         events.ToggleCamera(false);
         events.ToggleMovement(false);
         events.ForceReleaseMouse();
+        Time.timeScale = 0;
     }
 
     public string GetStatus()
@@ -169,6 +172,9 @@ public class GameManager : MonoBehaviour
             int seconds = Mathf.FloorToInt(timer - minutes * 60);
 
             survivalTimer.text = $"{minutes:00}:{seconds:00}";
+
+            if (Input.GetKeyDown(KeyCode.Escape) && pauseScreen && !pauseScreen.activeInHierarchy)
+                PauseGame();
         }
 
         if (timer > 0 && !timerOn)
@@ -176,4 +182,39 @@ public class GameManager : MonoBehaviour
             SurvivalOver();
         }
     }
+
+    void PauseGame()
+    {
+        EventManager events = EventManager.Instance;
+        if (events)
+        {
+            events.ToggleCamera(false);
+            events.ToggleMovement(false);
+            events.ToggleGreaterLock(true);
+        }
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        pauseScreen.SetActive(true);
+        Time.timeScale = 0;
+        AudioSource aud = pauseScreen.GetComponent<AudioSource>();
+        if(aud)
+            aud.Play();
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
+        EventManager events = EventManager.Instance;
+        if (events)
+        {
+            events.ToggleCamera(true);
+            events.ToggleMovement(true);
+            events.ToggleGreaterLock(false);
+        }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        pauseScreen.SetActive(false);
+    }
+    
+    public void ResumeTime() { Time.timeScale = 1; }
 }

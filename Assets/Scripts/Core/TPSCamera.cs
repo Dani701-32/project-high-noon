@@ -132,6 +132,7 @@ public class TPSCamera : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         pitch = transform.eulerAngles.y;
-        canMove = true;
+        if(!EventManager.Instance.cameraLockOnStart)
+            canMove = true;
     }
 }

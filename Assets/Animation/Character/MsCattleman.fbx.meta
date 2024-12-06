@@ -19,35 +19,32 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'BakeFemale_JumpRevolver_Impulse' has import
-      animation warnings that might lower retargeting quality:\nNote: Activate translation
-      DOF on avatar to improve retargeting quality.\n\t'finger.L' has translation
+    animationImportWarnings: "\nClip 'BakeFemale_RecoilRevolver' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'hand.L' has translation animation
+      that will be discarded.\n\t'hand.R' has translation animation that will be
+      discarded.\n\nClip 'BakeJumpRevolver_Impulse' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'finger.L' has translation animation that
+      will be discarded.\n\t'middleFinger.L' has translation animation that will
+      be discarded.\n\t'ringFinger.L' has translation animation that will be discarded.\n\t'ringFinger.L.001'
+      has scale animation that will be discarded.\n\t'pinky.L' has translation animation
+      that will be discarded.\n\t'ringFinger.R' has translation animation that will
+      be discarded.\n\t'pinky.R' has translation animation that will be discarded.\n\nClip
+      'BakeJumpRevolver_Landing' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine'
+      has translation animation that will be discarded.\n\t'finger.L' has translation
       animation that will be discarded.\n\t'middleFinger.L' has translation animation
       that will be discarded.\n\t'ringFinger.L' has translation animation that will
-      be discarded.\n\t'ringFinger.L.001' has scale animation that will be discarded.\n\t'pinky.L'
-      has translation animation that will be discarded.\n\t'ringFinger.R' has translation
-      animation that will be discarded.\n\t'pinky.R' has translation animation that
-      will be discarded.\n\nClip 'BakeFemale_JumpRevolver_Landing' has import animation
-      warnings that might lower retargeting quality:\nNote: Activate translation
-      DOF on avatar to improve retargeting quality.\n\t'spine' has translation animation
-      that will be discarded.\n\t'finger.L' has translation animation that will be
-      discarded.\n\t'middleFinger.L' has translation animation that will be discarded.\n\t'ringFinger.L'
-      has translation animation that will be discarded.\n\t'pinky.L' has translation
-      animation that will be discarded.\n\nClip 'BakeFemale_JumpRevolver' has import
-      animation warnings that might lower retargeting quality:\nNote: Activate translation
-      DOF on avatar to improve retargeting quality.\n\t'spine' has translation animation
-      that will be discarded.\n\t'finger.L' has translation animation that will be
-      discarded.\n\t'middleFinger.L' has translation animation that will be discarded.\n\t'ringFinger.L'
-      has translation animation that will be discarded.\n\t'pinky.L' has translation
-      animation that will be discarded.\n\t'ringFinger.R' has translation animation
-      that will be discarded.\n\t'pinky.R' has translation animation that will be
-      discarded.\n\nClip 'BakeFemale_JumpRifle_Landing' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'spine' has translation animation that will
-      be discarded.\n\nClip 'BakeFemale_JumpRifle_Export' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'spine' has translation animation that will
-      be discarded.\n"
+      be discarded.\n\t'pinky.L' has translation animation that will be discarded.\n\nClip
+      'BakeFemale_JumpRevolver' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine'
+      has translation animation that will be discarded.\n\t'finger.L' has translation
+      animation that will be discarded.\n\t'middleFinger.L' has translation animation
+      that will be discarded.\n\t'ringFinger.L' has translation animation that will
+      be discarded.\n\t'pinky.L' has translation animation that will be discarded.\n\t'ringFinger.R'
+      has translation animation that will be discarded.\n\t'pinky.R' has translation
+      animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -304,14 +301,14 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
@@ -786,11 +783,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: BakeFemale_JumpRevolver_Impulse
-      takeName: BakeFemale_JumpRevolver_Impulse
+      name: BakeJumpRevolver_Impulse
+      takeName: BakeJumpRevolver_Impulse
       internalID: -8653271200668055578
       firstFrame: 0
-      lastFrame: 13
+      lastFrame: 14
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -815,25 +812,25 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: BakeFemale_JumpRevolver_Idle
-      takeName: BakeFemale_JumpRevolver_Idle
+      name: BakeJumpRevolver_Idle
+      takeName: BakeJumpRevolver_Idle
       internalID: 5106510336025092193
       firstFrame: 0
-      lastFrame: 21
+      lastFrame: 22
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
@@ -844,11 +841,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: BakeFemale_JumpRevolver_Landing
-      takeName: BakeFemale_JumpRevolver_Landing
+      name: BakeJumpRevolver_Landing
+      takeName: BakeJumpRevolver_Landing
       internalID: -7573362950466456781
       firstFrame: 0
-      lastFrame: 33
+      lastFrame: 36
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -860,10 +857,10 @@ ModelImporter:
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
@@ -878,6 +875,64 @@ ModelImporter:
       internalID: 8385077372800359253
       firstFrame: 0
       lastFrame: 57
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BakeFemale_RecoilRevolver
+      takeName: BakeFemale_RecoilRevolver
+      internalID: -807310508150084703
+      firstFrame: 0
+      lastFrame: 16
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BakeFemale_RecoilRifle
+      takeName: BakeFemale_RecoilRifle
+      internalID: 8237893885620250561
+      firstFrame: 0
+      lastFrame: 19
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
