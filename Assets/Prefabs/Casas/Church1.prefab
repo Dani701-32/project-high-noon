@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7328669545371283985}
   - component: {fileID: 8961941024485037912}
   - component: {fileID: 6830521204878596010}
-  - component: {fileID: 5248819559025214139}
   - component: {fileID: 642787343838295323}
   - component: {fileID: 5290931025984206159}
+  - component: {fileID: 3601383545754395059}
   m_Layer: 0
   m_Name: Church1
   m_TagString: Untagged
@@ -89,28 +89,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5248819559025214139
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 950871599188499980}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 34dcde4421f1c3f4d8017b9c37b6007c, type: 3}
 --- !u!65 &642787343838295323
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -130,8 +108,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.7343564, y: 5.4742026, z: 2.114406}
-  m_Center: {x: 0.040893555, y: 2.4521248, z: 5.0286045}
+  m_Size: {x: 3.3335629, y: 5.4742026, z: 1.7080647}
+  m_Center: {x: -0.00535187, y: 2.4521248, z: 4.7867265}
 --- !u!65 &5290931025984206159
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -151,8 +129,29 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 7.645847, y: 7.388196, z: 10.235948}
-  m_Center: {x: 1.4032727e-15, y: 3.4091215, z: -0.95388484}
+  m_Size: {x: 6.6592665, y: 7.388196, z: 9.86825}
+  m_Center: {x: 0.061660066, y: 3.4091215, z: -0.84744334}
+--- !u!65 &3601383545754395059
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950871599188499980}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 7.183386, y: 0.50524044, z: 11.97887}
+  m_Center: {x: 0.046243794, y: -0.032356262, z: 0.029289722}
 --- !u!1 &1967552319797482052
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +163,6 @@ GameObject:
   - component: {fileID: 3317506243926796716}
   - component: {fileID: 8354944251617788367}
   - component: {fileID: 3790084855900266990}
-  - component: {fileID: 7220430743255658361}
   m_Layer: 0
   m_Name: Church_Tower_01
   m_TagString: Untagged
@@ -237,27 +235,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7220430743255658361
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1967552319797482052}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.8373383, y: 5.560325, z: 1.8373456}
-  m_Center: {x: 0, y: 2.7801626, z: 0}
 --- !u!1 &5788992070848115817
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +329,6 @@ GameObject:
   - component: {fileID: 8271616472274385195}
   - component: {fileID: 6645909649568118705}
   - component: {fileID: 8705171548700238645}
-  - component: {fileID: 5277856888120964297}
   m_Layer: 0
   m_Name: Church_Door_01
   m_TagString: Untagged
@@ -425,24 +401,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5277856888120964297
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6068767091884189413}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.2916038, y: 2.538355, z: 0.17768432}
-  m_Center: {x: -0.6458019, y: 1.3055278, z: -0.00000045448542}

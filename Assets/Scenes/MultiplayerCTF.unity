@@ -5,9 +5,9 @@ OcclusionCullingSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_OcclusionBakeSettings:
-    smallestOccluder: 5
-    smallestHole: 0.25
-    backfaceThreshold: 100
+    smallestOccluder: 6
+    smallestHole: 0.33
+    backfaceThreshold: 96
   m_SceneGUID: 99c9720ab356a0642a771bea13969a05
   m_OcclusionCullingData: {fileID: 36300000, guid: 91fc3b935cdc5bd4da95f98d3945da5d,
     type: 2}
@@ -16,7 +16,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.8396226, g: 0.65474015, b: 0.50377357, a: 1}
+  m_FogColor: {r: 0.7830189, g: 0.6558513, b: 0.5503293, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.007
   m_LinearFogStart: 0
@@ -974,7 +974,7 @@ PrefabInstance:
     - target: {fileID: 1347923604946033490, guid: 350be601a02bf6c4c9bebd30dcb2385d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.5
+      value: 11.3
       objectReference: {fileID: 0}
     - target: {fileID: 1347923604946033490, guid: 350be601a02bf6c4c9bebd30dcb2385d,
         type: 3}
@@ -1034,7 +1034,7 @@ PrefabInstance:
     - target: {fileID: 1492574585282359190, guid: 350be601a02bf6c4c9bebd30dcb2385d,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 18
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 1492574585282359190, guid: 350be601a02bf6c4c9bebd30dcb2385d,
         type: 3}
@@ -1043,8 +1043,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1492574585282359190, guid: 350be601a02bf6c4c9bebd30dcb2385d,
         type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492574585282359190, guid: 350be601a02bf6c4c9bebd30dcb2385d,
+        type: 3}
       propertyPath: InitialModule.startSpeed.minScalar
       value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492574585282359190, guid: 350be601a02bf6c4c9bebd30dcb2385d,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492574585282359190, guid: 350be601a02bf6c4c9bebd30dcb2385d,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492574585282359190, guid: 350be601a02bf6c4c9bebd30dcb2385d,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492574585282359190, guid: 350be601a02bf6c4c9bebd30dcb2385d,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492574585282359190, guid: 350be601a02bf6c4c9bebd30dcb2385d,
+        type: 3}
+      propertyPath: InitialModule.startColor.minMaxState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492574585282359190, guid: 350be601a02bf6c4c9bebd30dcb2385d,
+        type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492574585282359190, guid: 350be601a02bf6c4c9bebd30dcb2385d,
+        type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key2.a
+      value: 0.78431374
       objectReference: {fileID: 0}
     - target: {fileID: 6748650535418627105, guid: 350be601a02bf6c4c9bebd30dcb2385d,
         type: 3}
@@ -1054,7 +1094,7 @@ PrefabInstance:
     - target: {fileID: 6748650535418627105, guid: 350be601a02bf6c4c9bebd30dcb2385d,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1301,7 +1341,7 @@ GameObject:
   - component: {fileID: 2028345865}
   - component: {fileID: 2028345864}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: CameraCenario
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
