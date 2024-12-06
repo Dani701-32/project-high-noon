@@ -278,7 +278,7 @@ public class PlayerOnline : NetworkBehaviour
         // playerHUD.SetActive(!status);
         pauseScreen.SetActive(status);
         if(status){
-            UiManager.Instance.PauseGame();
+            // UiManager.Instance.PauseGame();
         }
         Cursor.visible = status;
         Cursor.lockState = status ? CursorLockMode.None : CursorLockMode.Locked;
