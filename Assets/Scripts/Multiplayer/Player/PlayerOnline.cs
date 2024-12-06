@@ -57,7 +57,6 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField] private GameObject pauseScreen;
     public bool isPaused = false;
     private int countSpawnPoints = 0;
-    [SerializeField, ReadOnly] private bool firstSpawn = false;
 
 
 
@@ -82,8 +81,8 @@ public class PlayerOnline : NetworkBehaviour
                 _camera.enabled = true;
             return;
         }
-
-        RequestData_ServerRpc();
+        if (!IsHost)
+            RequestData_ServerRpc();
 
 
         base.OnNetworkSpawn();
@@ -227,7 +226,10 @@ public class PlayerOnline : NetworkBehaviour
             }
 
             model.SetActive(true);
-            bgPlayerName.SetActive(true);
+            if (!IsOwner)
+            {
+                bgPlayerName.SetActive(true);
+            }
             AcetivePlayer_ClientRpc();
         }
     }
@@ -244,12 +246,17 @@ public class PlayerOnline : NetworkBehaviour
             sliderHealth.value = health;
             movementOnline.enabled = true;
             gunController.RefillWeapons();
+            if (!IsOwner)
+            {
+                bgPlayerName.SetActive(true);
+            }
         }
         model.SetActive(true);
     }
 
     private void ReturnBanner()
     {
+        if (!hasFlag) return;
         hasFlag = false;
         MultiplayerManager.Instance.ActivateFlag();
         if (flagCarryObject != null)
@@ -260,7 +267,6 @@ public class PlayerOnline : NetworkBehaviour
 
     private void GetSpawn(TeamData teamData)
     {
-        firstSpawn = true;
         int index;
         if (teamData.teamId == 1)
         {
@@ -340,6 +346,8 @@ public class PlayerOnline : NetworkBehaviour
             }
         }
 
+        movementOnline.LoadAnimator(this.animator);
+
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
         swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
         SetCharacter_ClientRpc(gender, teamData.teamTag, playerName);
@@ -378,9 +386,11 @@ public class PlayerOnline : NetworkBehaviour
                 part.material = teamData.teamEquipMaterial;
             }
         }
+        movementOnline.LoadAnimator(this.animator);
 
         if (IsOwner)
         {
+            Debug.Log("Teste");
             GetSpawn(teamData);
             ChangeWeapon(1);
             _camera.enabled = true;
