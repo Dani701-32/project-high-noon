@@ -15,7 +15,7 @@ public class MovementOnline : NetworkBehaviour
 
     [Header("Movement")]
     public float maxSpeed;
-    public float speed;
+    float speed;
     public float groundDrag;
     public float jumpForce;
     public float jumpCooldown;
