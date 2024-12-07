@@ -236,15 +236,7 @@ public class GunOnline : NetworkBehaviour
 
     [ClientRpc]
     private void Shoot_ClientRpc(){
-        if (!IsOwner) return;
-        //Aplica cooldown se necessario
-        if (guns[gunId].shotCooldown > 0)
-        {
-            inCoolDown[gunId] = true;
-            StartCoroutine("Cooldown");
-        }
-        spread = Mathf.Min(spread + guns[gunId].spreadIncrease, guns[gunId].maxSpread);
-
+        
         shotSound.pitch = Random.Range(0.9f, 1.1f);
         if (oneSound)
             shotSound.Play();
@@ -255,6 +247,17 @@ public class GunOnline : NetworkBehaviour
             ];
             shotSound.Play();
         }
+
+        if (!IsOwner) return;
+        //Aplica cooldown se necessario
+        if (guns[gunId].shotCooldown > 0)
+        {
+            inCoolDown[gunId] = true;
+            StartCoroutine("Cooldown");
+        }
+        spread = Mathf.Min(spread + guns[gunId].spreadIncrease, guns[gunId].maxSpread);
+
+        
     } 
     private IEnumerator Cooldown()
     {
