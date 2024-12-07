@@ -231,12 +231,13 @@ public class GunOnline : NetworkBehaviour
             ];
             shotSound.Play();
         }
-        Shoot_ClientRpc(); 
+        Shoot_ClientRpc();
     }
 
     [ClientRpc]
-    private void Shoot_ClientRpc(){
-        
+    private void Shoot_ClientRpc()
+    {
+
         shotSound.pitch = Random.Range(0.9f, 1.1f);
         if (oneSound)
             shotSound.Play();
@@ -257,8 +258,8 @@ public class GunOnline : NetworkBehaviour
         }
         spread = Mathf.Min(spread + guns[gunId].spreadIncrease, guns[gunId].maxSpread);
 
-        
-    } 
+
+    }
     private IEnumerator Cooldown()
     {
         yield return new WaitForSeconds(guns[gunId].shotCooldown + focusCooldown);
@@ -271,7 +272,7 @@ public class GunOnline : NetworkBehaviour
     private void Realod_ServerRpc()
     {
         StartCoroutine(ReloadTimer());
-        Realod_ClientRpc(); 
+        Realod_ClientRpc();
     }
     [ClientRpc]
     private void Realod_ClientRpc()
@@ -362,8 +363,9 @@ public class GunOnline : NetworkBehaviour
         }
     }
     [ServerRpc]
-    private void Refil_ServerRpc(int index, int bulletsLoaded, int currentAmmo){
-        this.bulletsLoaded[index] = bulletsLoaded; 
+    private void Refil_ServerRpc(int index, int bulletsLoaded, int currentAmmo)
+    {
+        this.bulletsLoaded[index] = bulletsLoaded;
         this.currentAmmo[index] = currentAmmo;
         textAmmo.text = bulletsLoaded.ToString();
         textReserve.text = currentAmmo.ToString();
@@ -371,18 +373,34 @@ public class GunOnline : NetworkBehaviour
         UpdateAmmo_ClientRpc(bulletsLoaded, currentAmmo, index);
     }
 
-    [ServerRpc]
-    public void AddAmmo_ServerRpc(int ammo)
+    public void AddAmmo()
     {
-        currentAmmo[gunId] += ammo * guns[gunId].bulletsInAmmoBox;
-        currentAmmo[gunId] = Mathf.Min(currentAmmo[gunId], guns[gunId].maxAmmo);
-        UpdateAmmo_ServerRpc();
-        AddAmmo_ClientRpc(currentAmmo[gunId]);
+        if (IsOwner)
+        {
+            AddAmmo_ServerRpc();
+        }
+    }
+
+    [ServerRpc]
+    public void AddAmmo_ServerRpc()
+    {
+        for (int i = 0; i < guns.Length; i++)
+        {
+            currentAmmo[i] += guns[i].bulletsInAmmoBox;
+            if (currentAmmo[i] > guns[i].maxAmmo)
+            {
+                currentAmmo[i] = guns[i].maxAmmo;
+            }
+            if (i == gunId)
+                AddAmmo_ClientRpc(i, currentAmmo[i]);
+        }
+        textReserve.text = currentAmmo[gunId].ToString();
     }
     [ClientRpc]
-    private void AddAmmo_ClientRpc(int ammo)
+    private void AddAmmo_ClientRpc(int id, int ammo)
     {
-        currentAmmo[gunId] = ammo;
+        currentAmmo[id] = ammo;
+        textReserve.text = currentAmmo[id].ToString();
     }
 
     public void SetSwapper(GunSwapperOnline swapperOnline)

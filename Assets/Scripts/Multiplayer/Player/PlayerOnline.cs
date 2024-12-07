@@ -318,9 +318,9 @@ public class PlayerOnline : NetworkBehaviour
     {
         movementOnline.ReloadWeapon(idWeapon, reload);
     }
-    public void AddAmmo(int ammo)
+    public void AddAmmo()
     {
-        gunController.AddAmmo(ammo);
+        gunController.AddAmmo();
     }
     [ServerRpc]
     private void SetCharacter_ServerRpc(string gender, string playerName)
