@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
     public TMP_Dropdown resolutionDropdown;
+    public TMP_Dropdown graphicsDropdown;
+    public Toggle toggleFullScreen; 
 
     Resolution[] resolutions;
 
@@ -18,14 +21,21 @@ public class SettingsMenu : MonoBehaviour
         List<string> options = new List<string>();
 
         int currentResolutionIndex = 0;
+        bool selected = false;
         for (int i = 0; i < resolutions.Length; i++)
         {
             string option = resolutions[i].width + " x " + resolutions[i].height;
             options.Add(option);
 
-            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            if (PlayerPrefs.HasKey("ResolutionIndex") && PlayerPrefs.GetInt("ResolutionIndex") == i)
             {
-                currentResolutionIndex = i;
+                selected = true;
+                currentResolutionIndex = i; // ResoluÃ§Ã£o salva nos PlayerPrefs
+            }
+            else if (resolutions[i].width == Screen.currentResolution.width &&
+                    resolutions[i].height == Screen.currentResolution.height && !selected)
+            {
+                currentResolutionIndex = i; // ResoluÃ§Ã£o atual da tela
             }
         }
 
@@ -36,30 +46,45 @@ public class SettingsMenu : MonoBehaviour
 
     public void Start()
     {
-        //Chama a função que controla as resoluções de cada monitor
+        //Chama a funï¿½ï¿½o que controla as resoluï¿½ï¿½es de cada monitor
         GetResolutions();
 
-        //Começa no médio pra todos
-        QualitySettings.SetQualityLevel(1);
+        //Comeï¿½a no mï¿½dio pra todos
+        
+        int savedQuality = PlayerPrefs.GetInt("QualitySetting", 1);
+        QualitySettings.SetQualityLevel(savedQuality);
+        graphicsDropdown.value = savedQuality;
 
-        //Começa fora da tela cheia
-        Screen.fullScreen = false;
+        //Comeï¿½a fora da tela cheia
+        bool isFullScreen = PlayerPrefs.GetInt("FullScreen", 0) == 1;
+        toggleFullScreen.isOn = isFullScreen;
+        Screen.fullScreen = isFullScreen;
 
-        resolutions = Screen.resolutions;
+        int savedResolutionIndex = PlayerPrefs.GetInt("ResolutionIndex", 0);
+        if (savedResolutionIndex >= 0 && savedResolutionIndex < resolutions.Length)
+        {
+            Resolution resolution = resolutions[savedResolutionIndex];
+            Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+            resolutionDropdown.value = savedResolutionIndex;
+            resolutionDropdown.RefreshShownValue();
+        }
     }
     public void SetQuality(int qualityindex)
     {
         QualitySettings.SetQualityLevel(qualityindex);
+        PlayerPrefs.SetInt("QualitySetting", qualityindex);
     }
 
     public void SetFullScreen(bool isFullScreen)
     {
         Screen.fullScreen = isFullScreen;
+        PlayerPrefs.SetInt("FullScreen", isFullScreen ? 1 : 0);
     }
 
     public void SetResolution(int resolutionindex)
     {
         Resolution resolution = resolutions[resolutionindex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        PlayerPrefs.SetInt("ResolutionIndex", resolutionindex);
     }
 }
