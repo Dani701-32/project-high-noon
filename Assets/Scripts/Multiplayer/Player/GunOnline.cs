@@ -5,7 +5,6 @@ using UnityEngine;
 using Unity.Netcode;
 using Random = UnityEngine.Random;
 using TMPro;
-using UnityEditor;
 
 public class GunOnline : NetworkBehaviour
 {
@@ -351,12 +350,22 @@ public class GunOnline : NetworkBehaviour
         for (int i = 0; i < guns.Length; i++)
         {
             AcquireWeapon(i);
+            Refil_ServerRpc(i, bulletsLoaded[i], currentAmmo[i]);
         }
+        Refil_ServerRpc(gunId, bulletsLoaded[gunId], currentAmmo[gunId]);
         if (IsOwner)
         {
             aimSprite.SetActive(true);
-            UpdateAmmo_ServerRpc();
         }
+    }
+    [ServerRpc]
+    private void Refil_ServerRpc(int index, int bulletsLoaded, int currentAmmo){
+        this.bulletsLoaded[index] = bulletsLoaded; 
+        this.currentAmmo[index] = currentAmmo;
+        textAmmo.text = bulletsLoaded.ToString();
+        textReserve.text = currentAmmo.ToString();
+
+        UpdateAmmo_ClientRpc(bulletsLoaded, currentAmmo, index);
     }
 
     [ServerRpc]
