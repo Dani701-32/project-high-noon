@@ -355,6 +355,7 @@ public class PlayerOnline : NetworkBehaviour
         movementOnline.LoadAnimator(this.animator);
 
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
+        playerNameText.color = teamData.teamColor; 
         swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
         SetCharacter_ClientRpc(gender, teamData.teamTag, playerName);
         gunController.currentGun.SetSwapper(swapperOnline);
@@ -402,6 +403,7 @@ public class PlayerOnline : NetworkBehaviour
             _camera.enabled = true;
         }
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
+        playerNameText.color = teamData.teamColor; 
         swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
         gunController.currentGun.SetSwapper(swapperOnline);
     }
@@ -446,6 +448,7 @@ public class PlayerOnline : NetworkBehaviour
         }
 
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
+        playerNameText.color = teamData.teamColor; 
         swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
         gunController.currentGun.SetSwapper(swapperOnline);
 
