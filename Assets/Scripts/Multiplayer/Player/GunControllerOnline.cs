@@ -28,7 +28,7 @@ public class GunControllerOnline : NetworkBehaviour
     void Update()
     {
         if (!IsOwner || multiplayerManager.MatchOver || player.isPaused) return;
-        if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
+        if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0) && !player.isDead.Value)
         {
             currentGun.Shoot();
         }

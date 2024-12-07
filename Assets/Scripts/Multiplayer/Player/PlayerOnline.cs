@@ -47,6 +47,7 @@ public class PlayerOnline : NetworkBehaviour
     [ReadOnly] public bool isFocused;
     [ReadOnly] public bool isGrounded;
     [ReadOnly] public bool scopeGun;
+    public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public string gender;
 
     [Header("Player UI")]
@@ -160,16 +161,20 @@ public class PlayerOnline : NetworkBehaviour
     [ServerRpc]
     private void Damage_ServerRpc(float damage)
     {
+        if (isDead.Value) return;
         health -= damage;
-        if (IsOwner)
+        Damage_ClientRpc(health);
+
+        sliderHealth.value = health;
+        if (health <= 0)
         {
-            sliderHealth.value = health;
-            if (health <= 0)
+            if (IsOwner)
             {
+                isDead.Value = true;
                 Die_ServerRpc();
             }
         }
-        Damage_ClientRpc(health);
+
     }
     [ClientRpc]
     private void Damage_ClientRpc(float health)
@@ -180,6 +185,7 @@ public class PlayerOnline : NetworkBehaviour
             sliderHealth.value = health;
             if (health <= 0)
             {
+                isDead.Value = true;
                 Die_ServerRpc();
             }
         }
@@ -224,7 +230,6 @@ public class PlayerOnline : NetworkBehaviour
                 movementOnline.enabled = true;
                 gunController.RefillWeapons();
             }
-
             model.SetActive(true);
             if (!IsOwner)
             {
@@ -240,6 +245,7 @@ public class PlayerOnline : NetworkBehaviour
         health = maxHealth;
         if (IsOwner)
         {
+            isDead.Value = false;
             // transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
             // transform.rotation = spawnPoint.rotation;
             GetSpawn(teamData);
