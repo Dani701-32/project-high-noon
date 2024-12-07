@@ -31,6 +31,7 @@ public class GunControllerOnline : NetworkBehaviour
         if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0) && !player.isDead.Value)
         {
             currentGun.Shoot();
+            player.ShootRecoil();
         }
 
         if (Input.GetKeyDown(KeyCode.R))

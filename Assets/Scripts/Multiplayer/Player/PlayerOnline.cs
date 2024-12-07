@@ -33,6 +33,7 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField] private RuntimeAnimatorController femaleAnimController;
     [SerializeField] private Avatar maleAvatar;
     [SerializeField] private Avatar femaleAvatar;
+    private int inputShoot;
     public Animator animator;
     [SerializeField] private Camera _camera;
     Transform spawnPoint;
@@ -452,5 +453,10 @@ public class PlayerOnline : NetworkBehaviour
         swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
         gunController.currentGun.SetSwapper(swapperOnline);
 
+    }
+
+    public void ShootRecoil(){
+        inputShoot = Animator.StringToHash("shoot");
+        animator.SetTrigger(inputShoot);
     }
 }
