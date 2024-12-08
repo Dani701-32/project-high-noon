@@ -34,6 +34,7 @@ public class EnMeleeAttackingState : State
 
     public override void SwitchIntoState()
     {
+        StartAnim(stateMachine);
         target = stateMachine.trackingObject;
         if (target)
         {

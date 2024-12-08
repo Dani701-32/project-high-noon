@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 
 public class EnStunnedState : State
 {
+    [Header("References")]
     [SerializeField] EnemyStateMachine stateMachine;
     [SerializeField] State ChaseState;
     [SerializeField] State LookingState;
@@ -16,6 +17,7 @@ public class EnStunnedState : State
 
     public override void SwitchIntoState()
     {
+        StartAnim(stateMachine);
         stunned = true;
         StartCoroutine("StunTimer");
         if (gruntSource && !gruntSource.isPlaying && grunts.Length > 0)

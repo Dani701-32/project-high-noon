@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnSphereLookState : State
 {
+    [Header("References")]
     [SerializeField] EnemyStateMachine stateMachine;
     [SerializeField] float searchRange;
     [SerializeField, ReadOnly] bool playerSeen;
@@ -13,6 +14,7 @@ public class EnSphereLookState : State
 
     public override void SwitchIntoState()
     {
+        StartAnim(stateMachine);
         playerSeen = false;
     }
 

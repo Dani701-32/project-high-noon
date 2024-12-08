@@ -8,6 +8,7 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] State stunnedState;
     [SerializeField] State chasingState;
     [SerializeField] State waitingState;
+    [SerializeField] State deathState;
     
     [Header("Enemy stats")]
     public GameObject trackingObject;
@@ -18,6 +19,7 @@ public class EnemyStateMachine : MonoBehaviour
     
     [Header("Misc")]
     [SerializeField] int playerBulletMask;
+    public Animator animator;
     
     bool dying;
     Collider enemyCollider;
@@ -45,7 +47,8 @@ public class EnemyStateMachine : MonoBehaviour
     private void RunStateMachine()
     {
         State nextState = currentState?.RunCurrentState();
-
+        if (dying)
+            return;
         if (nextState && nextState != currentState)
         {
             previousState = currentState;
@@ -85,6 +88,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Death()
     {
+        if (deathState) { SwitchToNewState(deathState); }
         if (enemyCollider) { enemyCollider.enabled = false; }
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb) { rb.useGravity = false; }

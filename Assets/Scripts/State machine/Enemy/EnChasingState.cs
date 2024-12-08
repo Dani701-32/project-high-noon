@@ -37,6 +37,7 @@ public class EnChasingState : State
 
     public override void SwitchIntoState()
     {
+        StartAnim(stateMachine);
         playerDistance = 9000;
         currSpeed = statesWithAHeadStart.Contains(stateMachine.previousState) ? maxChaseSpeed / 4 : 0;
     }

@@ -36,6 +36,7 @@ public class EnBombTossState : State
 
     public override void SwitchIntoState()
     {
+        StartAnim(stateMachine);
         // Olhe para o jogador
         target = stateMachine.trackingObject;
         if (target)
@@ -76,6 +77,8 @@ public class EnBombTossState : State
             finalPos = hit.point;
         // Short delay added before Projectile is thrown
         yield return new WaitForSeconds(bombTossStartup);
+        if(stateMachine.currentState != this)
+            yield break;
         Vector3 pos = bombSpawnLocation.position != Vector3.zero ? bombSpawnLocation.position : mainBody.position;
         ShootableBomb newBomb = Instantiate(bomb, pos, Quaternion.identity);
         Transform Projectile = newBomb.transform;
