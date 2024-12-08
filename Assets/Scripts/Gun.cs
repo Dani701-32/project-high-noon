@@ -15,6 +15,9 @@ public class Gun : MonoBehaviour
     [SerializeField] AudioSource shotSound;
     [SerializeField] AudioSource reloadSound;
     [SerializeField] GunSwapper swapper;
+    [Header("Aniamtor")]
+    [SerializeField] Animator animator;
+    private int inputWeapon = Animator.StringToHash("Weapon");
 
     [SerializeField]
     GameObject playerObject;
@@ -262,6 +265,7 @@ public class Gun : MonoBehaviour
             gunID--;
             return;
         }
+        animator.SetInteger(inputWeapon, guns[gunID].animId); 
         AcquireWeapon(gunID, true);
         UpdateAmmo();
         if(!swapper.SwapToGun(guns[gunID].gunName))
