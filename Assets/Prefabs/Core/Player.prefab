@@ -6305,10 +6305,14 @@ MonoBehaviour:
   flagCarryObject: {fileID: 4226465930393586248}
   flagCarryEffects: {fileID: 6114721575917393804}
   HP: 100
+  HPMax: 60
+  percentHealth: 0
+  currentHealthTimer: 0
+  maxHealthTimer: 3
+  timerRegen: 0.01
   focusInterp: 0
   carryingScopedGun: 0
   model: {fileID: 5113219367283297196}
-  HPMax: 6
   _hasFlag: 0
   focused: 0
   grounded: 0

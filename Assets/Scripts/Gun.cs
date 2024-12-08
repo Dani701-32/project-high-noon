@@ -52,7 +52,7 @@ public class Gun : MonoBehaviour
     // Updating gun stats
     [SerializeField, ReadOnly]
     int[] bulletsLoaded;
-    
+
     // Single player stuff
     EventManager events;
 
@@ -72,18 +72,18 @@ public class Gun : MonoBehaviour
         currentAmmo = new int[guns.Length];
         inCooldown = new bool[guns.Length];
         isReloading = new bool[guns.Length];
-        
+
         events = EventManager.Instance;
 
         for (int i = 0; i < guns.Length; i++)
         {
-            if(!guns[i]) continue;
+            if (!guns[i]) continue;
             AcquireWeapon(i);
         }
         UpdateAmmo();
         AcquireWeapon(0, true);
-        
-        if(!playerStats)
+
+        if (!playerStats)
             Debug.LogError("PlayerStats não foi referenciado no componente Gun!");
     }
 
@@ -122,7 +122,7 @@ public class Gun : MonoBehaviour
         yield return new WaitForSeconds(guns[gunID].shotCooldown + focusCooldown);
         gunLocked = !events || events.greaterGunLock;
         inCooldown[gunID] = false;
-        if(bulletsLoaded[gunID] <= 0 && !isReloading[gunID])
+        if (bulletsLoaded[gunID] <= 0 && !isReloading[gunID])
             StartCoroutine(Reload());
     }
 
@@ -134,7 +134,7 @@ public class Gun : MonoBehaviour
         if (!inCooldown[gunID] && bulletsLoaded[gunID] > 0)
         {
             // Comece cooldown, se aplicável
-            if(!events || (events && !events.infiniteAmmo) )
+            if (!events || (events && !events.infiniteAmmo))
                 bulletsLoaded[gunID] -= 1;
             if (guns[gunID].shotCooldown > 0)
             {
@@ -144,20 +144,21 @@ public class Gun : MonoBehaviour
 
             for (int i = 0; i < guns[gunID].bulletPerShot; i++)
             {
-                GameObject source = playerStats.carryingScopedGun && playerStats.focused ? cam.gameObject : bulletPoint; 
+                GameObject source = playerStats.carryingScopedGun && playerStats.focused ? cam.gameObject : bulletPoint;
                 // Crie a bala
                 Bullet bullet = Instantiate(
                     guns[gunID].bulletPrefab,
                     source.transform.position,
                     source.transform.rotation
                 );
+                bullet.damage = guns[gunID].bulletDamage;
                 // Defina o spread com números aleatórios e acelere a bala com seu rigidbody. Destrua a bala após 2 segundos.
                 deviation.x = Random.Range(-spread, spread) / 30;
                 deviation.y = Random.Range(-spread, spread) / 30;
                 bullet.rb.isKinematic = false;
                 bullet.rb.AddForce(
                     (source.transform.forward +
-                     source.transform.right * deviation.x + 
+                     source.transform.right * deviation.x +
                      source.transform.up * deviation.y)
                     * guns[gunID].bulletSpeed,
                     ForceMode.VelocityChange
@@ -192,7 +193,7 @@ public class Gun : MonoBehaviour
         }
         reloadSound.Play();
         isReloading[gunID] = true;
-        if(events && events.playerMove)
+        if (events && events.playerMove)
             events.playerMove.ReloadWeapon(guns[gunID].gunID, isReloading[gunID]);
         yield return new WaitForSeconds(guns[gunID].reloadTime);
         isReloading[gunID] = false;
@@ -204,11 +205,11 @@ public class Gun : MonoBehaviour
                 : bulletsLoaded[gunID] + currentAmmo[gunID];
         ammoAdded = bulletsLoaded[gunID] - ammoAdded;
         currentAmmo[gunID] -= ammoAdded;
-        if(events && events.playerMove)
+        if (events && events.playerMove)
             events.playerMove.ReloadWeapon(guns[gunID].gunID, isReloading[gunID]);
         UpdateAmmo();
     }
-   
+
 
     void Update()
     {
@@ -220,7 +221,7 @@ public class Gun : MonoBehaviour
         float dist = Vector3.Distance(bulletPoint.transform.position, aimPoint);
         transform.parent.LookAt(aimPoint, Vector3.up);
 
-        aimSprite.transform.position = 
+        aimSprite.transform.position =
             dist > Vector3.Distance(bulletPoint.transform.position, center.GetPoint(8)) ?
                 center.GetPoint(8) :
                 aimPoint;
@@ -265,10 +266,10 @@ public class Gun : MonoBehaviour
             gunID--;
             return;
         }
-        animator.SetInteger(inputWeapon, guns[gunID].animId); 
+        animator.SetInteger(inputWeapon, guns[gunID].animId);
         AcquireWeapon(gunID, true);
         UpdateAmmo();
-        if(!swapper.SwapToGun(guns[gunID].gunName))
-           Debug.LogError("Tried to swap to a gun model that does not exist in the prefab's gun holder");
+        if (!swapper.SwapToGun(guns[gunID].gunName))
+            Debug.LogError("Tried to swap to a gun model that does not exist in the prefab's gun holder");
     }
 }

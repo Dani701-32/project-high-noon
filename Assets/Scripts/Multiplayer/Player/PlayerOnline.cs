@@ -44,6 +44,11 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField] private float health = 3f;
     [SerializeField] private float maxHealth = 3f;
     [SerializeField] private Slider sliderHealth;
+    [SerializeField, Range(0.01f, 0.15f)] private float percentHealth;
+    [SerializeField, ReadOnly] private float currentHealthTimer = 0f;
+    [SerializeField, ReadOnly] private float maxHealthTimer = 3f;
+    [SerializeField, Range(0.01f, 1f)] private float timerRegen = 1f;
+    private float timer;
     [ReadOnly] public float focusInterp;
     [ReadOnly] public bool isFocused;
     [ReadOnly] public bool isGrounded;
@@ -66,11 +71,11 @@ public class PlayerOnline : NetworkBehaviour
         gunController = GetComponent<GunControllerOnline>();
         movementOnline = gameObject.GetComponentInParent<MovementOnline>();
         health = maxHealth;
-        health = maxHealth;
         sliderHealth.maxValue = maxHealth;
         sliderHealth.value = health;
         bgPlayerName.SetActive(true);
         playerSpawns = new List<Transform>();
+
 
     }
 
@@ -101,6 +106,7 @@ public class PlayerOnline : NetworkBehaviour
         if (IsOwner && playerSpawns.Count > 0)
         {
             SetSpawnPosition();
+            currentHealthTimer = maxHealthTimer;
         }
     }
 
@@ -118,7 +124,36 @@ public class PlayerOnline : NetworkBehaviour
                 isPaused = !isPaused;
                 PauseGame(isPaused);
             }
+
+            if (health < maxHealth)
+            {
+                currentHealthTimer -= Time.deltaTime;
+                if (currentHealthTimer <= 0f)
+                {
+                    currentHealthTimer = 0f;
+                    timer += Time.deltaTime;
+                    if (timer >= timerRegen)
+                    {
+                        RegenHealth();
+                        timer = 0f;
+                        sliderHealth.value = health;
+                    }
+
+                }
+            }
+
         }
+    }
+    private void RegenHealth()
+    {
+        float percent = percentHealth * maxHealth;
+        health = Mathf.Min(health + percent, maxHealth);
+        if (health == maxHealth)
+        {
+            currentHealthTimer = maxHealthTimer;
+            timer = 0f;
+        }
+
     }
 
     public bool hasFlag
@@ -155,35 +190,12 @@ public class PlayerOnline : NetworkBehaviour
     public void Damage(float damage)
     {
         if (!IsOwner) return;
-        Damage_ServerRpc(damage);
-    }
-
-    [ServerRpc]
-    private void Damage_ServerRpc(float damage)
-    {
-        if (isDead.Value) return;
         health -= damage;
-        Damage_ClientRpc(health);
-
         sliderHealth.value = health;
+        currentHealthTimer = maxHealthTimer;
         if (health <= 0)
         {
             if (IsOwner)
-            {
-                isDead.Value = true;
-                Die_ServerRpc();
-            }
-        }
-
-    }
-    [ClientRpc]
-    private void Damage_ClientRpc(float health)
-    {
-        this.health = health;
-        if (IsOwner)
-        {
-            sliderHealth.value = health;
-            if (health <= 0)
             {
                 isDead.Value = true;
                 Die_ServerRpc();

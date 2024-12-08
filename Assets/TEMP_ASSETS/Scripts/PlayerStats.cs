@@ -14,30 +14,62 @@ public class PlayerStats : MonoBehaviour
     GameObject flagCarryEffects;
 
     [Header("Stats")]
-    [ReadOnly] public int HP;
+    [ReadOnly] public float HP;
+    [SerializeField] private float HPMax = 6;
+    [SerializeField, Range(0.01f, 0.15f)] private float percentHealth;
+    [SerializeField, ReadOnly] private float currentHealthTimer = 0f;
+    [SerializeField, ReadOnly] private float maxHealthTimer = 3f;
+    [SerializeField, Range(0.01f, 1f)] private float timerRegen = 1f;
+    private float timer;
     [ReadOnly] public float focusInterp;
     [ReadOnly] public bool carryingScopedGun;
     [SerializeField] GameObject model;
 
-    [SerializeField]
-    private int HPMax = 6;
     [SerializeField, ReadOnly]
     bool _hasFlag;
     [ReadOnly]
     public bool focused;
-    [ReadOnly] 
+    [ReadOnly]
     public bool grounded;
-
     EventManager events;
+    GameManager manager;
 
     private void Start()
     {
         HP = Mathf.Max(HPMax, 1);
         events = EventManager.Instance;
+        manager = GameManager.Instance;
         if (team != null)
         {
             model.GetComponent<MeshRenderer>().material = team.teamEquipMaterial;
         }
+    }
+    void Update()
+    {
+        if (HP < HPMax)
+        {
+            currentHealthTimer -= Time.deltaTime;
+            if (currentHealthTimer <= 0f)
+            {
+                currentHealthTimer = 0f;
+                timer += Time.deltaTime;
+                if (timer >= timerRegen)
+                {
+                    RegenHealth();
+                    manager.HPSlider.value = HP;
+                    timer = 0f;
+                }
+
+            }
+        }
+    }
+    private void RegenHealth()
+    {
+        float percent = percentHealth * HPMax;
+        HP = Mathf.Min(HP + percent, HPMax);
+        if (HP == HPMax)
+            currentHealthTimer = maxHealthTimer;
+
     }
 
     public bool hasFlag
@@ -61,7 +93,7 @@ public class PlayerStats : MonoBehaviour
     public void Damage(int damage)
     {
         HP -= damage;
-        GameManager manager = GameManager.Instance;
+        currentHealthTimer = maxHealthTimer;
         if (manager && manager.HPSlider)
             manager.HPSlider.value = HP;
         if (HP <= 0)

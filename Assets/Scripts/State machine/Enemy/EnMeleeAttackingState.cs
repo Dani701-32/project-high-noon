@@ -9,6 +9,7 @@ public class EnMeleeAttackingState : State
 
     [Space]
     [Header("State data")] 
+    [SerializeField] int damage;
     [SerializeField] float attackDuration;
     [SerializeField] float attackInitialThrustForward;
     [SerializeField] float attackConstantThrust;
@@ -81,7 +82,7 @@ public class EnMeleeAttackingState : State
         if (other.gameObject.CompareTag("Player"))
         {
             PlayerStats playerHit = other.gameObject.GetComponentInParent<PlayerStats>();
-            playerHit.Damage(1);
+            playerHit.Damage(damage);
             doneAttacking = true;
         }
     }

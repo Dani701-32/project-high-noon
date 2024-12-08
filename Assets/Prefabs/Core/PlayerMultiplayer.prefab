@@ -203,7 +203,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -15089,6 +15089,13 @@ MonoBehaviour:
   health: 60
   maxHealth: 60
   sliderHealth: {fileID: 4114415068505537719}
+  imgSliderHealth: {fileID: 4934553410816240938}
+  minColor: {r: 0.7169812, g: 0, b: 0.051899932, a: 1}
+  maxColor: {r: 0.50833726, g: 0.8962264, b: 0.46925062, a: 1}
+  percentHealth: 0.01
+  currentHealthTimer: 0
+  maxHealthTimer: 3
+  timerRegen: 0.01
   focusInterp: 0
   isFocused: 0
   isGrounded: 0
@@ -15102,9 +15109,7 @@ MonoBehaviour:
   bgPlayerName: {fileID: 5102947793632204378}
   pauseScreen: {fileID: 2646652009854111600}
   isPaused: 0
-  firstSpawn: 0
   playerSpawns: []
-  spawnPosition: {x: 14, y: 1.5, z: 20.5}
 --- !u!114 &8098087746679276235
 MonoBehaviour:
   m_ObjectHideFlags: 0
