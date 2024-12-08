@@ -61,7 +61,7 @@ public class GenericTriggerOnline : NetworkBehaviour
         if (!other.CompareTag("Player")) return;
         player = other.GetComponent<PlayerOnline>();
 
-        player.AddAmmo(amount);
+        player.AddAmmo();
         if (vanishOnTrigger) End();
     }
     IEnumerator WaitRespawn()

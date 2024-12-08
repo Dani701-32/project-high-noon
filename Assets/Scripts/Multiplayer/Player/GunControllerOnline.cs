@@ -55,11 +55,11 @@ public class GunControllerOnline : NetworkBehaviour
     {
         currentGun.Refill();
     }
-    public void AddAmmo(int ammo)
+    public void AddAmmo()
     {
         if (IsOwner)
         {
-            currentGun.AddAmmo_ServerRpc(ammo);
+            currentGun.AddAmmo_ServerRpc();
         }
     }
 }
