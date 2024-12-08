@@ -17,7 +17,9 @@ public class EnStunnedState : State
 
     public override void SwitchIntoState()
     {
-        StartAnim(stateMachine);
+        if (stateMachine.nav)
+            stateMachine.nav.isStopped = true;
+        stateMachine.animator.Play("Idle");
         stunned = true;
         StartCoroutine("StunTimer");
         if (gruntSource && !gruntSource.isPlaying && grunts.Length > 0)

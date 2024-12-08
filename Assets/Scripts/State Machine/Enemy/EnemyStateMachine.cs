@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] State stunnedState;
     [SerializeField] State chasingState;
     [SerializeField] State waitingState;
-    [SerializeField] State deathState;
+    public State deathState;
     
     [Header("Enemy stats")]
     public GameObject trackingObject;
@@ -16,18 +17,21 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] bool hyperArmor;
     [SerializeField] int startingHealth = 10;
     [SerializeField, ReadOnly] int HP;
-    
-    [Header("Misc")]
     [SerializeField] int playerBulletMask;
+    
+    [Header("References")]
     public Animator animator;
+    public NavMeshAgent nav;
     
     bool dying;
     Collider enemyCollider;
+    Rigidbody rb;
 
     void Start()
     {
         HP = startingHealth;
         enemyCollider = GetComponent<Collider>();
+        rb = GetComponent<Rigidbody>();
         if(currentState)
             currentState.SwitchIntoState();
     }
@@ -56,7 +60,7 @@ public class EnemyStateMachine : MonoBehaviour
         }
     }
 
-    private void SwitchToNewState(State nextState)
+    void SwitchToNewState(State nextState)
     {
         currentState = nextState;
         currentState.SwitchIntoState();
@@ -82,7 +86,7 @@ public class EnemyStateMachine : MonoBehaviour
             Destroy(bull.gameObject, 1);
         }
         
-        if (!hyperArmor) { SwitchToNewState(stunnedState); }
+        if (!hyperArmor && HP > 0) { SwitchToNewState(stunnedState); }
         else if (trackingObject) { SwitchToNewState(chasingState); }
     }
 

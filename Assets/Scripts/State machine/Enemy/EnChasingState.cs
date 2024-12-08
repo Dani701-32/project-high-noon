@@ -37,6 +37,7 @@ public class EnChasingState : State
 
     public override void SwitchIntoState()
     {
+        stateMachine.nav.isStopped = false;
         StartAnim(stateMachine);
         playerDistance = 9000;
         currSpeed = statesWithAHeadStart.Contains(stateMachine.previousState) ? maxChaseSpeed / 4 : 0;
@@ -51,9 +52,16 @@ public class EnChasingState : State
         Vector3 tpos = target.transform.position;
         playerDistance = Vector3.Distance(pos, tpos);
 
-        if (switchStateWhenClose && playerDistance <= targetDistanceForStateSwitch && GetAngle(tpos) < angleDifferenceForStateSwitch)
+        if (switchStateWhenClose && playerDistance <= targetDistanceForStateSwitch &&
+            GetAngle(tpos) < angleDifferenceForStateSwitch)
+        {
+            stateMachine.nav.isStopped = true;
+            if (rb) rb.velocity = Vector3.zero;
             return followupState;
+        }
+            
 
+        /*
         Vector3 targetPostition = new Vector3(tpos.x, pos.y, tpos.z);
         rotationLerp.LookAt(targetPostition);
         mainBody.rotation = Quaternion.Slerp(mainBody.rotation, rotationLerp.rotation, Time.deltaTime * rotationSpeed);
@@ -61,6 +69,8 @@ public class EnChasingState : State
         rb.AddForce(mainBody.forward * currSpeed, ForceMode.Acceleration);
 
         currSpeed = Mathf.Lerp(currSpeed, maxChaseSpeed, Time.deltaTime * speedGainMultiplier);
+        */
+        stateMachine.nav.SetDestination(tpos);
 
         if (!relentless)
         {

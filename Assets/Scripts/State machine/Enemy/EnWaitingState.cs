@@ -24,6 +24,11 @@ public class EnWaitingState : State
 
     public override void SwitchIntoState()
     {
+        if (isFinalState)
+        {
+            if (stateMachine.nav) stateMachine.nav.isStopped = true;
+            stateMachine.animator.Play("Dying");
+        }
         StartAnim(stateMachine);
         waiting = true;
         stateMachine.invulnerable = invulnerableOnEntry;

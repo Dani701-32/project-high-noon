@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a172ed566f1b69d4d94d618909b16350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startsNewAnimation: 1
-  animationTriggerName: Stunned
+  startsNewAnimation: 0
+  animationTriggerName: 
   quickTriggerReset: 1
   stateMachine: {fileID: 4053330207082216589}
   ChaseState: {fileID: 3154965225213566226}
@@ -288,7 +288,6 @@ MonoBehaviour:
   quickTriggerReset: 1
   stateMachine: {fileID: 4053330207082216589}
   nextState: {fileID: 3270401809919708672}
-  nextStateIfHasTarget: {fileID: 3154965225213566226}
   invulnerableOnEntry: 0
   invulnerableOnExit: 0
   isFinalState: 0
@@ -398,12 +397,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa1a275484b6b741aa6fe88b41d98b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startsNewAnimation: 1
-  animationTriggerName: Death
+  startsNewAnimation: 0
+  animationTriggerName: 
   quickTriggerReset: 1
   stateMachine: {fileID: 4053330207082216589}
   nextState: {fileID: 0}
-  nextStateIfHasTarget: {fileID: 0}
   invulnerableOnEntry: 1
   invulnerableOnExit: 1
   isFinalState: 1
@@ -457,7 +455,6 @@ MonoBehaviour:
   quickTriggerReset: 1
   stateMachine: {fileID: 4053330207082216589}
   nextState: {fileID: 3270401809919708672}
-  nextStateIfHasTarget: {fileID: 0}
   invulnerableOnEntry: 1
   invulnerableOnExit: 0
   isFinalState: 0
@@ -474,6 +471,7 @@ GameObject:
   - component: {fileID: 6936657502204962927}
   - component: {fileID: 4053330207082216589}
   - component: {fileID: 8172655018065260258}
+  - component: {fileID: 5709926183697628021}
   m_Layer: 8
   m_Name: Bandit_Bomber
   m_TagString: Untagged
@@ -550,6 +548,7 @@ MonoBehaviour:
   HP: 0
   playerBulletMask: 7
   animator: {fileID: 2679299101290113191}
+  nav: {fileID: 5709926183697628021}
 --- !u!136 &8172655018065260258
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -573,6 +572,28 @@ CapsuleCollider:
   m_Height: 1.794107
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!195 &5709926183697628021
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5261521095799328968}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.75
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 2
 --- !u!1 &5318386825327289503
 GameObject:
   m_ObjectHideFlags: 0
