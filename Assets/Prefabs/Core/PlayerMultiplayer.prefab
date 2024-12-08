@@ -14998,7 +14998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3915972039
+  GlobalObjectIdHash: 1461972179
   InScenePlacedSourceGlobalObjectIdHash: 3946469069
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -15102,6 +15102,8 @@ MonoBehaviour:
   bgPlayerName: {fileID: 5102947793632204378}
   pauseScreen: {fileID: 2646652009854111600}
   isPaused: 0
+  firstSpawn: 0
+  playerSpawns: []
 --- !u!114 &8098087746679276235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15116,7 +15118,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 9166506370950342952}
   maxSpeed: 7
-  speed: 5.5
   groundDrag: 20
   jumpForce: 9
   jumpCooldown: 0.25

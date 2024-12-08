@@ -58,19 +58,26 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField] private GameObject bgPlayerName;
     [SerializeField] private GameObject pauseScreen;
     public bool isPaused = false;
-    private int countSpawnPoints = 0;
+    [Header("Player Spawn Points")]
+    [SerializeField] private bool firstSpawn = false;
+    public List<Transform> playerSpawns;
+    public Vector3 spawnPosition = new Vector3(14f, 1.5f, 20.5f);
 
-
-
-    public override void OnNetworkSpawn()
+    private void Awake()
     {
         gunController = GetComponent<GunControllerOnline>();
+        movementOnline = gameObject.GetComponentInParent<MovementOnline>();
+        health = maxHealth;
         health = maxHealth;
         sliderHealth.maxValue = maxHealth;
         sliderHealth.value = health;
-        movementOnline = gameObject.GetComponentInParent<MovementOnline>();
         bgPlayerName.SetActive(true);
+        playerSpawns = new List<Transform>();
 
+    }
+
+    public override void OnNetworkSpawn()
+    {
         if (IsOwner)
         {
             gender = LobbyManager.Instance.GetGender();
@@ -80,8 +87,9 @@ public class PlayerOnline : NetworkBehaviour
             bgPlayerName.SetActive(false);
             _camera.gameObject.GetComponent<AudioListener>().enabled = true;
             if (IsHost)
+            {
                 _camera.enabled = true;
-            return;
+            }
         }
         if (!IsHost)
             RequestData_ServerRpc();
@@ -92,9 +100,9 @@ public class PlayerOnline : NetworkBehaviour
 
     private void Start()
     {
-        if (IsOwner && teamData != null)
+        if (IsOwner && playerSpawns.Count > 0)
         {
-            GetSpawn(teamData);
+            SetSpawnPosition();
         }
     }
 
@@ -132,13 +140,6 @@ public class PlayerOnline : NetworkBehaviour
     {
         return teamData;
     }
-
-    // public void SpawnPoint(Transform sp)
-    // {
-    //     spawnPoint = sp;
-    //     transform.position = sp.position;
-    //     movementOnline.SetSpawn(sp);
-    // }
 
     public void SetOverlay()
     {
@@ -227,7 +228,7 @@ public class PlayerOnline : NetworkBehaviour
             if (IsOwner)
             {
                 sliderHealth.value = health;
-                GetSpawn(teamData);
+                SetSpawnPosition();
                 movementOnline.enabled = true;
                 gunController.RefillWeapons();
             }
@@ -249,7 +250,7 @@ public class PlayerOnline : NetworkBehaviour
             isDead.Value = false;
             // transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
             // transform.rotation = spawnPoint.rotation;
-            GetSpawn(teamData);
+            SetSpawnPosition();
             sliderHealth.value = health;
             movementOnline.enabled = true;
             gunController.RefillWeapons();
@@ -274,21 +275,33 @@ public class PlayerOnline : NetworkBehaviour
 
     private void GetSpawn(TeamData teamData)
     {
-        int index;
-        if (teamData.teamId == 1)
+        // int index;
+        // if (teamData.teamId == 1)
+        // {
+        // countSpawnPoints = MultiplayerManager.Instance.spawnPointsBlue.Length;
+        foreach (Transform spawnPoint in teamData.teamId == 1 ? MultiplayerManager.Instance.spawnPointsBlue : MultiplayerManager.Instance.spawnPointsRed)
         {
-            countSpawnPoints = MultiplayerManager.Instance.spawnPointsBlue.Length;
-            index = Random.Range(0, countSpawnPoints);
-
-            movementOnline.transform.position = MultiplayerManager.Instance.spawnPointsBlue[index].position;
-            movementOnline.transform.rotation = MultiplayerManager.Instance.spawnPointsBlue[index].rotation;
-            return;
+            playerSpawns.Add(spawnPoint);
         }
-        countSpawnPoints = MultiplayerManager.Instance.spawnPointsBlue.Length;
-        index = Random.Range(0, countSpawnPoints);
 
-        movementOnline.transform.position = MultiplayerManager.Instance.spawnPointsRed[index].position;
-        movementOnline.transform.rotation = MultiplayerManager.Instance.spawnPointsRed[index].rotation;
+        // index = Random.Range(0, countSpawnPoints);
+
+        // movementOnline.transform.position = MultiplayerManager.Instance.spawnPointsBlue[index].position;
+        // movementOnline.transform.rotation = MultiplayerManager.Instance.spawnPointsBlue[index].rotation;
+
+        // }
+        // countSpawnPoints = MultiplayerManager.Instance.spawnPointsRed.Length;
+        // index = Random.Range(0, countSpawnPoints);
+
+        // movementOnline.transform.position = MultiplayerManager.Instance.spawnPointsRed[index].position;
+        // movementOnline.transform.rotation = MultiplayerManager.Instance.spawnPointsRed[index].rotation;
+    }
+    private void SetSpawnPosition()
+    {
+        int index = Random.Range(0, playerSpawns.Count);
+        Debug.Log(index + " -- " + playerSpawns.Count + " --- " + teamData != null);
+        transform.position = playerSpawns[index].position;
+        transform.rotation = playerSpawns[index].rotation;
     }
     public void PauseGame(bool status)
     {
@@ -354,9 +367,15 @@ public class PlayerOnline : NetworkBehaviour
         }
 
         movementOnline.LoadAnimator(this.animator);
-
+        if (IsOwner)
+        {
+            Debug.Log("Team Data: " + teamData.teamName);
+            GetSpawn(teamData);
+            Debug.Log("Player Spawns: " + playerSpawns.Count);
+            SetSpawnPosition();
+        }
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
-        playerNameText.color = teamData.teamColor; 
+        playerNameText.color = teamData.teamColor;
         swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
         SetCharacter_ClientRpc(gender, teamData.teamTag, playerName);
         gunController.currentGun.SetSwapper(swapperOnline);
@@ -396,15 +415,17 @@ public class PlayerOnline : NetworkBehaviour
         }
         movementOnline.LoadAnimator(this.animator);
 
-        if (IsOwner)
+        if (IsOwner && !IsHost)
         {
-            Debug.Log("Teste");
+            Debug.Log("Team Data: " + teamData.teamName);
             GetSpawn(teamData);
+            Debug.Log("Player Spawns: " + playerSpawns.Count);
             ChangeWeapon(1);
+            SetSpawnPosition();
             _camera.enabled = true;
         }
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
-        playerNameText.color = teamData.teamColor; 
+        playerNameText.color = teamData.teamColor;
         swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
         gunController.currentGun.SetSwapper(swapperOnline);
     }
@@ -449,13 +470,14 @@ public class PlayerOnline : NetworkBehaviour
         }
 
         flagCarryObject.GetComponent<MeshRenderer>().material.color = teamData.teamColor;
-        playerNameText.color = teamData.teamColor; 
+        playerNameText.color = teamData.teamColor;
         swapperOnline = gunHolder.GetComponent<GunSwapperOnline>();
         gunController.currentGun.SetSwapper(swapperOnline);
 
     }
 
-    public void ShootRecoil(){
+    public void ShootRecoil()
+    {
         inputShoot = Animator.StringToHash("shoot");
         animator.SetTrigger(inputShoot);
     }
