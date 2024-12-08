@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startsNewAnimation: 1
-  animationTriggerName: Stunned
+  animationTriggerName: IdleReturn
   quickTriggerReset: 1
   stateMachine: {fileID: 4053330207082216589}
   searchRange: 900
@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a172ed566f1b69d4d94d618909b16350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startsNewAnimation: 1
-  animationTriggerName: Stunned
+  startsNewAnimation: 0
+  animationTriggerName: 
   quickTriggerReset: 1
   stateMachine: {fileID: 4053330207082216589}
   ChaseState: {fileID: 3154965225213566226}
@@ -252,8 +252,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa1a275484b6b741aa6fe88b41d98b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startsNewAnimation: 0
-  animationTriggerName: 
+  startsNewAnimation: 1
+  animationTriggerName: IdleReturn
   quickTriggerReset: 1
   stateMachine: {fileID: 4053330207082216589}
   nextState: {fileID: 3270401809919708672}
@@ -307,14 +307,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startsNewAnimation: 1
-  animationTriggerName: Throw
+  animationTriggerName: Melee
   quickTriggerReset: 1
   stateMachine: {fileID: 4053330207082216589}
   followupState: {fileID: 7652432612910683999}
   attackHitbox: {fileID: 7080212830827203263}
   damage: 10
   attackDuration: 0.5
-  attackInitialThrustForward: 15
+  attackInitialThrustForward: 12
   attackConstantThrust: 0
   setNewWaitTimeOnEnd: 0
   newWaitTime: 0

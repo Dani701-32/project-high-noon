@@ -19,12 +19,13 @@ public class EnStunnedState : State
     {
         if (stateMachine.nav)
             stateMachine.nav.isStopped = true;
-        stateMachine.animator.Play("Idle");
+        stateMachine.animator.CrossFade("Stunned",0.25f);
         stunned = true;
         StartCoroutine("StunTimer");
         if (gruntSource && !gruntSource.isPlaying && grunts.Length > 0)
         {
             gruntSource.clip = grunts[Random.Range(0, grunts.Length)];
+            gruntSource.pitch = Random.Range(0.9f, 1.1f);
             gruntSource.Play();
         }
             

@@ -250,7 +250,7 @@ public class Gun : MonoBehaviour
 
     public void SwapGun()
     {
-        if (gunLocked) return;
+        if (gunLocked || isReloading[gunID]) return;
         gunID++;
         if (gunID == guns.Length)
         {
