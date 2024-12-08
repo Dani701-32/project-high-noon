@@ -31,6 +31,7 @@ public class Gun : MonoBehaviour
 
     [Header("Gun stats")]
     public GunData[] guns = new GunData[2];
+    [SerializeField] LayerMask aimMask;
 
     [ReadOnly] public int gunID;
 
@@ -214,16 +215,17 @@ public class Gun : MonoBehaviour
     void Update()
     {
         center = new Ray(bulletPoint.transform.position, cam.transform.forward);
-        if (Physics.Raycast(center, out hit))
+        if (Physics.Raycast(center, out hit, 100, aimMask))
             aimPoint = hit.point;
         else
             aimPoint = center.GetPoint(100);
         float dist = Vector3.Distance(bulletPoint.transform.position, aimPoint);
         transform.parent.LookAt(aimPoint, Vector3.up);
+        int maxDist = playerStats.focused ? 22 : 8;
 
         aimSprite.transform.position =
-            dist > Vector3.Distance(bulletPoint.transform.position, center.GetPoint(8)) ?
-                center.GetPoint(8) :
+            dist > Vector3.Distance(bulletPoint.transform.position, center.GetPoint(maxDist)) ?
+                center.GetPoint(maxDist) :
                 aimPoint;
         aimSprite.transform.position -= Vector3.up / 5;
 
