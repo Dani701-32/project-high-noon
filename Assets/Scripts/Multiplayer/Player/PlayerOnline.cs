@@ -59,9 +59,7 @@ public class PlayerOnline : NetworkBehaviour
     [SerializeField] private GameObject pauseScreen;
     public bool isPaused = false;
     [Header("Player Spawn Points")]
-    [SerializeField] private bool firstSpawn = false;
     public List<Transform> playerSpawns;
-    public Vector3 spawnPosition = new Vector3(14f, 1.5f, 20.5f);
 
     private void Awake()
     {
@@ -248,8 +246,6 @@ public class PlayerOnline : NetworkBehaviour
         if (IsOwner)
         {
             isDead.Value = false;
-            // transform.position = MultiplayerManager.Instance.GetNextSpawnPosition();
-            // transform.rotation = spawnPoint.rotation;
             SetSpawnPosition();
             sliderHealth.value = health;
             movementOnline.enabled = true;
@@ -275,26 +271,10 @@ public class PlayerOnline : NetworkBehaviour
 
     private void GetSpawn(TeamData teamData)
     {
-        // int index;
-        // if (teamData.teamId == 1)
-        // {
-        // countSpawnPoints = MultiplayerManager.Instance.spawnPointsBlue.Length;
         foreach (Transform spawnPoint in teamData.teamId == 1 ? MultiplayerManager.Instance.spawnPointsBlue : MultiplayerManager.Instance.spawnPointsRed)
         {
             playerSpawns.Add(spawnPoint);
         }
-
-        // index = Random.Range(0, countSpawnPoints);
-
-        // movementOnline.transform.position = MultiplayerManager.Instance.spawnPointsBlue[index].position;
-        // movementOnline.transform.rotation = MultiplayerManager.Instance.spawnPointsBlue[index].rotation;
-
-        // }
-        // countSpawnPoints = MultiplayerManager.Instance.spawnPointsRed.Length;
-        // index = Random.Range(0, countSpawnPoints);
-
-        // movementOnline.transform.position = MultiplayerManager.Instance.spawnPointsRed[index].position;
-        // movementOnline.transform.rotation = MultiplayerManager.Instance.spawnPointsRed[index].rotation;
     }
     private void SetSpawnPosition()
     {
@@ -306,12 +286,7 @@ public class PlayerOnline : NetworkBehaviour
     public void PauseGame(bool status)
     {
         movementOnline.enabled = !status;
-        // playerHUD.SetActive(!status);
         pauseScreen.SetActive(status);
-        if (status)
-        {
-            // UiManager.Instance.PauseGame();
-        }
         Cursor.visible = status;
         Cursor.lockState = status ? CursorLockMode.None : CursorLockMode.Locked;
     }
