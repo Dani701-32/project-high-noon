@@ -7,7 +7,7 @@ public class GunController : MonoBehaviour
     bool auto;
     GameManager gameManager;
     [SerializeField] Animator animator;
-    private int inputShoot = Animator.StringToHash("shoot");
+    
 
     void Start()
     {
@@ -22,7 +22,6 @@ public class GunController : MonoBehaviour
             return;
         if (auto ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
         {
-            animator.SetTrigger(inputShoot);
             currentWeapon.Shoot();
         }
 

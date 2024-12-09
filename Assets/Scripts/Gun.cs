@@ -12,12 +12,14 @@ public class Gun : MonoBehaviour
     [SerializeField] SpriteRenderer accuracySprite;
     [SerializeField] Camera cam;
     [SerializeField] PlayerStats playerStats;
+    [Header("Sound")]
     [SerializeField] AudioSource shotSound;
     [SerializeField] AudioSource reloadSound;
     [SerializeField] GunSwapper swapper;
     [Header("Aniamtor")]
     [SerializeField] Animator animator;
     private int inputWeapon = Animator.StringToHash("Weapon");
+    private int inputShoot = Animator.StringToHash("shoot");
 
     [SerializeField]
     GameObject playerObject;
@@ -134,6 +136,7 @@ public class Gun : MonoBehaviour
 
         if (!inCooldown[gunID] && bulletsLoaded[gunID] > 0)
         {
+            animator.SetTrigger(inputShoot);
             // Comece cooldown, se aplicável
             if (!events || (events && !events.infiniteAmmo))
                 bulletsLoaded[gunID] -= 1;
