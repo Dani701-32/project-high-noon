@@ -1542,7 +1542,7 @@ GameObject:
   - component: {fileID: 8626763576831209592}
   - component: {fileID: 2289063087471250009}
   m_Layer: 5
-  m_Name: Medal
+  m_Name: SilverMedal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1595,9 +1595,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 84e1ec21df1f056449aa9ddf62fcc1cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f3857c7d9c519534cbec0909dd924d61, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1730,7 +1730,7 @@ GameObject:
   - component: {fileID: 3671808820901496876}
   - component: {fileID: 2592657581597218346}
   m_Layer: 5
-  m_Name: Time
+  m_Name: BronzeTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1750,10 +1750,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2734871248222977182}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 109.77789, y: -50}
+  m_SizeDelta: {x: 208.0456, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3671808820901496876
 CanvasRenderer:
@@ -2265,10 +2265,10 @@ RectTransform:
   - {fileID: 6135150236900267968}
   m_Father: {fileID: 1628847963338262264}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -50}
+  m_SizeDelta: {x: 123.0887, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6467968537573445626
 MonoBehaviour:
@@ -3388,7 +3388,7 @@ GameObject:
   - component: {fileID: 8760463470951157781}
   - component: {fileID: 3482729429220315850}
   m_Layer: 5
-  m_Name: Time
+  m_Name: SilverTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4413,7 +4413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: -40
+    m_Left: -30
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
@@ -7490,7 +7490,7 @@ GameObject:
   - component: {fileID: 7501475606152815327}
   - component: {fileID: 5573233659280663040}
   m_Layer: 5
-  m_Name: Time
+  m_Name: GoldTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7510,10 +7510,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7765486295029225943}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 120.62685, y: -50}
+  m_SizeDelta: {x: 177.5371, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7501475606152815327
 CanvasRenderer:
@@ -7732,7 +7732,7 @@ GameObject:
   - component: {fileID: 6111812107923213780}
   - component: {fileID: 3534209126185691358}
   m_Layer: 5
-  m_Name: Medal
+  m_Name: GoldMedal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7752,10 +7752,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7765486295029225943}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 48, y: 48}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -4.0708504, y: -50}
+  m_SizeDelta: {x: 71.8583, y: 71.8583}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6111812107923213780
 CanvasRenderer:
@@ -7785,7 +7785,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8c1d001b211cec74481c0971c63463a7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 51ab7e523356b644bbafc637904fb0ee, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8379,7 +8379,7 @@ GameObject:
   - component: {fileID: 2674706299473774753}
   - component: {fileID: 6223617808722663848}
   m_Layer: 5
-  m_Name: Medal
+  m_Name: BronzeMedal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8399,10 +8399,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2734871248222977182}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 48, y: 48}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -12.12245, y: -50}
+  m_SizeDelta: {x: 35.7551, y: 34.8132}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2674706299473774753
 CanvasRenderer:
@@ -8432,7 +8432,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 759e99e13519e0a4b8a013cb1b234f8e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa32093d57fbd9c498f4a4c9ae85719e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
