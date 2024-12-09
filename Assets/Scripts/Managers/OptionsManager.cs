@@ -34,7 +34,7 @@ public class OptionsManager : MonoBehaviour
         if (playerCam)
         {
             player = playerCam.gameObject;
-            sensitivity = PlayerPrefs.GetFloat("SensitivitySetting");
+            sensitivity = PlayerPrefs.GetFloat("SensitivitySetting", 500f);
         }
     }
 
