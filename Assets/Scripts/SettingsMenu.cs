@@ -13,6 +13,8 @@ public class SettingsMenu : MonoBehaviour
     public AudioSource menuMusic;
     public AudioMixer audioMixer;
 
+    public float senseMultiply = 10f;
+
     public Slider sliderMaster;
     public Slider sliderMusic;
     public Slider sliderSoundEffect;
@@ -99,7 +101,7 @@ public class SettingsMenu : MonoBehaviour
         audioMixer.SetFloat("VolumeEffects", volumeEffect);
         sliderSoundEffect.value = volumeEffect;
 
-        float sense = PlayerPrefs.GetFloat("SensitivitySetting", 100f);
+        float sense = PlayerPrefs.GetFloat("SensitivitySetting", 500f);
         sliderSensitivity.value = sense;
     }
     public void SetQuality(int qualityindex)
@@ -143,6 +145,7 @@ public class SettingsMenu : MonoBehaviour
     public void SetSensitivity()
     {
         float sense = sliderSensitivity.value;
+        sense *= senseMultiply; 
         PlayerPrefs.SetFloat("SensitivitySetting", sense);
 
     }

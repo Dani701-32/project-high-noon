@@ -15,7 +15,7 @@ public class OptionsManager : MonoBehaviour
     CameraOnline onlineCam; 
 
     public bool dynamicAim = true;
-    public float sensitivity = 500;
+    public float sensitivity = 50;
 
     public static OptionsManager Instance
     {
@@ -34,6 +34,7 @@ public class OptionsManager : MonoBehaviour
         if (playerCam)
         {
             player = playerCam.gameObject;
+            sensitivity = PlayerPrefs.GetFloat("SensitivitySetting");
         }
     }
 
