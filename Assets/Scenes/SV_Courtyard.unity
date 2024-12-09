@@ -23777,8 +23777,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2842209090718256228, guid: 8af3c03d751989443b30e48cb0053170,
         type: 3}
+      propertyPath: m_Value
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2842209090718256228, guid: 8af3c03d751989443b30e48cb0053170,
+        type: 3}
       propertyPath: m_MaxValue
-      value: 6
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 2932426263626823687, guid: 8af3c03d751989443b30e48cb0053170,
         type: 3}
@@ -25132,7 +25137,7 @@ MonoBehaviour:
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 0
   initialSpawnWaitTime: 30
-  spawnTimeRandomizationRange: 10
+  spawnTimeRandomizationRange: 20
 --- !u!1 &1039006691
 GameObject:
   m_ObjectHideFlags: 0
@@ -28414,7 +28419,7 @@ MonoBehaviour:
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 1
   initialSpawnWaitTime: 30
-  spawnTimeRandomizationRange: 10
+  spawnTimeRandomizationRange: 20
 --- !u!1001 &1204799285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38362,7 +38367,7 @@ MonoBehaviour:
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 0
   initialSpawnWaitTime: 30
-  spawnTimeRandomizationRange: 10
+  spawnTimeRandomizationRange: 20
 --- !u!1001 &1622215216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39505,7 +39510,12 @@ PrefabInstance:
     - target: {fileID: 5196779164960026610, guid: 48690ed96b58c8b48a534c62c3006217,
         type: 3}
       propertyPath: timerRegen
-      value: 1
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5196779164960026610, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: percentHealth
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 8664298410782647746, guid: 48690ed96b58c8b48a534c62c3006217,
         type: 3}
@@ -42851,7 +42861,7 @@ MonoBehaviour:
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 1
   initialSpawnWaitTime: 30
-  spawnTimeRandomizationRange: 10
+  spawnTimeRandomizationRange: 20
 --- !u!1001 &1794096026
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -15,11 +15,11 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Stats")]
     [ReadOnly] public float HP;
-    [SerializeField] private float HPMax = 6;
+    [SerializeField] private float HPMax;
     [SerializeField, Range(0.01f, 0.15f)] private float percentHealth;
     [SerializeField, ReadOnly] private float currentHealthTimer = 0f;
     [SerializeField, ReadOnly] private float maxHealthTimer = 3f;
-    [SerializeField, Range(0.01f, 1f)] private float timerRegen = 1f;
+    [SerializeField, Range(0.01f, 1f)] private float timerRegen;
     private float timer;
     [ReadOnly] public float focusInterp;
     [ReadOnly] public bool carryingScopedGun;
@@ -36,13 +36,20 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
-        HP = Mathf.Max(HPMax, 1);
+        HP = HPMax;
         events = EventManager.Instance;
         manager = GameManager.Instance;
         if (team != null)
         {
             model.GetComponent<MeshRenderer>().material = team.teamEquipMaterial;
         }
+        if (manager && manager.HPSlider)
+        {
+            manager.HPSlider.maxValue = HPMax;
+            manager.HPSlider.value = HP;
+            manager.HPSlider.minValue = 0;
+        }
+        currentHealthTimer = maxHealthTimer;
     }
     void Update()
     {
@@ -56,8 +63,8 @@ public class PlayerStats : MonoBehaviour
                 if (timer >= timerRegen)
                 {
                     RegenHealth();
-                    manager.HPSlider.value = HP;
                     timer = 0f;
+                    manager.HPSlider.value = HP;
                 }
 
             }
@@ -66,9 +73,14 @@ public class PlayerStats : MonoBehaviour
     private void RegenHealth()
     {
         float percent = percentHealth * HPMax;
+        Debug.Log(percent + " - " + percentHealth + "% - " + HPMax);
         HP = Mathf.Min(HP + percent, HPMax);
         if (HP == HPMax)
+        {
             currentHealthTimer = maxHealthTimer;
+            timer = 0f;
+
+        }
 
     }
 
@@ -92,12 +104,18 @@ public class PlayerStats : MonoBehaviour
 
     public void Damage(int damage)
     {
+        Debug.Log("Damage");
         HP -= damage;
         currentHealthTimer = maxHealthTimer;
         if (manager && manager.HPSlider)
+        {
             manager.HPSlider.value = HP;
+        }
         if (HP <= 0)
+        {
+
             Death();
+        }
     }
 
     private void FlagUpdate()
