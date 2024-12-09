@@ -13,6 +13,7 @@ public class GunOnline : NetworkBehaviour
     [SerializeField] private GameObject aimSprite;
     [SerializeField] private SpriteRenderer accuracySprite;
     [SerializeField] private Camera cam;
+    [Header("Sound")]
     [SerializeField] private AudioSource shotSound;
     [SerializeField] private AudioSource reloadSound;
     [SerializeField] private GunSwapperOnline swapperOnline;
@@ -59,6 +60,7 @@ public class GunOnline : NetworkBehaviour
         }
         AcquireWeapon(0);
         player.ChangeWeapon(guns[gunId].animId);
+
         if (IsOwner)
         {
             aimSprite.SetActive(true);

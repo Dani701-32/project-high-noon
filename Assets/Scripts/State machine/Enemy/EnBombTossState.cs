@@ -7,13 +7,16 @@ public class EnBombTossState : State
     [SerializeField] EnemyStateMachine stateMachine;
     [SerializeField] State followupState;
 
-    [Space] [Header("State data")] 
+    [Space]
+    [Header("State data")]
     [SerializeField] ShootableBomb bomb;
     [SerializeField] Transform bombSpawnLocation;
     [SerializeField] LayerMask bombCollisionMask;
     [SerializeField] float attackDuration;
     [SerializeField] float bombTossStartup;
-    [Space][Space][Space]
+    [Space]
+    [Space]
+    [Space]
     [SerializeField] bool setNewWaitTimeOnEnd;
     [SerializeField] float newWaitTime;
     [SerializeField] float firingAngle = 45.0f;
@@ -29,8 +32,8 @@ public class EnBombTossState : State
         newWaitTime = Mathf.Max(0, newWaitTime);
         attackDuration = Mathf.Max(0, attackDuration);
         attackDuration += Mathf.Max(bombTossStartup, 0);
-        
-        if(setNewWaitTimeOnEnd && followupState.GetType() != typeof(EnWaitingState))
+
+        if (setNewWaitTimeOnEnd && followupState.GetType() != typeof(EnWaitingState))
             Debug.LogWarning("Novo estado após ataque não é EnWaitingState, mas o estado ainda está passando um novo tempo de espera ao objeto.");
     }
 
@@ -46,19 +49,19 @@ public class EnBombTossState : State
             Vector3 targetPostition = new Vector3(tpos.x, transform.position.y, tpos.z);
             mainBody.LookAt(targetPostition);
         }
-        
+
         // Jogue a bomba
         StartCoroutine(SimulateProjectile());
-        
+
         // Reinicie nosso timer de espera
         duration = 0;
     }
 
     public override State RunCurrentState()
-    { 
+    {
         if (duration >= attackDuration)
         {
-            if(setNewWaitTimeOnEnd)
+            if (setNewWaitTimeOnEnd)
                 stateMachine.SetWaitingTime(newWaitTime);
             return followupState;
         }
@@ -66,8 +69,8 @@ public class EnBombTossState : State
         duration += Time.deltaTime;
         return this;
     }
-    
-    
+
+
     IEnumerator SimulateProjectile()
     {
         RaycastHit hit;
@@ -77,12 +80,12 @@ public class EnBombTossState : State
             finalPos = hit.point;
         // Short delay added before Projectile is thrown
         yield return new WaitForSeconds(bombTossStartup);
-        if(stateMachine.currentState != this)
+        if (stateMachine.currentState != this)
             yield break;
         Vector3 pos = bombSpawnLocation.position != Vector3.zero ? bombSpawnLocation.position : mainBody.position;
         ShootableBomb newBomb = Instantiate(bomb, pos, Quaternion.identity);
         Transform Projectile = newBomb.transform;
-       
+
         // Calculate distance to target
         float target_Distance = Vector3.Distance(Projectile.position, finalPos);
 
@@ -95,10 +98,10 @@ public class EnBombTossState : State
 
         // Calculate flight time.
         float flightDuration = target_Distance / Vx;
-  
+
         // Rotate projectile to face the target.
         Projectile.rotation = Quaternion.LookRotation(finalPos - Projectile.position);
-       
+
         float elapse_time = 0;
 
         while (Projectile && elapse_time < flightDuration && !newBomb.exploded)
@@ -112,5 +115,5 @@ public class EnBombTossState : State
         {
             newBomb.Explode();
         }
-    }  
+    }
 }
