@@ -217,20 +217,20 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        center = new Ray(bulletPoint.transform.position, cam.transform.forward);
-        if (Physics.Raycast(center, out hit, 100, aimMask))
+        bool rifleScope = playerStats.carryingScopedGun && playerStats.focused;
+        Vector3 origin = rifleScope
+            ? cam.transform.position
+            : bulletPoint.transform.position;
+        center = new Ray(origin, cam.transform.forward);
+        if (Physics.Raycast(center, out hit, 8, aimMask))
             aimPoint = hit.point;
         else
-            aimPoint = center.GetPoint(100);
-        float dist = Vector3.Distance(bulletPoint.transform.position, aimPoint);
+            aimPoint = center.GetPoint(8);
+        
         transform.parent.LookAt(aimPoint, Vector3.up);
-        int maxDist = playerStats.focused ? 22 : 8;
-
-        aimSprite.transform.position =
-            dist > Vector3.Distance(bulletPoint.transform.position, center.GetPoint(maxDist)) ?
-                center.GetPoint(maxDist) :
-                aimPoint;
-        aimSprite.transform.position -= Vector3.up / 5;
+        aimSprite.transform.position = aimPoint;
+        if (!rifleScope) 
+            aimSprite.transform.position -= Vector3.up / 5;
 
         //accuracySprite.transform.localScale = Vector3.one * spread;
         accuracySprite.size = Vector2.one * Mathf.Max(0.25f, spread);

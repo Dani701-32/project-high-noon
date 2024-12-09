@@ -434,7 +434,7 @@ MonoBehaviour:
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 1
   initialSpawnWaitTime: 45
-  spawnTimeRandomizationRange: 15
+  spawnTimeRandomizationRange: 35
 --- !u!1001 &37081335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2253,8 +2253,8 @@ MonoBehaviour:
   - {fileID: 5261521095799328968, guid: 4badee9f4f09c4a4ba91a8fd9f128102, type: 3}
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 0
-  initialSpawnWaitTime: 40
-  spawnTimeRandomizationRange: 15
+  initialSpawnWaitTime: 10
+  spawnTimeRandomizationRange: 5
 --- !u!1001 &236962422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2966,7 +2966,7 @@ MonoBehaviour:
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 0
   initialSpawnWaitTime: 45
-  spawnTimeRandomizationRange: 15
+  spawnTimeRandomizationRange: 35
 --- !u!1001 &285418581
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5832,7 +5832,7 @@ MonoBehaviour:
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 1
   initialSpawnWaitTime: 45
-  spawnTimeRandomizationRange: 15
+  spawnTimeRandomizationRange: 30
 --- !u!1001 &472340509
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10567,7 +10567,7 @@ MonoBehaviour:
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 1
   initialSpawnWaitTime: 40
-  spawnTimeRandomizationRange: 15
+  spawnTimeRandomizationRange: 30
 --- !u!1001 &881002517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10917,7 +10917,7 @@ MonoBehaviour:
   sensiSlider: {fileID: 0}
   dynCrossToggle: {fileID: 0}
   dynamicAim: 1
-  sensitivity: 500
+  sensitivity: 50
 --- !u!4 &962752952
 Transform:
   m_ObjectHideFlags: 0
@@ -14664,8 +14664,8 @@ MonoBehaviour:
   - {fileID: 5261521095799328968, guid: 4badee9f4f09c4a4ba91a8fd9f128102, type: 3}
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 0
-  initialSpawnWaitTime: 40
-  spawnTimeRandomizationRange: 12
+  initialSpawnWaitTime: 10
+  spawnTimeRandomizationRange: 5
 --- !u!1001 &1387353151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18310,8 +18310,6 @@ MonoBehaviour:
   startAudio: {fileID: 1661360640}
   mainAudio: {fileID: 123790075}
   endAudio: {fileID: 1756984065}
-  musicVolume: 0
-  effectsVolume: 0
 --- !u!4 &1732363665
 Transform:
   m_ObjectHideFlags: 0
@@ -20395,6 +20393,11 @@ PrefabInstance:
       propertyPath: canFocus
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8827570851599031983, guid: 48690ed96b58c8b48a534c62c3006217,
+        type: 3}
+      propertyPath: sensitivity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8999406778600025842, guid: 48690ed96b58c8b48a534c62c3006217,
         type: 3}
       propertyPath: m_Height
@@ -22023,7 +22026,7 @@ MonoBehaviour:
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 0
   initialSpawnWaitTime: 45
-  spawnTimeRandomizationRange: 10
+  spawnTimeRandomizationRange: 35
 --- !u!1001 &2129997675
 PrefabInstance:
   m_ObjectHideFlags: 0
