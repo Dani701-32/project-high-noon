@@ -409,7 +409,7 @@ Transform:
   m_GameObject: {fileID: 31973405}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 266.1, y: 0, z: -33}
+  m_LocalPosition: {x: 272.7, y: 0, z: -42.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -782,6 +782,11 @@ PrefabInstance:
         type: 3}
       propertyPath: axis.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
+        type: 3}
+      propertyPath: respawnAfterSeconds
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
         type: 3}
@@ -2223,7 +2228,7 @@ Transform:
   m_GameObject: {fileID: 213432051}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 269.6, y: 0, z: 37.3}
+  m_LocalPosition: {x: 269.69, y: 3.01, z: 39.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2247,7 +2252,7 @@ MonoBehaviour:
   - {fileID: 5261521095799328968, guid: 4badee9f4f09c4a4ba91a8fd9f128102, type: 3}
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 0
-  initialSpawnWaitTime: 45
+  initialSpawnWaitTime: 40
   spawnTimeRandomizationRange: 15
 --- !u!1001 &236962422
 PrefabInstance:
@@ -2791,6 +2796,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
         type: 3}
+      propertyPath: respawnAfterSeconds
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
+        type: 3}
       propertyPath: events.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1827677391}
@@ -2930,7 +2940,7 @@ Transform:
   m_GameObject: {fileID: 283421397}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 239.7, y: 0, z: -54.8}
+  m_LocalPosition: {x: 240.77, y: 2.6, z: -53.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5702,7 +5712,7 @@ PrefabInstance:
     - target: {fileID: 1151861979683589182, guid: 6c037d743df6eee42960a4f3af5bc7a6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -49.898693
+      value: -54.65
       objectReference: {fileID: 0}
     - target: {fileID: 1151861979683589182, guid: 6c037d743df6eee42960a4f3af5bc7a6,
         type: 3}
@@ -5743,6 +5753,11 @@ PrefabInstance:
         type: 3}
       propertyPath: axis.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
+        type: 3}
+      propertyPath: respawnAfterSeconds
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
         type: 3}
@@ -5791,7 +5806,7 @@ Transform:
   m_GameObject: {fileID: 469404953}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 231.63, y: 0, z: 17.97}
+  m_LocalPosition: {x: 226.37, y: 0, z: 8.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9266,6 +9281,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
         type: 3}
+      propertyPath: respawnAfterSeconds
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
+        type: 3}
       propertyPath: events.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1827677391}
@@ -10521,7 +10541,7 @@ Transform:
   m_GameObject: {fileID: 878723318}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 214.95, y: 0, z: -26.22}
+  m_LocalPosition: {x: 209.5, y: 0, z: -19.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10545,7 +10565,7 @@ MonoBehaviour:
   - {fileID: 5261521095799328968, guid: 4badee9f4f09c4a4ba91a8fd9f128102, type: 3}
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 1
-  initialSpawnWaitTime: 45
+  initialSpawnWaitTime: 40
   spawnTimeRandomizationRange: 15
 --- !u!1001 &881002517
 PrefabInstance:
@@ -12619,6 +12639,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
         type: 3}
+      propertyPath: respawnAfterSeconds
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
+        type: 3}
       propertyPath: events.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1827677391}
@@ -13351,6 +13376,11 @@ PrefabInstance:
         type: 3}
       propertyPath: axis.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
+        type: 3}
+      propertyPath: respawnAfterSeconds
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
         type: 3}
@@ -14609,7 +14639,7 @@ Transform:
   m_GameObject: {fileID: 1379712955}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 263, y: 0, z: 17.5}
+  m_LocalPosition: {x: 276.2, y: 0.5, z: 31.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14633,8 +14663,8 @@ MonoBehaviour:
   - {fileID: 5261521095799328968, guid: 4badee9f4f09c4a4ba91a8fd9f128102, type: 3}
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 0
-  initialSpawnWaitTime: 45
-  spawnTimeRandomizationRange: 15
+  initialSpawnWaitTime: 40
+  spawnTimeRandomizationRange: 12
 --- !u!1001 &1387353151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16524,6 +16554,11 @@ PrefabInstance:
         type: 3}
       propertyPath: axis.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
+        type: 3}
+      propertyPath: respawnAfterSeconds
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
         type: 3}
@@ -18532,6 +18567,11 @@ PrefabInstance:
         type: 3}
       propertyPath: axis.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
+        type: 3}
+      propertyPath: respawnAfterSeconds
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
         type: 3}
@@ -21724,6 +21764,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
         type: 3}
+      propertyPath: respawnAfterSeconds
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764368765589157362, guid: 6c037d743df6eee42960a4f3af5bc7a6,
+        type: 3}
       propertyPath: events.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1827677391}
@@ -21948,7 +21993,7 @@ Transform:
   m_GameObject: {fileID: 2128985532}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 209.4, y: 0, z: 39.5}
+  m_LocalPosition: {x: 212.06, y: 2.82, z: 44.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21973,7 +22018,7 @@ MonoBehaviour:
   spawnPosition: {fileID: 0}
   immediateSpawnOnCreation: 0
   initialSpawnWaitTime: 45
-  spawnTimeRandomizationRange: 15
+  spawnTimeRandomizationRange: 10
 --- !u!1001 &2129997675
 PrefabInstance:
   m_ObjectHideFlags: 0
