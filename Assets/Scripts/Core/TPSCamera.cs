@@ -24,7 +24,7 @@ public class TPSCamera : MonoBehaviour
     GameObject camParent;
 
     [SerializeField] 
-    GameObject gunHolder;
+    GunSwapper gunSwapper;
 
     [SerializeField] KeyCode teclaDeFoco;
 
@@ -117,14 +117,14 @@ public class TPSCamera : MonoBehaviour
         {
             fullFocus = true;
             vignette.intensity.value = 0.4f;
-            gunHolder.SetActive(false);
+            gunSwapper.currGun.SetActive(false);
         }
 
         if ((!stats.carryingScopedGun && fullFocus) || (stats.focusInterp < 0.9f && fullFocus))
         {
             fullFocus = false;
             vignette.intensity.value = 0.2f;
-            gunHolder.SetActive(true);
+            gunSwapper.currGun.SetActive(true);
         }
     }
 
