@@ -1,7 +1,7 @@
 # West Outlaw 🌵🤠
 
 ![Unity](https://img.shields.io/badge/Unity-2022.3+-black?logo=unity)
-![Status](https://img.shields.io/badge/Status-In%20Development-orange)
+![Status](https://img.shields.io/badge/Status-Completed-success)
 ![Genre](https://img.shields.io/badge/Genre-Third--Person%20Shooter-red)
 
 **West Outlaw** is a stylized cartoon third-person shooter set in an irreverent and action-packed Wild West. Developed as a **Final Graduation Project (TCC)**, the game blends fast-paced combat, strategic gameplay, and a unique visual identity inspired by industry-leading titles.
