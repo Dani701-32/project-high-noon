@@ -44,7 +44,7 @@ A pure endurance challenge for those who prefer a solo experience.
 ## 🔗 Links & Media
 
 * **Play on Itch.io:** [West Outlaw Official Page](https://dani701-32.itch.io/west-outlaw)
-* **Presentation:** [Watch on YouTube]([https://www.youtube.com/watch?v=A3h0M1oF4R8](https://www.youtube.com/watch?v=ZM85JKguiAA))
+* **Presentation:** [Watch on YouTube](https://www.youtube.com/watch?v=ZM85JKguiAA)
 
 ---
 *Developed by a dedicated team of artists and programmers as a Graduation Project.*
